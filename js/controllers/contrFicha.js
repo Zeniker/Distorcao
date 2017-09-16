@@ -14,29 +14,7 @@ angular.module('distorcao')
 	$scope.resultadoBonusMental = 0;
 	$scope.resultadoMovimentacao = 2;
 
-	//Intervalos e multiplicadores de vigor
-	arrIntvVigor = [15, 25, 40]; 
-	arrMultiVigor = [15, 20, 15, 10];
-
-	//Intervalos e multiplicadores de determinação
-	arrIntvDeterminacaoPeso = [20, 40];
-	//arrIntvDeterminacaoDebuff = [25, 50, 90];
-	arrMultiDeterminacaoPeso = [1.5, 1.25, 1];
-	//arrMultiDeterminacaoDebuff = [2, 1, 0.25, 0];
-
-	//Intervalos e multiplicadores de força
-	arrIntvForcaBonus = [40];
-	arrIntvForcaPeso = [40];
-	arrMultiForcaBonus = [2.5, 1];
-	arrMultiForcaPeso = [0.3, 0.1];
-
-	//Intervalos e multiplicadores de destreza
-	arrIntvDestreza = [40];
-	arrMultiDestreza = [2.5, 1];
-
-	//Intervalos e multiplicadores de mental
-	arrIntvMental = [10, 30, 50, 65];
-	arrMultiMental = [1, 2.5, 3, 2.5, 1.5];
+	configuracao = null;
 
 	calcBonus = function(intervalo, multiplicador, attr){
 		total = 0;
@@ -56,23 +34,25 @@ angular.module('distorcao')
 
 	//Calculo de vida
 	$scope.calcVida = function(){
-		$scope.resultadoVida = 400 + calcBonus(arrIntvVigor, arrMultiVigor, $scope.attVigor) + ($scope.attNivel * 5) + ($scope.attDeterminacao * 5);
+		$scope.resultadoVida = configuracao.vidaBase + calcBonus(configuracao.intervaloVida, configuracao.multiplicadorVida, 
+			$scope.attVigor) + ($scope.attNivel * configuracao.vidaPorLevel) + ($scope.attDeterminacao * configuracao.vidaPorDeterminacao);
 	}
 	//Calculo de peso
 	$scope.calcPeso = function(){
-		$scope.resultadoPeso = 40 + calcBonus(arrIntvDeterminacaoPeso, arrMultiDeterminacaoPeso, $scope.attDeterminacao) + calcBonus(arrIntvForcaPeso, arrMultiForcaPeso, $scope.attForca);
+		$scope.resultadoPeso = configuracao.pesoBase + calcBonus(configuracao.intervaloPesoDeterminacao, configuracao.multiplicadorPesoDeterminacao, 
+			$scope.attDeterminacao) + calcBonus(configuracao.intervaloPesoForca, configuracao.multiplicadorPesoForca, $scope.attForca);
 	}
 	//Calculo de bonus de força
 	$scope.calcBonusForca = function(){
-		$scope.resultadoBonusForca = calcBonus(arrIntvForcaBonus, arrMultiForcaBonus, $scope.attForca);
+		$scope.resultadoBonusForca = calcBonus(configuracao.intervaloForca, configuracao.multiplicadorForca, $scope.attForca);
 	}
 	//Calculo de bonus de destreza
 	$scope.calcBonusDestreza = function(){
-		$scope.resultadoBonusDestreza = calcBonus(arrIntvDestreza, arrMultiDestreza, $scope.attDestreza);
+		$scope.resultadoBonusDestreza = calcBonus(configuracao.intervaloDestreza, configuracao.multiplicadorDestreza, $scope.attDestreza);
 	}
 	//Calculo de bonus de mental
 	$scope.calcBonusMental = function(){
-		$scope.resultadoBonusMental = calcBonus(arrIntvMental, arrMultiMental, $scope.attMental);
+		$scope.resultadoBonusMental = calcBonus(configuracao.intervaloMental, configuracao.multiplicadorMental, $scope.attMental);
 	}
 	//Calculo de movimentação
 	$scope.calcMovimentacao = function(){
@@ -81,7 +61,8 @@ angular.module('distorcao')
 
 	//Pega arquivo .json e carrega ele no site
 	$scope.carregaJson = function(contents){
-		$scope.resultado = angular.fromJson(contents);
-		console.log($scope.resultado.mensagem);
+		configuracao = angular.fromJson(contents);		
+		$scope.resultadoVida = configuracao.vidaBase;
+		$scope.resultadoPeso = configuracao.pesoBase;
 	}
 });
