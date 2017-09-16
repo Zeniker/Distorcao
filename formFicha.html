@@ -1,60 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="distorcao">
 	<head>
-		<!--><script src="angular.min.js"></script></-->
 		<meta charset="UTF-8">
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 		<title>Distorção - Calculador de ficha</title>
+
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+
+		<!-- Scripts -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		<script src="lib/jquery/jquery-3.2.1.min.js"></script>
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/distorcao.js"></script>
+		<script src="js/controllers/contrFicha.js"></script>
 	</head>
 	<body>
-	<script src="contrFicha.js"></script>
-		<div ng-app="distorcao" ng-controller="contrFicha">
-			<table>
-				<tr>
-					<td>Nível:</td>
-					<td><input type="number" ng-model="attNivel" min="0" ng-change="calcNivel()"></td>
-				</tr>
-				<tr>
-					<td>Vigor:</td>
-					<td><input type="number" ng-model="attVigor" min="0" ng-change="calcNivel()"></td>
-				</tr>
-				<tr>
-					<td>Determinação:</td>
-					<td><input type="number" ng-model="attDeterminacao" min="0"></td>
-				</tr>
-				<tr>
-					<td>Força:</td>
-					<td><input type="number" ng-model="attForca" min="0"></td>
-				</tr>
-				<tr>
-					<td>Destreza:</td>
-					<td><input type="number" ng-model="attDestreza" min="0"></td>
-				</tr>
-				<tr>
-					<td>Mental:</td>
-					<td><input type="number" ng-model="attMental" min="0"></td>
-				</tr>
-			</table>
-			<table>
-				<tr>
-					<th colspan="2">Resultados</th>
-				</tr>
-				<tr>
-					<td>Vida total:</td>
-					<td>{{resultadoVida}} HP</td>
-				</tr>					<tr>
-					<td>Peso:</td>
-					<td>{{attDeterminacao * 5}}</td>
-				</tr>
-				<tr>
-					<td>Bonus força:</td>
-					<td>{{attForca * 2}}%</td>
-				</tr>
-				<tr>
-					<td>Bonus destreza:</td>
-					<td>{{attDestreza * 2}}%</td>
-				</tr>
-			</table>
+		<div ng-controller="contrFicha">
+			<div class="secao-ficha">
+				<h5>Atributos</h5>
+				<div class="inputs-ficha">
+					<div class="input-group">
+
+						<span class="input-group-addon">Nível</span>
+						<input type="number" class="form-control" ng-model="attNivel" id="attNivel" min="0" ng-change="calcNivel()">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Vigor</span>
+						<input type="number" class="form-control" ng-model="attVigor" min="0" ng-change="calcNivel()">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Determinação</span>
+						<input type="number" class="form-control" ng-model="attDeterminacao" min="0">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Força</span>
+						<input type="number" class="form-control" ng-model="attForca" min="0">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Destreza</span>
+						<input type="number" class="form-control" ng-model="attDestreza" min="0">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Mental</span>
+						<input type="number" class="form-control" ng-model="attMental" min="0">
+					</div>
+				</div>
+			</div>
+			<div class="secao-ficha">
+				<h5>Resultados</h5>
+				<table class="table table-striped">
+					<tr class="row">
+						<td class="col-xs-4">Vida total:</td>
+						<td class="col-xs-8	">{{resultadoVida}} HP</td>
+					</tr>
+					<tr class="row">
+						<td class="col-xs-4">Peso:</td>
+						<td class="col-xs-8">{{attDeterminacao * 5}}</td>
+					</tr>
+					<tr class="row">
+						<td class="col-xs-4">Bonus força:</td>
+						<td class="col-xs-8">{{attForca * 2}}%</td>
+					</tr>
+					<tr class="row">
+						<td class="col-xs-4">Bonus destreza:</td>
+						<td class="col-xs-8">{{attDestreza * 2}}%</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</body>
 </html>
