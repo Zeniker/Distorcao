@@ -1,0 +1,17 @@
+.secao-ficha{
+	width: 50%;
+	float: left;
+	padding: 50px;
+}
+
+.inputs-ficha .input-group{
+	margin-bottom: 5px;
+}
+
+.inputs-ficha .input-group-addon{
+	width: 120px;
+}
+
+.inputs-ficha .form-control{
+	max-width: 150px;
+}
