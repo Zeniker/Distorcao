@@ -12,18 +12,25 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 		<script src="lib/jquery/jquery-3.2.1.min.js"></script>
 		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
-		<script src="js/distorcao.js"></script>
-		<script src="js/controllers/contrFicha.js"></script>
+		<script src="js/distorcao.js"></script>		
+		<script src="js/controllers/contrFicha.js"></script>		
+		<script src="js/directives.js"></script>
 	</head>
 	<body>
 		<div ng-controller="contrFicha">
-			<h1>Ficha Distorção</h1>
+			<div class="cabecalho-ficha">
+				<h1>Ficha Distorção</h1>
+				<div class="input-configuracao">
+					<label for="configuracao-ficha">Configuração</label>
+					<input type="file" class="form-control" id="configuracao-ficha" accept=".json" ng-json-select="carregaJson(contents)">				
+				</div>				
+			</div>
 			<div class="secao-ficha">
 				<h5>Atributos</h5>
 				<div class="inputs-ficha">
 					<div class="input-group">
 						<span class="input-group-addon">Nível</span>
-						<input type="number" class="form-control" ng-model="attNivel" id="attNivel" min="0" ng-change="calcVida()">
+						<input type="number" class="form-control" ng-model="attNivel" min="0" ng-change="calcVida()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Vigor</span>

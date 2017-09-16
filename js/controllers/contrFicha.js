@@ -78,4 +78,10 @@ angular.module('distorcao')
 	$scope.calcMovimentacao = function(){
 		$scope.resultadoMovimentacao = 2 + Math.floor(($scope.attDestreza * 0.10) + ($scope.attForca * 0.05));
 	}
+
+	//Pega arquivo .json e carrega ele no site
+	$scope.carregaJson = function(contents){
+		$scope.resultado = angular.fromJson(contents);
+		console.log($scope.resultado.mensagem);
+	}
 });

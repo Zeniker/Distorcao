@@ -1,3 +1,16 @@
+.cabecalho-ficha{
+	width: 100%;
+}
+
+.cabecalho-ficha h1{
+	text-align: center;
+}
+
+.input-configuracao{
+	padding-left: 50px;
+	width: 450px;
+}
+
 .secao-ficha{
 	width: 50%;
 	float: left;
