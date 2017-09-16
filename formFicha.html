@@ -24,27 +24,27 @@
 					<div class="input-group">
 
 						<span class="input-group-addon">Nível</span>
-						<input type="number" class="form-control" ng-model="attNivel" id="attNivel" min="0" ng-change="calcNivel()">
+						<input type="number" class="form-control" ng-model="attNivel" id="attNivel" min="0" ng-change="calcVida()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Vigor</span>
-						<input type="number" class="form-control" ng-model="attVigor" min="0" ng-change="calcNivel()">
+						<input type="number" class="form-control" ng-model="attVigor" min="0" ng-change="calcVida()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Determinação</span>
-						<input type="number" class="form-control" ng-model="attDeterminacao" min="0">
+						<input type="number" class="form-control" ng-model="attDeterminacao" min="0" ng-change="calcVida(); calcPeso()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Força</span>
-						<input type="number" class="form-control" ng-model="attForca" min="0">
+						<input type="number" class="form-control" ng-model="attForca" min="0" ng-change="calcBonusForca(); calcPeso(); calcMovimentacao()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Destreza</span>
-						<input type="number" class="form-control" ng-model="attDestreza" min="0">
+						<input type="number" class="form-control" ng-model="attDestreza" min="0" ng-change="calcBonusDestreza(); calcMovimentacao()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Mental</span>
-						<input type="number" class="form-control" ng-model="attMental" min="0">
+						<input type="number" class="form-control" ng-model="attMental" min="0" ng-change="calcBonusMental()">
 					</div>
 				</div>
 			</div>
@@ -57,15 +57,23 @@
 					</tr>
 					<tr class="row">
 						<td class="col-xs-4">Peso:</td>
-						<td class="col-xs-8">{{attDeterminacao * 5}}</td>
+						<td class="col-xs-8">{{resultadoPeso}}</td>
 					</tr>
 					<tr class="row">
 						<td class="col-xs-4">Bonus força:</td>
-						<td class="col-xs-8">{{attForca * 2}}%</td>
+						<td class="col-xs-8">{{resultadoBonusForca}}%</td>
 					</tr>
 					<tr class="row">
 						<td class="col-xs-4">Bonus destreza:</td>
-						<td class="col-xs-8">{{attDestreza * 2}}%</td>
+						<td class="col-xs-8">{{resultadoBonusDestreza}}%</td>
+					</tr>
+					<tr class="row">
+						<td class="col-xs-4">Bonus mental:</td>
+						<td class="col-xs-8">{{resultadoBonusMental}}%</td>
+					</tr>
+					<tr class="row">
+						<td class="col-xs-4">Movimentação:</td>
+						<td class="col-xs-8">{{resultadoMovimentacao}}</td>
 					</tr>
 				</table>
 			</div>
