@@ -13,6 +13,7 @@ angular.module('distorcao')
 	$scope.resultadoBonusDestreza = 0;
 	$scope.resultadoBonusMental = 0;
 	$scope.resultadoMovimentacao = 2;
+	$scope.msgErro = null;
 
 	configuracao = null;
 
@@ -32,30 +33,59 @@ angular.module('distorcao')
 		return(total + (attr * multiplicador[i + 1]));
 	}
 
+	//verifica se o arquivo de configuracao foi carregado
+	carregouConfiguracao = function(){
+		if(configuracao !== null){
+			$scope.msgErro = null;
+			return true;
+		}else{
+			$scope.msgErro = 'Arquivo de configuração não foi carregado';
+			return false;
+		}
+	}
+
 	//Calculo de vida
 	$scope.calcVida = function(){
+		if(!carregouConfiguracao()){
+			exit;
+		}
 		$scope.resultadoVida = configuracao.vidaBase + calcBonus(configuracao.intervaloVida, configuracao.multiplicadorVida, 
 			$scope.attVigor) + ($scope.attNivel * configuracao.vidaPorLevel) + ($scope.attDeterminacao * configuracao.vidaPorDeterminacao);
 	}
 	//Calculo de peso
 	$scope.calcPeso = function(){
+		if(!carregouConfiguracao()){
+			exit;
+		}
 		$scope.resultadoPeso = configuracao.pesoBase + calcBonus(configuracao.intervaloPesoDeterminacao, configuracao.multiplicadorPesoDeterminacao, 
 			$scope.attDeterminacao) + calcBonus(configuracao.intervaloPesoForca, configuracao.multiplicadorPesoForca, $scope.attForca);
 	}
 	//Calculo de bonus de força
 	$scope.calcBonusForca = function(){
+		if(!carregouConfiguracao()){
+			exit;
+		}
 		$scope.resultadoBonusForca = calcBonus(configuracao.intervaloForca, configuracao.multiplicadorForca, $scope.attForca);
 	}
 	//Calculo de bonus de destreza
 	$scope.calcBonusDestreza = function(){
+		if(!carregouConfiguracao()){
+			exit;
+		}
 		$scope.resultadoBonusDestreza = calcBonus(configuracao.intervaloDestreza, configuracao.multiplicadorDestreza, $scope.attDestreza);
 	}
 	//Calculo de bonus de mental
 	$scope.calcBonusMental = function(){
+		if(!carregouConfiguracao()){
+			exit;
+		}
 		$scope.resultadoBonusMental = calcBonus(configuracao.intervaloMental, configuracao.multiplicadorMental, $scope.attMental);
 	}
 	//Calculo de movimentação
 	$scope.calcMovimentacao = function(){
+		if(!carregouConfiguracao()){
+			exit;
+		}
 		$scope.resultadoMovimentacao = 2 + Math.floor(($scope.attDestreza * 0.10) + ($scope.attForca * 0.05));
 	}
 

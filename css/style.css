@@ -11,6 +11,12 @@
 	width: 450px;
 }
 
+.secao-erro{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
 .secao-ficha{
 	width: 50%;
 	float: left;

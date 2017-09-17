@@ -25,6 +25,11 @@
 					<input type="file" class="form-control" id="configuracao-ficha" accept=".json" ng-json-select="carregaJson(contents)">				
 				</div>				
 			</div>
+			<div class="secao-erro" ng-show="msgErro != null">
+				<div class="alert alert-danger">
+					{{msgErro}}
+				</div>
+			</div>
 			<div class="secao-ficha">
 				<h5>Atributos</h5>
 				<div class="inputs-ficha">
