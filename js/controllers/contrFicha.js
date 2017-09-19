@@ -1,21 +1,26 @@
 angular.module('distorcao')
 .controller('contrFicha', function($scope){
 	//Valores iniciais
-	$scope.attNivel = 0;
-	$scope.attVigor = 0;
-	$scope.attDeterminacao = 0;
-	$scope.attForca = 0;
-	$scope.attDestreza = 0;
-	$scope.attMental = 0;
-	$scope.resultadoVida = 400;
-	$scope.resultadoPeso = 40;
-	$scope.resultadoBonusForca = 0;
-	$scope.resultadoBonusDestreza = 0;
-	$scope.resultadoBonusMental = 0;
-	$scope.resultadoMovimentacao = 2;
 	$scope.msgErro = null;
-
-	configuracao = null;
+	configuracao = {
+		vidaBase:400,
+		pesoBase:40,
+		vidaPorNivel:5,
+		vidaPorDeterminacao:5,
+		intervaloVigor:[15, 25, 40],
+		multiplicadorVigor:[15, 20, 15, 10],
+		intervaloPesoDeterminacao:[20, 40],
+		multiplicadorPesoDeterminacao:[1.5, 1.25, 1],
+		intervaloPesoForca:[40],
+		multiplicadorPesoForca:[0.3, 0.1],
+		intervaloForca:[40],
+		multiplicadorForca:[2.5, 1],
+		intervaloDestreza:[40],
+		multiplicadorDestreza:[2.5, 1],
+		intervaloMental:[10, 30, 50, 65],
+		multiplicadorMental:[1, 2.5, 3, 2.5, 1.5],
+		movimentacaoBase:2
+	};
 
 	calcBonus = function(intervalo, multiplicador, attr){
 		total = 0;
@@ -35,7 +40,7 @@ angular.module('distorcao')
 
 	//verifica se o arquivo de configuracao foi carregado
 	carregouConfiguracao = function(){
-		if(configuracao !== null){
+		if(configuracao !== undefined){
 			$scope.msgErro = null;
 			return true;
 		}else{
@@ -46,53 +51,63 @@ angular.module('distorcao')
 
 	//Calculo de vida
 	$scope.calcVida = function(){
-		if(!carregouConfiguracao()){
+		/*if(!carregouConfiguracao()){
 			exit;
-		}
-		$scope.resultadoVida = configuracao.vidaBase + calcBonus(configuracao.intervaloVida, configuracao.multiplicadorVida, 
-			$scope.attVigor) + ($scope.attNivel * configuracao.vidaPorLevel) + ($scope.attDeterminacao * configuracao.vidaPorDeterminacao);
+		}*/
+		$scope.resultadoVida = configuracao.vidaBase + calcBonus(configuracao.intervaloVigor, configuracao.multiplicadorVigor, 
+			$scope.attVigor) + ($scope.attNivel * configuracao.vidaPorNivel) + ($scope.attDeterminacao * configuracao.vidaPorDeterminacao);
 	}
 	//Calculo de peso
 	$scope.calcPeso = function(){
-		if(!carregouConfiguracao()){
+		/*if(!carregouConfiguracao()){
 			exit;
-		}
+		}*/
 		$scope.resultadoPeso = configuracao.pesoBase + calcBonus(configuracao.intervaloPesoDeterminacao, configuracao.multiplicadorPesoDeterminacao, 
 			$scope.attDeterminacao) + calcBonus(configuracao.intervaloPesoForca, configuracao.multiplicadorPesoForca, $scope.attForca);
 	}
 	//Calculo de bonus de força
 	$scope.calcBonusForca = function(){
-		if(!carregouConfiguracao()){
+		/*if(!carregouConfiguracao()){
 			exit;
-		}
+		}*/
 		$scope.resultadoBonusForca = calcBonus(configuracao.intervaloForca, configuracao.multiplicadorForca, $scope.attForca);
 	}
 	//Calculo de bonus de destreza
 	$scope.calcBonusDestreza = function(){
-		if(!carregouConfiguracao()){
+		/*if(!carregouConfiguracao()){
 			exit;
-		}
+		}*/
 		$scope.resultadoBonusDestreza = calcBonus(configuracao.intervaloDestreza, configuracao.multiplicadorDestreza, $scope.attDestreza);
 	}
 	//Calculo de bonus de mental
 	$scope.calcBonusMental = function(){
-		if(!carregouConfiguracao()){
+		/*if(!carregouConfiguracao()){
 			exit;
-		}
+		}*/
 		$scope.resultadoBonusMental = calcBonus(configuracao.intervaloMental, configuracao.multiplicadorMental, $scope.attMental);
 	}
 	//Calculo de movimentação
 	$scope.calcMovimentacao = function(){
-		if(!carregouConfiguracao()){
+		/*if(!carregouConfiguracao()){
 			exit;
-		}
+		}*/
 		$scope.resultadoMovimentacao = 2 + Math.floor(($scope.attDestreza * 0.10) + ($scope.attForca * 0.05));
+	}
+
+	$scope.atualizaValores = function(){
+		$scope.calcVida();
+		$scope.calcPeso();
+		$scope.calcBonusForca();
+		$scope.calcBonusDestreza();
+		$scope.calcBonusMental();
+		$scope.calcMovimentacao();
 	}
 
 	//Pega arquivo .json e carrega ele no site
 	$scope.carregaJson = function(contents){
 		configuracao = angular.fromJson(contents);		
-		$scope.resultadoVida = configuracao.vidaBase;
-		$scope.resultadoPeso = configuracao.pesoBase;
+		/*$scope.resultadoVida = configuracao.vidaBase;
+		$scope.resultadoPeso = configuracao.pesoBase;*/
+		$scope.atualizaValores();
 	}
 });
