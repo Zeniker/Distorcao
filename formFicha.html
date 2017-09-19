@@ -21,7 +21,7 @@
 		<div ng-controller="contrFicha" ng-init="attNivel=0;attVigor=0;attDeterminacao=0;attForca=0;attDestreza=0;attMental=0;atualizaValores()">
 			<div class="cabecalho-ficha">
 				<h1>Ficha Distorção</h1>
-				<div class="input-configuracao">
+				<div class="input-file-configuracao">
 					<label for="configuracao-ficha">Configuração</label>
 					<input type="file" class="form-control" id="configuracao-ficha" accept=".json" ng-json-select="carregaJson(contents)">				
 				</div>				
@@ -101,69 +101,69 @@
 								<button type="button" class="close" data-toggle="modal" data-dismiss="modal">&times;</button>
 							</div>
 							<div class="modal-body">
-								<div class="input-group">
-									<span class="input-group-addon">Vida base</span>
-									<input type="text" class="form-control" ng-model="configuracao.vidaBase" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configVidaBase">Vida base</label>
+									<input type="text" class="form-control" ng-model="configuracao.vidaBase" ng-change="" id="configVidaBase">
+								</div>								
+								<div class="input-configuracao">
+									<label for="configVidaNivel">Vida por nível</label>
+									<input type="text" class="form-control" ng-model="configVidaNivel" ng-change="" id="configVidaNivel">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Vida por nível</span>
-									<input type="text" class="form-control" ng-model="configVidaNivel" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configVidaDeterminacao">Vida por determinação</label>
+									<input type="text" class="form-control" ng-model="configVidaDeterminacao" ng-change="" id="configVidaDeterminacao">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Vida por determinação</span>
-									<input type="text" class="form-control" ng-model="configVidaDeterminacao" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configIntervaloVigor">Intervalos de vigor</label>
+									<input type="text" class="form-control" ng-model="configIntervaloVigor" ng-change="" id="configIntervaloVigor">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Intervalos de vigor</span>
-									<input type="text" class="form-control" ng-model="configIntervaloVigor" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configMultiplicadorVigor">Multiplicadores de vigor</label>
+									<input type="text" class="form-control" ng-model="configMultiplicadorVigor" ng-change="" id="configMultiplicadorVigor">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Multiplicadores de vigor</span>
-									<input type="text" class="form-control" ng-model="configMultiplicadorVigor" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configIntervaloPesoDeterminacao">Intervalos de peso determinação</label>
+									<input type="text" class="form-control" ng-model="configIntervaloPesoDeterminacao" ng-change="" id="configIntervaloPesoDeterminacao">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Intervalos de peso determinação</span>
-									<input type="text" class="form-control" ng-model="configIntervaloPesoDeterminacao" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configMultiplicadorPesoDeterminacao">Multiplicadores de peso determinação</label>
+									<input type="text" class="form-control" ng-model="configMultiplicadorPesoDeterminacao" ng-change="" id="configMultiplicadorPesoDeterminacao">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Multiplicadores de peso determinação</span>
-									<input type="text" class="form-control" ng-model="configMultiplicadorPesoDeterminacao" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configIntervaloPesoForca">Intervalos de peso força</label>
+									<input type="text" class="form-control" ng-model="configIntervaloPesoForca" ng-change="" id="configIntervaloPesoForca">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Intervalos de peso força</span>
-									<input type="text" class="form-control" ng-model="configIntervaloPesoForca" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configMultiplicadorPesoForca">Multiplicadores de peso força</label>
+									<input type="text" class="form-control" ng-model="configMultiplicadorPesoForca" ng-change="" id="configMultiplicadorPesoForca">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Multiplicadores de peso força</span>
-									<input type="text" class="form-control" ng-model="configMultiplicadorPesoForca" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configIntervaloForca">Intervalos de bonus força</label>
+									<input type="text" class="form-control" ng-model="configIntervaloForca" ng-change="" id="configIntervaloForca">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Intervalos de bonus força</span>
-									<input type="text" class="form-control" ng-model="configIntervaloForca" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configMultiplicadorForca">Multiplicadores de bonus força</label>
+									<input type="text" class="form-control" ng-model="configMultiplicadorForca" ng-change="" id="configMultiplicadorForca">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Multiplicadores de bonus força</span>
-									<input type="text" class="form-control" ng-model="configMultiplicadorForca" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configIntervaloDestreza">Intervalos de bonus destreza</label>
+									<input type="text" class="form-control" ng-model="configIntervaloDestreza" ng-change="" id="configIntervaloDestreza">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Intervalos de bonus destreza</span>
-									<input type="text" class="form-control" ng-model="configIntervaloDestreza" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configMultiplicadorDestreza">Multiplicadores de bonus destreza</label>
+									<input type="text" class="form-control" ng-model="configMultiplicadorDestreza" ng-change="" id="configMultiplicadorDestreza">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Multiplicadores de bonus destreza</span>
-									<input type="text" class="form-control" ng-model="configMultiplicadorDestreza" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configIntervaloMental">Intervalos de bonus mental</label>
+									<input type="text" class="form-control" ng-model="configIntervaloMental" ng-change="" id="configIntervaloMental">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Intervalos de bonus mental</span>
-									<input type="text" class="form-control" ng-model="configIntervaloMental" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configMultiplicadorMental">Multiplicadores de bonus mental</label>
+									<input type="text" class="form-control" ng-model="configMultiplicadorMental" ng-change="" id="configMultiplicadorMental">
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Multiplicadores de bonus mental</span>
-									<input type="text" class="form-control" ng-model="configMultiplicadorMental" min="0" ng-change="">
-								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Base de movimentação</span>
-									<input type="text" class="form-control" ng-model="configMovimentacaoBase" min="0" ng-change="">
+								<div class="input-configuracao">
+									<label for="configMovimentacaoBase">Base de movimentação</label>
+									<input type="text" class="form-control" ng-model="configMovimentacaoBase" ng-change="" id="configMovimentacaoBase">
 								</div>
 							</div>
 							<div class="modal-footer">

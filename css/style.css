@@ -6,7 +6,7 @@
 	text-align: center;
 }
 
-.input-configuracao{
+.input-file-configuracao{
 	padding-left: 50px;
 	width: 450px;
 }
@@ -34,3 +34,22 @@
 .inputs-ficha .form-control{
 	max-width: 150px;
 }
+
+.input-configuracao{
+	width: 30%;
+	margin-left: 1.5%;
+	margin-right: 1.5%;
+	margin-bottom: 1%;
+	float: left;
+}
+
+.input-configuracao label{
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
+#modalConfiguracao .modal-dialog{
+	width: 50%;
+	max-width: none;
+}
+
