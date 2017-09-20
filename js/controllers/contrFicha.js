@@ -21,6 +21,7 @@ angular.module('distorcao')
 		multiplicadorMental:[1, 2.5, 3, 2.5, 1.5],
 		movimentacaoBase:2
 	};
+	$scope.infoConfigCarregada = 'Configurações padrões';
 
 	calcBonus = function(intervalo, multiplicador, attr){
 		total = 0;
@@ -39,7 +40,7 @@ angular.module('distorcao')
 	}
 
 	//verifica se o arquivo de configuracao foi carregado
-	carregouConfiguracao = function(){
+	/*carregouConfiguracao = function(){
 		if(configuracao !== undefined){
 			$scope.msgErro = null;
 			return true;
@@ -47,7 +48,7 @@ angular.module('distorcao')
 			$scope.msgErro = 'Arquivo de configuração não foi carregado';
 			return false;
 		}
-	}
+	}*/
 
 	//Calculo de vida
 	$scope.calcVida = function(){
@@ -70,30 +71,31 @@ angular.module('distorcao')
 		/*if(!carregouConfiguracao()){
 			exit;
 		}*/
-		$scope.resultadoBonusForca = calcBonus(configuracao.intervaloForca, configuracao.multiplicadorForca, $scope.attForca);
+		$scope.resultadoBonusForca = Math.floor(calcBonus(configuracao.intervaloForca, configuracao.multiplicadorForca, $scope.attForca));
 	}
 	//Calculo de bonus de destreza
 	$scope.calcBonusDestreza = function(){
 		/*if(!carregouConfiguracao()){
 			exit;
 		}*/
-		$scope.resultadoBonusDestreza = calcBonus(configuracao.intervaloDestreza, configuracao.multiplicadorDestreza, $scope.attDestreza);
+		$scope.resultadoBonusDestreza = Math.floor(calcBonus(configuracao.intervaloDestreza, configuracao.multiplicadorDestreza, $scope.attDestreza));
 	}
 	//Calculo de bonus de mental
 	$scope.calcBonusMental = function(){
 		/*if(!carregouConfiguracao()){
 			exit;
 		}*/
-		$scope.resultadoBonusMental = calcBonus(configuracao.intervaloMental, configuracao.multiplicadorMental, $scope.attMental);
+		$scope.resultadoBonusMental = Math.floor(calcBonus(configuracao.intervaloMental, configuracao.multiplicadorMental, $scope.attMental));
 	}
 	//Calculo de movimentação
 	$scope.calcMovimentacao = function(){
 		/*if(!carregouConfiguracao()){
 			exit;
 		}*/
-		$scope.resultadoMovimentacao = 2 + Math.floor(($scope.attDestreza * 0.10) + ($scope.attForca * 0.05));
+		$scope.resultadoMovimentacao = configuracao.movimentacaoBase + Math.floor(($scope.attDestreza * 0.10) + ($scope.attForca * 0.05));
 	}
 
+	//Função que atualiza todos os resultados
 	$scope.atualizaValores = function(){
 		$scope.calcVida();
 		$scope.calcPeso();
@@ -101,6 +103,55 @@ angular.module('distorcao')
 		$scope.calcBonusDestreza();
 		$scope.calcBonusMental();
 		$scope.calcMovimentacao();
+	}
+
+	//Transfere os valores à modal, serve para sempre manter os valores atualizados.
+	$scope.transfereValores = function(){
+		$scope.configVidaBase = configuracao.vidaBase;
+		$scope.configVidaNivel = configuracao.vidaPorNivel;
+		$scope.configVidaDeterminacao = configuracao.vidaPorDeterminacao;
+		$scope.configIntervaloVigor = configuracao.intervaloVigor;
+		$scope.configMultiplicadorVigor = configuracao.multiplicadorVigor;
+		$scope.configIntervaloPesoDeterminacao = configuracao.intervaloPesoDeterminacao;
+		$scope.configMultiplicadorPesoDeterminacao = configuracao.multiplicadorPesoDeterminacao;
+		$scope.configIntervaloPesoForca = configuracao.intervaloPesoForca;
+		$scope.configMultiplicadorPesoForca = configuracao.multiplicadorPesoForca;
+		$scope.configIntervaloForca = configuracao.intervaloForca;
+		$scope.configMultiplicadorForca = configuracao.multiplicadorForca;
+		$scope.configIntervaloDestreza = configuracao.intervaloDestreza;
+		$scope.configMultiplicadorDestreza = configuracao.multiplicadorDestreza;
+		$scope.configIntervaloMental = configuracao.intervaloMental;
+		$scope.configMultiplicadorMental = configuracao.multiplicadorMental;
+		$scope.configMovimentacaoBase = configuracao.movimentacaoBase;
+	}
+
+	//Converte string em um array de numeros, para uso nos intervalos e multiplicadores
+	converteString = function(string){
+		arrNumerica = [];
+		temp = string.split(',');
+		for(i = 0, tam = temp.length; i < tam; i++) arrNumerica[i] = +temp[i];
+		return(arrNumerica);
+	}
+
+	//Função para atualizar configurações
+	$scope.atualizarConfiguracao = function(){
+		configuracao.vidaBase = $scope.configVidaBase * 1;
+		configuracao.vidaPorNivel = $scope.configVidaNivel * 1; 
+		configuracao.vidaPorDeterminacao = $scope.configVidaDeterminacao * 1;
+		configuracao.intervaloVigor = converteString($scope.configIntervaloVigor.toString());
+		configuracao.multiplicadorVigor = converteString($scope.configMultiplicadorVigor.toString()); 
+		configuracao.intervaloPesoDeterminacao = converteString($scope.configIntervaloPesoDeterminacao.toString());
+		configuracao.multiplicadorPesoDeterminacao = converteString($scope.configMultiplicadorPesoDeterminacao.toString());
+		configuracao.intervaloPesoForca = converteString($scope.configIntervaloPesoForca.toString());
+		configuracao.multiplicadorPesoForca = converteString($scope.configMultiplicadorPesoForca.toString());
+		configuracao.intervaloForca = converteString($scope.configIntervaloForca.toString());
+		configuracao.multiplicadorForca = converteString($scope.configMultiplicadorForca.toString());
+		configuracao.intervaloDestreza = converteString($scope.configIntervaloDestreza.toString());
+		configuracao.multiplicadorDestreza = converteString($scope.configMultiplicadorDestreza.toString());
+		configuracao.intervaloMental = converteString($scope.configIntervaloMental.toString());
+		configuracao.multiplicadorMental = converteString($scope.configMultiplicadorMental.toString());
+		configuracao.movimentacaoBase = $scope.configMovimentacaoBase * 1;
+		$scope.infoConfigCarregada = 'Configurações personalizadas';
 	}
 
 	//Pega arquivo .json e carrega ele no site

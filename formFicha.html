@@ -26,9 +26,9 @@
 					<input type="file" class="form-control" id="configuracao-ficha" accept=".json" ng-json-select="carregaJson(contents)">				
 				</div>				
 			</div>
-			<div class="secao-erro" ng-show="msgErro != null">
-				<div class="alert alert-danger">
-					{{msgErro}}
+			<div class="secao-config">
+				<div class="alert alert-info">
+					<strong>{{infoConfigCarregada}}</strong>
 				</div>
 			</div>
 			<div class="secao-ficha">
@@ -69,7 +69,7 @@
 					</tr>
 					<tr class="row">
 						<td class="col-xs-4">Peso:</td>
-						<td class="col-xs-8">{{resultadoPeso}}</td>
+						<td class="col-xs-8">{{resultadoPeso | number : 1}}</td>
 					</tr>
 					<tr class="row">
 						<td class="col-xs-4">Bonus força:</td>
@@ -90,7 +90,7 @@
 				</table>
 			</div>
 			<div class="secao-ficha">
-				<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalConfiguracao">
+				<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modalConfiguracao" ng-click="transfereValores()">
 					Configurações
 				</button>
 				<div id="modalConfiguracao" class="modal fade" role="dialog">
@@ -103,7 +103,7 @@
 							<div class="modal-body">
 								<div class="input-configuracao">
 									<label for="configVidaBase">Vida base</label>
-									<input type="text" class="form-control" ng-model="configuracao.vidaBase" ng-change="" id="configVidaBase">
+									<input type="text" class="form-control" ng-model="configVidaBase" ng-change="" id="configVidaBase">
 								</div>								
 								<div class="input-configuracao">
 									<label for="configVidaNivel">Vida por nível</label>
@@ -166,8 +166,11 @@
 									<input type="text" class="form-control" ng-model="configMovimentacaoBase" ng-change="" id="configMovimentacaoBase">
 								</div>
 							</div>
+							<div class="alert alert-info">
+								<strong>Dica:</strong> Deve-se manter cada intervalo/multiplicador separado por vírgula (,) e sem espaço após, caso contrário haverá erros.
+							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default btn-md" data-dismiss="modal">Salvar</button>
+								<button type="button" class="btn btn-default btn-md" data-dismiss="modal" ng-click="atualizarConfiguracao();atualizaValores()">Salvar</button>
 								<button type="button" class="btn btn-default btn-md" data-dismiss="modal">Cancelar</button>
 							</div>
 						</div>
