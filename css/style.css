@@ -20,7 +20,8 @@
 .secao-ficha{
 	width: 50%;
 	float: left;
-	padding: 50px;
+	padding-left: 5%;
+	padding-right: 5%;
 }
 
 .inputs-ficha .input-group{
