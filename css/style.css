@@ -35,8 +35,19 @@
 	max-width: 150px;
 }
 
+#modalConfiguracao .modal-dialog{
+	width: 60%;
+	max-width: none;
+}
+
+#modalConfiguracao .modal-body{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
 .input-configuracao{
-	width: 30%;
+	width: 30%;	
 	margin-left: 1.5%;
 	margin-right: 1.5%;
 	margin-bottom: 1%;
@@ -44,12 +55,8 @@
 }
 
 .input-configuracao label{
+	font-size: 0.80em;
 	max-width: 100%;
 	word-wrap: break-word;
-}
-
-#modalConfiguracao .modal-dialog{
-	width: 50%;
-	max-width: none;
 }
 
