@@ -30,7 +30,7 @@
 			</div>
 			<div class="secao-config">
 				<div class="alert alert-info">
-					<strong>{{ficha.infoConfigCarregada}}</strong>
+					<strong>Configuração selecionada: {{ficha.configNome}}</strong>
 				</div>
 			</div>
 			<div class="secao-ficha">
@@ -46,15 +46,15 @@
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Determinação</span>
-						<input type="number" class="form-control" ng-model="ficha.attDeterminacao" min="0" ng-change="ficha.calcVida(); calcPeso()">
+						<input type="number" class="form-control" ng-model="ficha.attDeterminacao" min="0" ng-change="ficha.calcVida(); ficha.calcPeso()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Força</span>
-						<input type="number" class="form-control" ng-model="ficha.attForca" min="0" ng-change="ficha.calcBonusForca(); calcPeso(); calcMovimentacao()">
+						<input type="number" class="form-control" ng-model="ficha.attForca" min="0" ng-change="ficha.calcBonusForca(); ficha.calcPeso(); ficha.calcMovimentacao()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Destreza</span>
-						<input type="number" class="form-control" ng-model="ficha.attDestreza" min="0" ng-change="ficha.calcBonusDestreza(); calcMovimentacao()">
+						<input type="number" class="form-control" ng-model="ficha.attDestreza" min="0" ng-change="ficha.calcBonusDestreza(); ficha.calcMovimentacao()">
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Mental</span>
@@ -100,9 +100,15 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title">Configurações</h4>
-								<button type="button" class="close" data-toggle="modal" data-dismiss="modal">&times;</button>
+								<button type="button" class="btn btn-primary" ng-click="ficha.exportaConfiguracoes()">
+									Exportar configuração
+								</button>
 							</div>
 							<div class="modal-body">
+								<div class="input-configuracao">
+									<label for="configNome">Nome da configuração</label>
+									<input type="text" class="form-control" ng-model="ficha.configNome" ng-change="" id="configNome">
+								</div>
 								<div class="input-configuracao">
 									<label for="configVidaBase">Vida base</label>
 									<input type="text" class="form-control" ng-model="ficha.configVidaBase" ng-change="" id="configVidaBase">
@@ -168,8 +174,10 @@
 									<input type="text" class="form-control" ng-model="ficha.configMovimentacaoBase" ng-change="" id="configMovimentacaoBase">
 								</div>
 							</div>
-							<div class="alert alert-info">
-								<strong>Dica:</strong> Deve-se manter cada intervalo/multiplicador separado por vírgula (,) e sem espaço após, caso contrário haverá erros.
+							<div class="alert alert-warning">
+								<small><strong>Aviso:</strong><br>
+								Deve-se manter cada intervalo/multiplicador separado por vírgula (,) e sem espaço após, caso contrário haverá erros.<br>
+								Ao exportar uma configuração, ela será salva e atualizada na ficha.</small>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default btn-md" data-dismiss="modal" ng-click="ficha.salvaConfiguracoes()">Salvar</button>
