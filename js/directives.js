@@ -7,11 +7,9 @@
                 restrict: 'A',
                 scope: false,
                 link: function(scope, element, attrs) {            
-                    element.bind('change', function(e) {                
-                        
+                    element.bind('change', function(e) {
                         var onFileReadFn = $parse(attrs.ngJsonSelect);
                         var reader = new FileReader();
-                        
                         reader.onload = function() {
                             var fileContents = reader.result;
                             // invoke parsed function on scope
