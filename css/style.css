@@ -62,7 +62,7 @@
 }
 
 /*parte mobile*/
-@media (max-width: 450px){
+@media (max-width: 768px){
 	.input-file-configuracao{
 		padding-left: 4.5%;
 		padding-right: 4.5%;
