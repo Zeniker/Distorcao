@@ -53,7 +53,6 @@
 	margin-left: 1.5%;
 	margin-right: 1.5%;
 	margin-bottom: 1%;
-	float: left;
 }
 
 .input-configuracao label{
@@ -63,13 +62,22 @@
 }
 
 /*parte mobile*/
-@media (max-width: 768px){
+@media (max-width: 450px){
 	.input-file-configuracao{
 		padding-left: 4.5%;
 		padding-right: 4.5%;
 		padding-bottom: 5%;
 		width: 100%;
+	}
 
+	.secao-config{
+		padding-left: 4.5%;
+		padding-right: 4.5%;	
+	}
+
+	.secao-config .alert{
+		width: 100%;
+		text-align: center;
 	}
 
 	.secao-ficha{
@@ -91,5 +99,22 @@
 	.inputs-ficha .form-control{
 		max-width: none;
 		width: 100%;
+	}
+
+	#modalConfiguracao .modal-dialog{
+		width: 90%;		
+	}
+
+	#modalConfiguracao .modal-header{
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	#modalConfiguracao h4{
+		margin-bottom: 5%;
+	}
+
+	.input-configuracao{
+		width: 95%;			
 	}
 }
