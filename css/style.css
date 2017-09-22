@@ -64,6 +64,14 @@
 
 /*parte mobile*/
 @media (max-width: 768px){
+	.input-file-configuracao{
+		padding-left: 4.5%;
+		padding-right: 4.5%;
+		padding-bottom: 5%;
+		width: 100%;
+
+	}
+
 	.secao-ficha{
 		width: 100%;
 		display: flex;
@@ -73,7 +81,7 @@
 	}
 
 	.inputs-ficha .input-group-addon{
-		width: 150px;
+		width: 210px;
 	}
 
 	.inputs-ficha{
