@@ -42,7 +42,7 @@
 	max-width: none;
 }
 
-#modalConfiguracao .modal-body{
+#modalConfiguracao .modal-body .form-configuracao{
 	display: flex;
 	justify-content: space-around;
 	flex-wrap: wrap;
