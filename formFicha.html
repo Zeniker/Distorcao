@@ -105,73 +105,75 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<div class="input-configuracao">
-									<label for="configNome">Nome da configuração</label>
-									<input type="text" class="form-control" ng-model="ficha.configNome" ng-change="" id="configNome">
-								</div>
-								<div class="input-configuracao">
-									<label for="configVidaBase">Vida base</label>
-									<input type="text" class="form-control" ng-model="ficha.configVidaBase" ng-change="" id="configVidaBase">
-								</div>								
-								<div class="input-configuracao">
-									<label for="configVidaNivel">Vida por nível</label>
-									<input type="text" class="form-control" ng-model="ficha.configVidaNivel" ng-change="" id="configVidaNivel">
-								</div>
-								<div class="input-configuracao">
-									<label for="configVidaDeterminacao">Vida por determinação</label>
-									<input type="text" class="form-control" ng-model="ficha.configVidaDeterminacao" ng-change="" id="configVidaDeterminacao">
-								</div>
-								<div class="input-configuracao">
-									<label for="configIntervaloVigor">Intervalos de vigor</label>
-									<input type="text" class="form-control" ng-model="ficha.configIntervaloVigor" ng-change="" id="configIntervaloVigor">
-								</div>
-								<div class="input-configuracao">
-									<label for="configMultiplicadorVigor">Multiplicadores de vigor</label>
-									<input type="text" class="form-control" ng-model="ficha.configMultiplicadorVigor" ng-change="" id="configMultiplicadorVigor">
-								</div>
-								<div class="input-configuracao">
-									<label for="configIntervaloPesoDeterminacao">Intervalos de peso determinação</label>
-									<input type="text" class="form-control" ng-model="ficha.configIntervaloPesoDeterminacao" ng-change="" id="configIntervaloPesoDeterminacao">
-								</div>
-								<div class="input-configuracao">
-									<label for="configMultiplicadorPesoDeterminacao">Multiplicadores de peso determinação</label>
-									<input type="text" class="form-control" ng-model="ficha.configMultiplicadorPesoDeterminacao" ng-change="" id="configMultiplicadorPesoDeterminacao">
-								</div>
-								<div class="input-configuracao">
-									<label for="configIntervaloPesoForca">Intervalos de peso força</label>
-									<input type="text" class="form-control" ng-model="ficha.configIntervaloPesoForca" ng-change="" id="configIntervaloPesoForca">
-								</div>
-								<div class="input-configuracao">
-									<label for="configMultiplicadorPesoForca">Multiplicadores de peso força</label>
-									<input type="text" class="form-control" ng-model="ficha.configMultiplicadorPesoForca" ng-change="" id="configMultiplicadorPesoForca">
-								</div>
-								<div class="input-configuracao">
-									<label for="configIntervaloForca">Intervalos de bonus força</label>
-									<input type="text" class="form-control" ng-model="ficha.configIntervaloForca" ng-change="" id="configIntervaloForca">
-								</div>
-								<div class="input-configuracao">
-									<label for="configMultiplicadorForca">Multiplicadores de bonus força</label>
-									<input type="text" class="form-control" ng-model="ficha.configMultiplicadorForca" ng-change="" id="configMultiplicadorForca">
-								</div>
-								<div class="input-configuracao">
-									<label for="configIntervaloDestreza">Intervalos de bonus destreza</label>
-									<input type="text" class="form-control" ng-model="ficha.configIntervaloDestreza" ng-change="" id="configIntervaloDestreza">
-								</div>
-								<div class="input-configuracao">
-									<label for="configMultiplicadorDestreza">Multiplicadores de bonus destreza</label>
-									<input type="text" class="form-control" ng-model="ficha.configMultiplicadorDestreza" ng-change="" id="configMultiplicadorDestreza">
-								</div>
-								<div class="input-configuracao">
-									<label for="configIntervaloMental">Intervalos de bonus mental</label>
-									<input type="text" class="form-control" ng-model="ficha.configIntervaloMental" ng-change="" id="configIntervaloMental">
-								</div>
-								<div class="input-configuracao">
-									<label for="configMultiplicadorMental">Multiplicadores de bonus mental</label>
-									<input type="text" class="form-control" ng-model="ficha.configMultiplicadorMental" ng-change="" id="configMultiplicadorMental">
-								</div>
-								<div class="input-configuracao">
-									<label for="configMovimentacaoBase">Base de movimentação</label>
-									<input type="text" class="form-control" ng-model="ficha.configMovimentacaoBase" ng-change="" id="configMovimentacaoBase">
+								<div ng-form name="formConfiguracao">
+									<div class="input-configuracao">
+										<label for="configNome">Nome da configuração</label>
+										<input name="nome" type="text" class="form-control {{formConfiguracao.nome.$invalid?'is-invalid':''}}" ng-model="ficha.configNome" ng-change="" id="configNome" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configVidaBase">Vida base</label>
+										<input name="vidaBase" type="text" class="form-control {{formConfiguracao.vidaBase.$invalid?'is-invalid':''}}" ng-model="ficha.configVidaBase" ng-change="" id="configVidaBase" pattern="{{ficha.validacao}}" required>
+									</div>								
+									<div class="input-configuracao">
+										<label for="configVidaNivel">Vida por nível</label>
+										<input name="vidaNivel" type="text" class="form-control {{formConfiguracao.vidaNivel.$invalid?'is-invalid':''}}" ng-model="ficha.configVidaNivel" ng-change="" id="configVidaNivel" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configVidaDeterminacao">Vida por determinação</label>
+										<input name="vidaDeterminacao" type="text" class="form-control {{formConfiguracao.vidaDeterminacao.$invalid?'is-invalid':''}}" ng-model="ficha.configVidaDeterminacao" ng-change="" id="configVidaDeterminacao" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configIntervaloVigor">Intervalos de vigor</label>
+										<input name="intervaloVigor" type="text" class="form-control {{formConfiguracao.intervaloVigor.$invalid?'is-invalid':''}}" ng-model="ficha.configIntervaloVigor" ng-change="" id="configIntervaloVigor" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configMultiplicadorVigor">Multiplicadores de vigor</label>
+										<input name="multiplicadorVigor" type="text" class="form-control {{formConfiguracao.multiplicadorVigor.$invalid?'is-invalid':''}}" ng-model="ficha.configMultiplicadorVigor" ng-change="" id="configMultiplicadorVigor" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configIntervaloPesoDeterminacao">Intervalos de peso determinação</label>
+										<input name="intervaloPesoDeterminacao" type="text" class="form-control {{formConfiguracao.intervaloPesoDeterminacao.$invalid?'is-invalid':''}}" ng-model="ficha.configIntervaloPesoDeterminacao" ng-change="" id="configIntervaloPesoDeterminacao" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configMultiplicadorPesoDeterminacao">Multiplicadores de peso determinação</label>
+										<input name="multiplicadorPesoDeterminacao" type="text" class="form-control {{formConfiguracao.multiplicadorPesoDeterminacao.$invalid?'is-invalid':''}}" ng-model="ficha.configMultiplicadorPesoDeterminacao" ng-change="" id="configMultiplicadorPesoDeterminacao" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configIntervaloPesoForca">Intervalos de peso força</label>
+										<input name="intervaloPesoForca" type="text" class="form-control {{formConfiguracao.intervaloPesoForca.$invalid?'is-invalid':''}}" ng-model="ficha.configIntervaloPesoForca" ng-change="" id="configIntervaloPesoForca" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configMultiplicadorPesoForca">Multiplicadores de peso força</label>
+										<input name="multiplicadorPesoForca" type="text" class="form-control {{formConfiguracao.multiplicadorPesoForca.$invalid?'is-invalid':''}}" ng-model="ficha.configMultiplicadorPesoForca" ng-change="" id="configMultiplicadorPesoForca" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configIntervaloForca">Intervalos de bonus força</label>
+										<input name="intervaloForca" type="text" class="form-control {{formConfiguracao.intervaloForca.$invalid?'is-invalid':''}}" ng-model="ficha.configIntervaloForca" ng-change="" id="configIntervaloForca" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configMultiplicadorForca">Multiplicadores de bonus força</label>
+										<input name="multiplicadorForca" type="text" class="form-control {{formConfiguracao.multiplicadorForca.$invalid?'is-invalid':''}}" ng-model="ficha.configMultiplicadorForca" ng-change="" id="configMultiplicadorForca" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configIntervaloDestreza">Intervalos de bonus destreza</label>
+										<input name="intervaloDestreza" type="text" class="form-control {{formConfiguracao.intervaloDestreza.$invalid?'is-invalid':''}}" ng-model="ficha.configIntervaloDestreza" ng-change="" id="configIntervaloDestreza" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configMultiplicadorDestreza">Multiplicadores de bonus destreza</label>
+										<input name="multiplicadorDestreza" type="text" class="form-control {{formConfiguracao.multiplicadorDestreza.$invalid?'is-invalid':''}}" ng-model="ficha.configMultiplicadorDestreza" ng-change="" id="configMultiplicadorDestreza" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configIntervaloMental">Intervalos de bonus mental</label>
+										<input name="intervaloMental" type="text" class="form-control {{formConfiguracao.intervaloMental.$invalid?'is-invalid':''}}" ng-model="ficha.configIntervaloMental" ng-change="" id="configIntervaloMental" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configMultiplicadorMental">Multiplicadores de bonus mental</label>
+										<input name="multiplicadorMental" type="text" class="form-control {{formConfiguracao.multiplicadorMental.$invalid?'is-invalid':''}}" ng-model="ficha.configMultiplicadorMental" ng-change="" id="configMultiplicadorMental" pattern="{{ficha.validacao}}" required>
+									</div>
+									<div class="input-configuracao">
+										<label for="configMovimentacaoBase">Base de movimentação</label>
+										<input name="movimentacaoBase" type="text" class="form-control {{formConfiguracao.movimentacaoBase.$invalid?'is-invalid':''}}" ng-model="ficha.configMovimentacaoBase" ng-change="" id="configMovimentacaoBase" pattern="{{ficha.validacao}}" required>
+									</div>
 								</div>
 							</div>
 							<div class="alert alert-warning">
@@ -180,8 +182,8 @@
 								Ao exportar uma configuração, ela será salva e atualizada na ficha.</small>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default btn-md" data-dismiss="modal" ng-click="ficha.salvaConfiguracoes()">Salvar</button>
-								<button type="button" class="btn btn-default btn-md" data-dismiss="modal">Cancelar</button>
+								<button type="button" class="btn btn-default btn-md" data-dismiss="modal" ng-click="ficha.salvaConfiguracoes()" ng-disabled="formConfiguracao.$invalid">Salvar</button>
+								<button type="button" class="btn btn-default btn-md" data-dismiss="modal" ng-click="ficha.atualizaValores()">Cancelar</button>
 							</div>
 						</div>
 					</div>

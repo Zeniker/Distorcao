@@ -28,6 +28,7 @@ function fichaController(calculaBonus) {
 	vm.attDestreza=0;
 	vm.attMental=0;
 	vm.msgErro = null;
+	vm.validacao = '^[+0-9.,]+$';
 	//vm.infoConfigCarregada = 'Configurações padrões';	
 
 	configuracao = {
