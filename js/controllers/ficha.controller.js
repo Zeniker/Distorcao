@@ -2,7 +2,7 @@ angular
 	.module('distorcao')
 	.controller('fichaController', fichaController);
 
-function fichaController(calculaBonus) {
+function fichaController(calculaBonus, configuracaoPadrao, exportaJson) {
 	var vm = this;
 	
 	//Funções
@@ -29,49 +29,14 @@ function fichaController(calculaBonus) {
 	vm.attMental=0;
 	vm.msgErro = null;
 	vm.validacao = '^[+0-9.,]+$';
-	//vm.infoConfigCarregada = 'Configurações padrões';	
 
-	configuracao = {
-		nomeConfiguracao:"Padrão",
-		vidaBase:400,
-		pesoBase:40,
-		vidaPorNivel:5,
-		vidaPorDeterminacao:5,
-		intervaloVigor:[15, 25, 40],
-		multiplicadorVigor:[15, 20, 15, 10],
-		intervaloPesoDeterminacao:[20, 40],
-		multiplicadorPesoDeterminacao:[1.5, 1.25, 1],
-		intervaloPesoForca:[40],
-		multiplicadorPesoForca:[0.3, 0.1],
-		intervaloForca:[40],
-		multiplicadorForca:[2.5, 1],
-		intervaloDestreza:[40],
-		multiplicadorDestreza:[2.5, 1],
-		intervaloMental:[10, 30, 50, 65],
-		multiplicadorMental:[1, 2.5, 3, 2.5, 1.5],
-		movimentacaoBase:2
-	};
-
+	//Configuração padrão, vinda do service
+	configuracao = configuracaoPadrao;
+	
 	//Implementação de funções
 	function inicializaFicha(){		
 		atualizaValores();
 	}	
-
-	/*function calcBonus(intervalo, multiplicador, attr){
-		total = 0;
-		intervAtual = intervalo[0];
-		for (i = 0, tam = intervalo.length; i < tam; i++) {
-			if(attr <= intervAtual){
-				total += attr * multiplicador[i];
-				return(total);
-			}
-			attr -= intervAtual;
-			total += intervAtual * multiplicador[i];
-			if(intervalo[i+1] === undefined) break;
-			intervAtual = intervalo[i+1] - intervalo[i];
-		}
-		return(total + (attr * multiplicador[i + 1]));
-	}*/
 
 	//Calculo de vida
 	function calcVida(){
@@ -147,7 +112,7 @@ function fichaController(calculaBonus) {
 
 	function exportaConfiguracoes(){
 		salvaConfiguracoes();
-		exportaJson(configuracao, vm.configNome+".json");
+		exportaJson.eventoExport(configuracao, vm.configNome+".json");
 	}
 
 	//Função para atualizar configurações	
@@ -169,7 +134,6 @@ function fichaController(calculaBonus) {
 		configuracao.intervaloMental = converteString(vm.configIntervaloMental.toString());
 		configuracao.multiplicadorMental = converteString(vm.configMultiplicadorMental.toString());
 		configuracao.movimentacaoBase = vm.configMovimentacaoBase * 1;
-		//vm.infoConfigCarregada = 'Configurações personalizadas';
 	}
 
 	//Pega arquivo .json e carrega ele no site
@@ -178,38 +142,4 @@ function fichaController(calculaBonus) {
 		vm.atualizaValores();
 	}
 
-	//Exporta para o computador um objeto
-	//Fonte: https://stackoverflow.com/questions/30443238/save-json-to-file-in-angularjs
-	function exportaJson(data, filename){
-		  if (!data) {
-			console.error('No data');
-			return(0);
-		  }
-		
-		  if (!filename) {
-			filename = 'download.json';
-		  }
-		
-		  if (typeof data === 'object') {
-			data = JSON.stringify(data, undefined, 2);
-		  }
-		
-		  var blob = new Blob([data], {type: 'text/json'});
-		
-		  // FOR IE:
-		  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-			  window.navigator.msSaveOrOpenBlob(blob, filename);
-		  }
-		  else{
-			  var e = document.createEvent('MouseEvents'),
-				  a = document.createElement('a');
-		
-			  a.download = filename;
-			  a.href = window.URL.createObjectURL(blob);
-			  a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
-			  e.initEvent('click', true, false, window,
-				  0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			  a.dispatchEvent(e);
-		  }
-		};
 }
