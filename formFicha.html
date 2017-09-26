@@ -18,6 +18,8 @@
 		<script src="js/controllers/ficha.controller.js"></script>
 		<script src="js/directives.js"></script>
 		<script src="js/services/calculabonus.service.js"></script>
+		<script src="js/services/configuracaopadrao.service.js"></script>
+		<script src="js/services/exportajson.service.js"></script>
 	</head>
 	<body>
 		<div ng-controller="fichaController as ficha" ng-init="ficha.inicializaFicha()">
@@ -100,7 +102,7 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<h4 class="modal-title">Configurações</h4>
-								<button type="button" class="btn btn-primary" ng-click="ficha.exportaConfiguracoes()">
+								<button type="button" class="btn btn-primary" ng-click="ficha.exportaConfiguracoes()" ng-disabled="formConfiguracao.$invalid">
 									Exportar configuração
 								</button>
 							</div>
