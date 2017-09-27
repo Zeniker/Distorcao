@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html ng-app="distorcao">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+		<title>Distorção - Calculador de armas</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		
+		<!-- Scripts -->
+		<script src="lib/angular/angular.min.js"></script>
+		<script src="lib/jquery/jquery-3.2.1.min.js"></script>
+		<script src="lib/popper/popper.min.js"></script>
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/distorcao.js"></script>		
+		<script src="js/controllers/arma.controller.js"></script>
+		<script src="js/directives.js"></script>
+		<script src="js/services/calculabonus.service.js"></script>
+		<script src="js/services/configuracaopadrao.service.js"></script>
+		<script src="js/services/exportajson.service.js"></script>
+	</head>
+	<body>
+		<div ng-controller="armaController as arma" ng-init="arma.inicializaFicha()">
+            <div class="cabecalho">
+                <nav class="navbar navbar-toggleable-md">
+                    <a href="Index.html" class="navbar-brand btn-arrow-left"><h2>🔙</h2></a>
+                </nav>
+                <h1>Arma Distorção</h1>			
+            </div>
+            <div class="container">
+                <h5>Atributos de personagem</h5>
+                <div class="input-group">
+                    <span class="input-group-addon">Força</span>
+                    <input type="number" class="form-control" ng-model="" min="0" ng-change="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Destreza</span>
+                    <input type="number" class="form-control" ng-model="" min="0" ng-change="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Mental</span>
+                    <input type="number" class="form-control" ng-model="" min="0" ng-change="">
+                </div>
+                <h5>Dados do equipamento</h5>
+                <div class="input-group">
+                    <span class="input-group-addon">Dano base</span>
+                    <input type="number" class="form-control" ng-model="" min="0" ng-change="">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Escalamento de força</span>
+                    <select class="form-control">
+                        <option value="200">S+</option>
+                        <option value="175">S</option>
+                        <option value="150">S-</option>
+                        <option value="125">A+</option>
+                        <option value="100">A</option>
+                        <option value="75">A-</option>
+                        <option value="50">B+</option>
+                        <option value="25">B</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Escalamento de destreza</span>
+                    <select class="form-control">
+                        <option value="200">S+</option>
+                        <option value="175">S</option>
+                        <option value="150">S-</option>
+                        <option value="125">A+</option>
+                        <option value="100">A</option>
+                        <option value="75">A-</option>
+                        <option value="50">B+</option>
+                        <option value="25">B</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Escalamento de mental</span>
+                    <select class="form-control">
+                        <option value="200">S+</option>
+                        <option value="175">S</option>
+                        <option value="150">S-</option>
+                        <option value="125">A+</option>
+                        <option value="100">A</option>
+                        <option value="75">A-</option>
+                        <option value="50">B+</option>
+                        <option value="25">B</option>
+                    </select>
+                </div>
+                <h5>Resultado</h5>
+                Dano total: 999 <button class="btn btn-dark btn-sm" data-toggle="collapse" data-target="#detalheDado">+</button>
+                <div class="collapse" id="detalheDado">
+                    <div class="card card-body">
+                        <div>
+                            Dano detalhado: 999 (
+                            <span class="badge badge-secondary">333</span>
+                            <span class="badge badge-danger">+333</span>
+                            <span class="badge badge-success">0</span>
+                            <span class="badge badge-info">+333</span>
+                            )
+                        </div>
+                        <b>Ou</b>
+                        <div>
+                            Dano detalhado:<b> 999 (
+                            <span class="text-secondary">333</span>
+                            <span class="text-danger">+ 333</span>
+                            <span class="text-success">+ 0</span>
+                            <span class="text-info">+ 333</span>
+                            )
+                            </b>
+                        </div>
+                        -----------
+                        <span class="text-danger">Bonus por força (40): 333<br></span>
+                        <span class="text-success">Bonus por destreza (0): 0<br></span>
+                        <span class="text-info"> Bonus por mental (20): 333<br></span>
+                        <b>Ou</b>
+                        <span class="bg-danger">Bonus por força (40): 333<br></span>
+                        <span class="bg-success">Bonus por destreza (0): 0<br></span>
+                        <span class="bg-info"> Bonus por mental (20): 333<br></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
