@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html ng-app="distorcao">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+		<title>Distorção - Calculador de ficha</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		
+		<!-- Scripts -->
+		<script src="lib/angular/angular.min.js"></script>
+		<script src="lib/jquery/jquery-3.2.1.min.js"></script>
+		<script src="lib/popper/popper.min.js"></script>
+		<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/distorcao.js"></script>		
+		<script src="js/controllers/acao.controller.js"></script>
+		<script src="js/directives.js"></script>				
+		<script src="js/services/exportajson.service.js"></script>
+	</head>
+	<body>
+		<div ng-controller="acaoController as acao">
+			<div class="cabecalho">
+				<nav class="navbar navbar-toggleable-md">
+					<a href="Index.html" class="navbar-brand btn-arrow-left"><h2>🔙</h2></a>
+				</nav>
+				<h1>Ações</h1>				
+            </div>
+
+            <div class="opcoes">                
+                <div class="input-file-acoes">
+                    <label for="carrega-acao">Carregar Ações</label>
+                    <input type="file" class="form-control" id="carrega-acao" accept=".json" ng-json-select="acao.importaJson(contents)">
+                </div>
+                <button class="btn btn-success" data-toggle="modal" data-target="#modalCadastro">+</button>
+                <button class="btn btn-primary" ng-click="acao.exportaCadastro()">Exportar</button>
+            </div>
+            
+            <div class="tabela-acao table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th class="col-xs-4">Nome</th>
+                            <th class="col-xs-4">Início</th>
+                            <th class="col-xs-4">Meio</th>                            
+                        </tr>                    
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in acao.acoes">
+                            <td>
+                                {{item.nome}}
+                            </td>
+                            <td>
+                                {{item.inicio}}
+                                <button class="btn btn-dark" ng-click="acao.testeCalculo(item.inicio)">Teste Inicio</button>
+                            </td>
+                            <td>
+                                {{item.meio}}
+                                <button class="btn btn-dark" ng-click="acao.testeCalculo(item.meio)">Teste meio</button>
+                            </td>                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
+            
+            <div id="modalCadastro" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Manutenção</h4>                            
+                        </div>
+                        <div class="modal-body">
+                            <label for="acaoNome">Nome</label>
+                            <input name="acaoNome" type="text" class="form-control {{formConfiguracao.nome.$invalid?'is-invalid':''}}" 
+                                ng-model="acao.tempNome" ng-change="" id="acaoNome" required>
+
+                            <label for="acaoInicio">Início</label>
+                            <input name="acaoInicio" type="text" class="form-control {{formConfiguracao.nome.$invalid?'is-invalid':''}}" 
+                                    ng-model="acao.tempInicio" ng-change="" id="acaoInicio" required>
+                            
+                            <label for="acaoMeio">Meio</label>
+                            <input name="acaoMeio" type="text" class="form-control {{formConfiguracao.nome.$invalid?'is-invalid':''}}" 
+                                ng-model="acao.tempMeio" ng-change="" id="acaoMeio" required>                            
+                        </div>
+                        <div class="alert alert-warning">
+                            <small><strong>Aviso:</strong><br>
+                            Todo "init" será substituido pela inicialização base.
+                            Deverão ser utilizadas expressões matemáticas válidas.
+                        </div>                      
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-md" data-dismiss="modal" ng-click="acao.salvaCadastro()" ng-disabled="formConfiguracao.$invalid">Salvar</button>
+                            <button type="button" class="btn btn-default btn-md" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</body>
+</html>

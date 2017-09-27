@@ -6,9 +6,13 @@
 	text-align: center;
 }
 
-.input-file-configuracao{
-	padding-left: 50px;
+.input-file-configuracao .form-control,
+.input-file-acoes {	
 	width: 450px;
+}
+
+.input-file-configuracao{
+	padding-left: 5%;
 }
 
 .secao-config{
@@ -20,9 +24,16 @@
 
 .secao-ficha{
 	width: 50%;
-	float: left;
+	float: left;	
 	padding-left: 5%;
 	padding-right: 5%;
+}
+
+.tabela-acao{
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	margin-top: 1%;
 }
 
 .inputs-ficha .input-group{
@@ -59,6 +70,10 @@
 	font-size: 0.80em;
 	max-width: 100%;
 	word-wrap: break-word;
+}
+
+.opcoes{
+	margin-left: 5%;	
 }
 
 /*parte mobile*/
