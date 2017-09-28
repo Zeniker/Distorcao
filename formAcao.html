@@ -33,7 +33,7 @@
                     <label for="carrega-acao">Carregar Ações</label>
                     <input type="file" class="form-control" id="carrega-acao" accept=".json" ng-json-select="acao.importaJson(contents)">
                 </div>
-                <button class="btn btn-success" data-toggle="modal" data-target="#modalCadastro">+</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#modalCadastro" ng-click="acao.novaAcao()">+</button>
                 <button class="btn btn-primary" ng-click="acao.exportaCadastro()">Exportar</button>
             </div>
             
@@ -41,9 +41,11 @@
                 <table class="table table-striped">
                     <thead class="thead-inverse">
                         <tr>
-                            <th class="col-xs-4">Nome</th>
-                            <th class="col-xs-4">Início</th>
-                            <th class="col-xs-4">Meio</th>                            
+                            <th class="col-xs-3">Nome</th>
+                            <th class="col-xs-3">Início</th>
+                            <th class="col-xs-4">Meio</th>
+                            <th class="col-xs-1">Alterar</th>
+                            <th class="col-xs-1">Excluir</th>
                         </tr>                    
                     </thead>
                     <tbody>
@@ -53,12 +55,18 @@
                             </td>
                             <td>
                                 {{item.inicio}}
-                                <button class="btn btn-dark" ng-click="acao.testeCalculo(item.inicio)">Teste Inicio</button>
+                                <!--<button class="btn btn-dark" ng-click="acao.testeCalculo(item.inicio)">Teste Inicio</button>-->
                             </td>
                             <td>
                                 {{item.meio}}
-                                <button class="btn btn-dark" ng-click="acao.testeCalculo(item.meio)">Teste meio</button>
-                            </td>                            
+                                <!--<button class="btn btn-dark" ng-click="acao.testeCalculo(item.meio)">Teste meio</button>-->
+                            </td>    
+                            <td>
+                                <button class="btn btn-dark" ng-click="acao.alteraAcao($index)" data-toggle="modal" data-target="#modalCadastro">Alterar</button>                                
+                            </td>
+                            <td>                                
+                                <button class="btn btn-dark" ng-click="acao.excluiAcao($index)">Excluir</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

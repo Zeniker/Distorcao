@@ -13,21 +13,35 @@
         vm.tempNome = "";
         vm.tempInicio = "";
         vm.tempMeio = "";
+
+        var indiceAlterando = -1;
         
         //Funções
         vm.salvaCadastro = salvaCadastro;
         vm.exportaCadastro = exportaCadastro;
         vm.importaJson = importaJson;     
-        vm.testeCalculo = testeCalculo;           
+        vm.testeCalculo = testeCalculo;       
+        vm.alteraAcao = alteraAcao;    
+        vm.novaAcao = novaAcao;
+        vm.excluiAcao = excluiAcao;
 
+        //Implementação
         function salvaCadastro(){
-            var acao = {
-                nome: vm.tempNome,
-                inicio: vm.tempInicio,
-                meio: vm.tempMeio
-            }
+            if(indiceAlterando > -1){
+                vm.acoes[indiceAlterando].nome = vm.tempNome;
+                vm.acoes[indiceAlterando].inicio = vm.tempInicio;
+                vm.acoes[indiceAlterando].meio = vm.tempMeio;
 
-            vm.acoes.push(acao);            
+                indiceAlterando = -1;
+            }else{
+                var acao = {
+                    nome: vm.tempNome,
+                    inicio: vm.tempInicio,
+                    meio: vm.tempMeio
+                }
+    
+                vm.acoes.push(acao);
+            }            
         }
 
         function exportaCadastro(){
@@ -36,6 +50,24 @@
 
         function importaJson(contents){            
             vm.acoes = angular.fromJson(contents);            
+        }
+
+        function alteraAcao(indice){
+            indiceAlterando = indice;
+            vm.tempNome = vm.acoes[indice].nome;
+            vm.tempInicio = vm.acoes[indice].inicio;
+            vm.tempMeio = vm.acoes[indice].meio;
+        }
+
+        function novaAcao(){
+            indiceAlterando = -1;
+            vm.tempInicio = "";
+            vm.tempMeio = "";
+            vm.tempNome = "";
+        }
+
+        function excluiAcao(indice){
+            vm.acoes.splice(indice);
         }
 
         function testeCalculo(expressao){
