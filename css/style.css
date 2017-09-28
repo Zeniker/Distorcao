@@ -29,6 +29,11 @@
 	padding-right: 5%;
 }
 
+#resultadosArma .alert{
+	display: block;
+	float:left;
+}
+
 .tabela-acao{
 	margin-left: 5%;
 	margin-right: 5%;
