@@ -39,7 +39,7 @@
 			<input type="text" class="form-control" ng-model="simulador.nomeCombatente" placeholder="Informe um novo combatente">
 			<button type="button" class="btn btn-success btn-sm input-group-addon" ng-click="simulador.novoCombatente()">+</button>
 		</div>
-		<div class="card-group">
+		<div class="card-deck">
 			<div class="card" ng-repeat="combatente in simulador.combatenteSimulador">
 				<div class="card-body">
 					<h6 class="card-title">{{combatente.nome}}</h6>
@@ -53,14 +53,24 @@
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Ação</span>
-						<select class="form-control" ng-options="simulador.acoes.indexOf(acao) as acao.nome for acao in simulador.acoes" ng-model="combatente.acao"
-						    ng-change="simulador.teste()">
+						<select class="form-control" ng-options="simulador.acoes.indexOf(acao) as acao.nome for acao in simulador.acoes" ng-model="combatente.acao">
 						</select>
 					</div>
 					<button type="button" class="btn btn-danger btn-sm" ng-click="simulador.removeCombatente($index)">-</button>
 				</div>
 			</div>
 		</div>
+		<button class="btn btn-info" ng-click="simulador.iniciaCombate()">Pronto</button>
+		<div class="container">
+			<div class="progress">
+				<div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{simulador.posicaoTurno}}%" 
+					aria-valuenow="{{simulador.posicaoTurno}}" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+
+			<label for="logCombate">Log do combate</label>
+			<textarea class="form-control" id="logCombate" rows="3">{{simulador.logCombate}}</textarea>
+		</div>
+		
 	</div>
 </body>
 
