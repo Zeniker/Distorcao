@@ -8,20 +8,18 @@ function simuladorController() {
     //Funções
     vm.novoCombatente = novoCombatente;
     vm.removeCombatente = removeCombatente;
+    vm.importaAcoes = importaAcoes;
+    vm.teste = teste;
 
     //Variáveis
     vm.combatenteSimulador = {};
-    vm.combatenteSimulador[0] = {
-        nome: "Combatente 1",
-        inicializacao: 0,
-        acao: 0
-    }
+    vm.acoes = [];
 
-    function novoCombatente(){
-        if(Object.keys(vm.combatenteSimulador).length > 0){
+    function novoCombatente() {
+        if (Object.keys(vm.combatenteSimulador).length > 0) {
             ultimaKey = Object.keys(vm.combatenteSimulador);
-            ultimaKey = +ultimaKey[ultimaKey.length-1];
-        }else{
+            ultimaKey = +ultimaKey[ultimaKey.length - 1];
+        } else {
             ultimaKey = -1;
         }
         vm.combatenteSimulador[ultimaKey + 1] = {
@@ -32,9 +30,18 @@ function simuladorController() {
         vm.nomeCombatente = "";
     }
 
-    function removeCombatente(index){
+    function removeCombatente(index) {
         key = Object.keys(vm.combatenteSimulador);
         delete vm.combatenteSimulador[key[index]];
+    }
+
+    function importaAcoes(contents) {
+        vm.acoes = angular.fromJson(contents);
+        console.log(vm.acoes);
+    }
+
+    function teste() {
+        console.log(vm.combatenteSimulador);
     }
 
 }

@@ -29,24 +29,36 @@
 				</a>
 			</nav>
 			<h1></h1>
+			<div class="input-file-configuracao">
+				<label for="configuracao-acao">Ações</label>
+				<input type="file" class="form-control" id="configuracao-acao" accept=".json" ng-json-select="simulador.importaAcoes(contents)">
+			</div>
 		</div>
 		<div class="input-group">
 			<span class="input-group-addon">Novo combatente</span>
 			<input type="text" class="form-control" ng-model="simulador.nomeCombatente" placeholder="Informe um novo combatente">
 			<button type="button" class="btn btn-success btn-sm input-group-addon" ng-click="simulador.novoCombatente()">+</button>
 		</div>
-		<div class="card" ng-repeat="combatente in simulador.combatenteSimulador">
-			<div class="card-body">
-				<h6 class="card-title">{{combatente.nome}}</h6>
-				<div class="input-group">
-					<span class="input-group-addon">Nome</span>
-					<input type="text" class="form-control" ng-model="combatente.nome">
+		<div class="card-group">
+			<div class="card" ng-repeat="combatente in simulador.combatenteSimulador">
+				<div class="card-body">
+					<h6 class="card-title">{{combatente.nome}}</h6>
+					<div class="input-group">
+						<span class="input-group-addon">Nome</span>
+						<input type="text" class="form-control" ng-model="combatente.nome">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Inicialização</span>
+						<input type="number" class="form-control" ng-model="combatente.inicializacao" min="0">
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Ação</span>
+						<select class="form-control" ng-options="simulador.acoes.indexOf(acao) as acao.nome for acao in simulador.acoes" ng-model="combatente.acao"
+						    ng-change="simulador.teste()">
+						</select>
+					</div>
+					<button type="button" class="btn btn-danger btn-sm" ng-click="simulador.removeCombatente($index)">-</button>
 				</div>
-				<div class="input-group">
-					<span class="input-group-addon">Inicialização</span>
-					<input type="number" class="form-control" ng-model="combatente.inicializacao" min="0">
-				</div>
-				<button type="button" class="btn btn-danger btn-sm" ng-click="simulador.removeCombatente($index)">-</button>
 			</div>
 		</div>
 	</div>
