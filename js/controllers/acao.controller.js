@@ -67,7 +67,7 @@
         }
 
         function excluiAcao(indice){
-            vm.acoes.splice(indice);
+            vm.acoes.splice(indice, 1);
         }
 
         function testeCalculo(expressao){
