@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="distorcao">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+	<title>Distorção - Simulador</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Scripts -->
+	<script src="lib/angular/angular.min.js"></script>
+	<script src="lib/jquery/jquery-3.2.1.min.js"></script>
+	<script src="lib/popper/popper.min.js"></script>
+	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/distorcao.js"></script>
+	<script src="js/controllers/simulador.controller.js"></script>
+	<script src="js/directives.js"></script>
+</head>
+
+<body>
+	<div ng-controller="simuladorController as simulador">
+		<div class="cabecalho">
+			<nav class="navbar navbar-toggleable-md">
+				<a href="Index.html" class="navbar-brand btn-arrow-left">
+					<h2>🔙</h2>
+				</a>
+			</nav>
+			<h1></h1>
+		</div>
+		<div class="input-group">
+			<span class="input-group-addon">Novo combatente</span>
+			<input type="text" class="form-control" ng-model="simulador.nomeCombatente" placeholder="Informe um novo combatente">
+			<button type="button" class="btn btn-success btn-sm input-group-addon" ng-click="simulador.novoCombatente()">+</button>
+		</div>
+		<div class="card" ng-repeat="combatente in simulador.combatenteSimulador">
+			<div class="card-body">
+				<h6 class="card-title">{{combatente.nome}}</h6>
+				<div class="input-group">
+					<span class="input-group-addon">Nome</span>
+					<input type="text" class="form-control" ng-model="combatente.nome">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Inicialização</span>
+					<input type="number" class="form-control" ng-model="combatente.inicializacao" min="0">
+				</div>
+				<button type="button" class="btn btn-danger btn-sm" ng-click="simulador.removeCombatente($index)">-</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
