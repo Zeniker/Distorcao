@@ -10,14 +10,18 @@ function simuladorController() {
     vm.removeCombatente = removeCombatente;
     vm.importaAcoes = importaAcoes;
     vm.teste = teste;
-    vm.iniciaCombate = iniciaCombate;
+    vm.iniciaCombate = iniciaCombate;    
+    vm.novoTurno = novoTurno;
 
     //Variáveis
     vm.combatenteSimulador = {};
     vm.acoes = [];
-    vm.posicaoTurno = 5;
+    vm.posicaoTurno = 0;
+    vm.posicaoTurnoPercentual = 0;
     vm.logCombate = "";
-    vm.atividadeTurno = [];
+    vm.atividadesTurno = [];
+    iniciouTurno = false;
+    chaveCombatenteNovaAcao = 0;
 
     function novoCombatente() {
         if (Object.keys(vm.combatenteSimulador).length > 0) {
@@ -29,7 +33,8 @@ function simuladorController() {
         vm.combatenteSimulador[ultimaKey + 1] = {
             nome: vm.nomeCombatente,
             inicializacao: 0,
-            acao: 0
+            acao: 0,
+            desabilitado: false
         }
         vm.nomeCombatente = "";
     }
@@ -48,43 +53,77 @@ function simuladorController() {
         console.log(vm.combatenteSimulador);
     }
 
-    function calculaPosicaoTurno(valor){
-        vm.posicaoTurno = (valor * 100) / 150;
+    function calculaposicaoTurnoPercentual(valor){
+        vm.posicaoTurno = valor;
+        vm.posicaoTurnoPercentual = (valor * 100) / 150;
     }
 
-    function iniciaCombate(){        
-        Object.keys(vm.combatenteSimulador).forEach(percorreCombatentes);
+    function comparaAtividades(a, b){
+        if(a.inicializacaoAtividade < b.inicializacaoAtividade){
+            return -1
+        }
         
-        vm.atividadeTurno.forEach(percorreAtividades);
-    }
-
-    function percorreAtividades(atividade){
-        texto = vm.combatenteSimulador[atividade.chaveCombatente].nome;
-
-        switch(atividade.tipo){
-            case 0: texto += " iniciou"
-                break;
-            
-            case 1: texto += " está no meio de"
-                break;
-            
-            case 2: texto += " finalizou"
-                break;
+        if(a.inicializacaoAtividade > b.inicializacaoAtividade){
+            return 1;
         }
 
-        texto += " " + vm.acoes[atividade.chaveAcao].nome + "(" + atividade.inicializacaoAtividade.toString() + ").\n";
-
-        vm.logCombate += texto;
-
-        console.log(atividade);
+        return 0;
     }
 
-    function percorreCombatentes(key){
+    function iniciaCombate(){     
+        if(!iniciouTurno){
+            Object.keys(vm.combatenteSimulador).forEach(adicionaAcoesCombatente);
+            iniciouTurno = true;
+        }else{
+            adicionaAcoesCombatente(chaveCombatenteNovaAcao);
+        }
+        
+
+        vm.atividadesTurno.sort(comparaAtividades);
+        
+        percorreAtividades();
+    }
+
+    function percorreAtividades(){        
+        var continuar = true;
+
+        while(continuar && vm.atividadesTurno.length > 0){
+            atividade = vm.atividadesTurno[0];
+
+            texto = vm.combatenteSimulador[atividade.chaveCombatente].nome;
+
+            switch(atividade.tipo){
+                case 0: texto += " iniciou"
+                    break;
+                
+                case 1: texto += " está no meio de"
+                    break;
+                
+                case 2: 
+                    texto += " finalizou"
+                    continuar = false;
+                    vm.combatenteSimulador[atividade.chaveCombatente].desabilitado = false;
+                    chaveCombatenteNovaAcao = atividade.chaveCombatente;
+
+                    break;
+            }
+
+            texto += " " + vm.acoes[atividade.chaveAcao].nome + "(" + atividade.inicializacaoAtividade.toString() + ").\n";
+
+            vm.logCombate += texto;        
+
+            calculaposicaoTurnoPercentual(atividade.inicializacaoAtividade);
+            
+            vm.atividadesTurno.splice(0, 1);
+        }        
+    }
+
+    function adicionaAcoesCombatente(key){
         acao = vm.acoes[vm.combatenteSimulador[key].acao];
 
         novaAtividade(key, 
             0, 
-            substituiInitECalculaAcao(
+            vm.posicaoTurno + substituiInitECalculaAcao(
                 acao.inicio, 
                 vm.combatenteSimulador[key].inicializacao),
             vm.combatenteSimulador[key].acao
@@ -92,7 +131,7 @@ function simuladorController() {
 
         novaAtividade(key, 
             1, 
-            substituiInitECalculaAcao(
+            vm.posicaoTurno + substituiInitECalculaAcao(
                 acao.meio, 
                 vm.combatenteSimulador[key].inicializacao),
             vm.combatenteSimulador[key].acao
@@ -100,9 +139,11 @@ function simuladorController() {
 
         novaAtividade(key, 
             2, 
-            vm.combatenteSimulador[key].inicializacao,
+            vm.posicaoTurno + vm.combatenteSimulador[key].inicializacao,
             vm.combatenteSimulador[key].acao
         );
+
+        vm.combatenteSimulador[key].desabilitado = true;
         
     }
 
@@ -114,7 +155,7 @@ function simuladorController() {
             chaveAcao: chaveAcao
         }
 
-        vm.atividadeTurno.push(atividade);
+        vm.atividadesTurno.push(atividade);
     }
 
     function substituiInitECalculaAcao(expressao, valor){
@@ -124,5 +165,18 @@ function simuladorController() {
         
         return Math.floor(eval(expressao));
     }    
+
+    function novoTurno(){
+        vm.logCombate += '===============================================================\n';
+        Object.keys(vm.combatenteSimulador).forEach(habilitaCombatentes);
+    }
+
+    function habilitaCombatentes(key){
+        vm.combatenteSimulador[key].desabilitado = false;
+        
+        calculaposicaoTurnoPercentual(0);
+        
+        vm.atividadesTurno = [];
+    }
 
 }

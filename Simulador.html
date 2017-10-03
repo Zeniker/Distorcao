@@ -40,7 +40,7 @@
 			<button type="button" class="btn btn-success btn-sm input-group-addon" ng-click="simulador.novoCombatente()">+</button>
 		</div>
 		<div class="card-deck">
-			<div class="card" ng-repeat="combatente in simulador.combatenteSimulador">
+			<div class="card {{combatente.desabilitado?'cartao-desabilitado':''}}" ng-repeat="combatente in simulador.combatenteSimulador">
 				<div class="card-body">
 					<h6 class="card-title">{{combatente.nome}}</h6>
 					<div class="input-group">
@@ -61,14 +61,15 @@
 			</div>
 		</div>
 		<button class="btn btn-info" ng-click="simulador.iniciaCombate()">Pronto</button>
+		<button class="btn btn-info" ng-click="simulador.novoTurno()">Novo Turno</button>
 		<div class="container">
 			<div class="progress">
-				<div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{simulador.posicaoTurno}}%" 
-					aria-valuenow="{{simulador.posicaoTurno}}" aria-valuemin="0" aria-valuemax="100"></div>
+				<div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{simulador.posicaoTurnoPercentual}}%" 
+					aria-valuenow="{{simulador.posicaoTurnoPercentual}}" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
 
 			<label for="logCombate">Log do combate</label>
-			<textarea class="form-control" id="logCombate" rows="3" readonly>{{simulador.logCombate}}</textarea>
+			<textarea class="form-control" id="logCombate" rows="6" readonly>{{simulador.logCombate}}</textarea>
 		</div>
 		
 	</div>

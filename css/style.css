@@ -81,6 +81,11 @@
 	margin-left: 5%;	
 }
 
+.cartao-desabilitado{
+	pointer-events: none;
+    opacity: 0.4;
+}
+
 /*parte mobile*/
 @media (max-width: 768px){
 	.input-file-configuracao{
