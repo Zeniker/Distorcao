@@ -17,7 +17,7 @@
 	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/distorcao.js"></script>
 	<script src="js/controllers/simulador.controller.js"></script>
-	<script src="js/directives.js"></script>
+	<script src="js/directives/ng-json-select.js"></script>
 </head>
 
 <body>
@@ -68,7 +68,7 @@
 			</div>
 
 			<label for="logCombate">Log do combate</label>
-			<textarea class="form-control" id="logCombate" rows="3">{{simulador.logCombate}}</textarea>
+			<textarea class="form-control" id="logCombate" rows="3" readonly>{{simulador.logCombate}}</textarea>
 		</div>
 		
 	</div>
