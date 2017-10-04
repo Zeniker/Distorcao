@@ -13,6 +13,7 @@ function simuladorController() {
     vm.iniciaCombate = iniciaCombate;    
     vm.novoTurno = novoTurno;
     vm.pararMovimento = pararMovimento;
+    vm.alterarDirecao = alterarDirecao;
 
     //Variáveis
     vm.combatenteSimulador = {};
@@ -21,8 +22,8 @@ function simuladorController() {
     vm.posicaoTurnoPercentual = 0;
     vm.logCombate = "";
     vm.atividadesTurno = [];
-    vm.inicializacaoMudancaDirecao = 0;
-    vm.inicializacaoPararMovimento = 0;
+    vm.inicializacaoMudancaDirecao = 10;
+    vm.inicializacaoPararMovimento = 10;
 
     /*O estado turno tem 3 valores
         0: início do turno
@@ -126,9 +127,16 @@ function simuladorController() {
                     break;
 
                 case 4:
-                    texto += " parou a ação ";
+                    texto += " parou a ação";
                     continuar = false;
                     alteraEstadoTurnoEHabilitaCombatente(2);
+
+                    break;
+
+                case 5:
+                    texto += " mudou a direção de";
+                    continuar = false;
+                    alteraEstadoTurnoEHabilitaCombatente(1);
 
                     break;
 
@@ -211,7 +219,28 @@ function simuladorController() {
     }
 
     function alterarDirecao(){
+        chaveAcaoCombatente = buscaAcaoAtualCombatente(chaveCombatenteAtivo);
 
+        atrasaAtividadeTurno(chaveCombatenteAtivo, vm.inicializacaoMudancaDirecao);
+
+        novaAtividade(chaveCombatenteAtivo, 
+            5, 
+            vm.inicializacaoMudancaDirecao,
+            chaveAcaoCombatente
+        );
+
+        vm.combatenteSimulador[chaveCombatenteAtivo].desabilitado = true;
+
+        iniciaCombate();
+
+    }
+
+    function atrasaAtividadeTurno(chaveCombatente, valorASomar){
+        for(indice = 0; indice < vm.atividadesTurno.length; indice++){
+            if(vm.atividadesTurno[indice].chaveCombatente == chaveCombatente){
+                vm.atividadesTurno[indice].inicializacaoAtividade += valorASomar;
+            }
+        }
     }
     
     function pararMovimento(){
