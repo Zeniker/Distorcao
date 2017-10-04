@@ -12,6 +12,7 @@ function simuladorController() {
     vm.teste = teste;
     vm.iniciaCombate = iniciaCombate;    
     vm.novoTurno = novoTurno;
+    vm.pararMovimento = pararMovimento;
 
     //Variáveis
     vm.combatenteSimulador = {};
@@ -20,8 +21,18 @@ function simuladorController() {
     vm.posicaoTurnoPercentual = 0;
     vm.logCombate = "";
     vm.atividadesTurno = [];
+    vm.inicializacaoMudancaDirecao = 0;
+    vm.inicializacaoPararMovimento = 0;
+
+    /*O estado turno tem 3 valores
+        0: início do turno
+        1: aguardando confirmação de ação (permitido mudar de direção, parar o movimento)
+        2: aguardando nova ação
+    */
+    vm.estadoTurno = 0;    
+
     iniciouTurno = false;
-    chaveCombatenteNovaAcao = 0;
+    chaveCombatenteAtivo = 0;
 
     function novoCombatente() {
         if (Object.keys(vm.combatenteSimulador).length > 0) {
@@ -70,19 +81,23 @@ function simuladorController() {
         return 0;
     }
 
-    function iniciaCombate(){     
-        if(!iniciouTurno){
-            Object.keys(vm.combatenteSimulador).forEach(adicionaAcoesCombatente);
-            iniciouTurno = true;
-        }else{
-            adicionaAcoesCombatente(chaveCombatenteNovaAcao);
-        }
-        
+    function iniciaCombate(){    
+        switch(vm.estadoTurno){
+            case 0:
+                Object.keys(vm.combatenteSimulador).forEach(adicionaAcoesCombatente);                    
+
+                break;
+
+            case 2:
+                adicionaAcoesCombatente(chaveCombatenteAtivo);                
+
+                break;
+        }        
 
         vm.atividadesTurno.sort(comparaAtividades);
         
         percorreAtividades();
-    }
+    }    
 
     function percorreAtividades(){        
         var continuar = true;
@@ -93,19 +108,30 @@ function simuladorController() {
             texto = vm.combatenteSimulador[atividade.chaveCombatente].nome;
 
             switch(atividade.tipo){
-                case 0: texto += " iniciou"
+                case 0: 
+                    texto += " iniciou";
+                    continuar = false;
+                    alteraEstadoTurnoEHabilitaCombatente(1);
+
                     break;
                 
                 case 1: texto += " está no meio de"
                     break;
                 
                 case 2: 
-                    texto += " finalizou"
+                    texto += " finalizou";
                     continuar = false;
-                    vm.combatenteSimulador[atividade.chaveCombatente].desabilitado = false;
-                    chaveCombatenteNovaAcao = atividade.chaveCombatente;
+                    alteraEstadoTurnoEHabilitaCombatente(2);
 
                     break;
+
+                case 4:
+                    texto += " parou a ação ";
+                    continuar = false;
+                    alteraEstadoTurnoEHabilitaCombatente(2);
+
+                    break;
+
             }
 
             texto += " " + vm.acoes[atividade.chaveAcao].nome + "(" + atividade.inicializacaoAtividade.toString() + ").\n";
@@ -117,13 +143,19 @@ function simuladorController() {
             vm.atividadesTurno.splice(0, 1);
         }        
     }
+    
+    function alteraEstadoTurnoEHabilitaCombatente(valorEstadoTurno){        
+        vm.combatenteSimulador[atividade.chaveCombatente].desabilitado = false;
+        chaveCombatenteAtivo = atividade.chaveCombatente;
+        vm.estadoTurno = valorEstadoTurno;
+    }
 
     function adicionaAcoesCombatente(key){
         acao = vm.acoes[vm.combatenteSimulador[key].acao];
 
         novaAtividade(key, 
             0, 
-            vm.posicaoTurno + substituiInitECalculaAcao(
+            substituiInitECalculaAcao(
                 acao.inicio, 
                 vm.combatenteSimulador[key].inicializacao),
             vm.combatenteSimulador[key].acao
@@ -131,7 +163,7 @@ function simuladorController() {
 
         novaAtividade(key, 
             1, 
-            vm.posicaoTurno + substituiInitECalculaAcao(
+            substituiInitECalculaAcao(
                 acao.meio, 
                 vm.combatenteSimulador[key].inicializacao),
             vm.combatenteSimulador[key].acao
@@ -139,7 +171,7 @@ function simuladorController() {
 
         novaAtividade(key, 
             2, 
-            vm.posicaoTurno + vm.combatenteSimulador[key].inicializacao,
+            vm.combatenteSimulador[key].inicializacao,
             vm.combatenteSimulador[key].acao
         );
 
@@ -151,7 +183,7 @@ function simuladorController() {
         atividade = {
             chaveCombatente: chaveCombatente,
             tipo: tipo,
-            inicializacaoAtividade: inicializacaoAtividade,
+            inicializacaoAtividade: inicializacaoAtividade + vm.posicaoTurno,
             chaveAcao: chaveAcao
         }
 
@@ -169,14 +201,54 @@ function simuladorController() {
     function novoTurno(){
         vm.logCombate += '===============================================================\n';
         Object.keys(vm.combatenteSimulador).forEach(habilitaCombatentes);
+        vm.estadoTurno = 0;
+        calculaposicaoTurnoPercentual(0);        
+        vm.atividadesTurno = [];
     }
 
     function habilitaCombatentes(key){
         vm.combatenteSimulador[key].desabilitado = false;
-        
-        calculaposicaoTurnoPercentual(0);
-        
-        vm.atividadesTurno = [];
+    }
+
+    function alterarDirecao(){
+
+    }
+    
+    function pararMovimento(){
+        chaveAcaoCombatente = buscaAcaoAtualCombatente(chaveCombatenteAtivo);
+
+        removeAcoesCombatente(chaveCombatenteAtivo);        
+
+        novaAtividade(chaveCombatenteAtivo, 
+            4, 
+            vm.inicializacaoPararMovimento,
+            chaveAcaoCombatente
+        );
+
+        vm.combatenteSimulador[chaveCombatenteAtivo].desabilitado = true;
+
+        iniciaCombate();
+    }
+
+    function removeAcoesCombatente(chaveCombatente){
+        indice = 0;
+        while(indice < vm.atividadesTurno.length){
+            if(vm.atividadesTurno[indice].chaveCombatente == chaveCombatente){
+                vm.atividadesTurno.splice(indice, 1);
+            }else{
+                indice++;
+            }
+        }
+    }
+
+    function buscaAcaoAtualCombatente(chaveCombatente){
+        for(indice = 0; indice < vm.atividadesTurno.length; indice++){
+            if(vm.atividadesTurno[indice].chaveCombatente == chaveCombatente){
+                return vm.atividadesTurno[indice].chaveAcao;
+            }
+        }
+
+        return -1;
     }
 
 }

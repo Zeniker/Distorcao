@@ -35,6 +35,16 @@
 			</div>
 		</div>
 		<div class="input-group">
+			<span class="input-group-addon">Mudança de direção</span>
+			<input type="number" class="form-control" ng-model="simulador.inicializacaoMudancaDirecao" 
+				placeholder="Informe quanto de inicialização custará a mudança de direção">
+		</div>
+		<div class="input-group">
+			<span class="input-group-addon">Parar movimento</span>
+			<input type="number" class="form-control" ng-model="simulador.inicializacaoPararMovimento" 
+				placeholder="Informe quanto de inicialização custará parar parar o movimento">
+		</div>
+		<div class="input-group">
 			<span class="input-group-addon">Novo combatente</span>
 			<input type="text" class="form-control" ng-model="simulador.nomeCombatente" placeholder="Informe um novo combatente">
 			<button type="button" class="btn btn-success btn-sm input-group-addon" ng-click="simulador.novoCombatente()">+</button>
@@ -61,6 +71,8 @@
 			</div>
 		</div>
 		<button class="btn btn-info" ng-click="simulador.iniciaCombate()">Pronto</button>
+		<button class="btn btn-info" ng-click="simulador.alterarDirecao()" ng-show="simulador.estadoTurno == 1">Mudar direção</button>
+		<button class="btn btn-info" ng-click="simulador.pararMovimento()" ng-show="simulador.estadoTurno == 1">Parar movimento</button>
 		<button class="btn btn-info" ng-click="simulador.novoTurno()">Novo Turno</button>
 		<div class="container">
 			<div class="progress">
