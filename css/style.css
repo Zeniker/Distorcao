@@ -94,6 +94,33 @@
 	height: calc(100vh - 44px);
 }
 
+.cartao-combatente{
+	padding: 5%;
+	display: static;
+}
+
+.cartao-combatente .card{
+	max-width: 500px;
+	width: 500px !important;
+	min-width: 500px;
+}
+
+.cartao-combatente .form-inline .input-group{
+	width: 100%;
+}
+
+.cartao-combatente .form-inline .input-group .form-control:first-child{
+	width: 70%;
+}
+
+.cartao-combatente .form-inline .input-group .form-control:last-child{
+	width: 30%;
+}
+
+.cartao-combatente progress{	
+	width: 90%;
+}
+
 /*parte mobile*/
 @media (max-width: 768px){
 	.input-file-configuracao{
