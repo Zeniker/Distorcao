@@ -53,7 +53,10 @@
                 </div>                
             </div>
             <div class="card-footer">
-                <progress value="{{combatente.inicializacao}}" max="150"></progress>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{(combatente.inicializacao * 100)/150}}%" aria-valuenow="25" aria-valuemin="0" 
+                        aria-valuemax="100"></div>
+                </div>
             </div>
         </div>
     </div>    
