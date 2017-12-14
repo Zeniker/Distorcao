@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="cabecalho">
-    <h1>Cadastro de Sistema</h1>
+    <h1>Exclusão de Sistema</h1>
 </div>
 <div class="container">
     
@@ -13,22 +13,17 @@
     </div>
     {% endif %}
 
-    <form action="{% url 'sistema_cadastro' %}" method="POST" autocomplete="off">       
+    <form action="{{url_destino}}" method="POST" autocomplete="off">       
         {% csrf_token %}        
         <fieldset>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="nome_sistema">Nome: </label>
-                        <input type="text" class="form-control" name="nome_sistema" id="nome_sistema">
-                    </div>                    
-                </div>                
+            <h1>Deseja mesmo excluir o sistema "{{sistema.nome_sistema}}"?</h1>        
+            <div class="row">                
                 <div class="col-md-12">                    
-                    <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
+                    <button class="btn btn-danger fr" role="button" id="save_button">Excluir</button>
                     <a href="{% url 'sistema_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
         </fieldset>
-    </form>    
+    </form>
 </div>
 {% endblock %}
