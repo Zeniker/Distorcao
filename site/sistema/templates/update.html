@@ -13,14 +13,14 @@
     </div>
     {% endif %}
 
-    <form action="{% url 'sistema_cadastro' %}" method="POST" autocomplete="off">       
+    <form action="{% url 'sistema_alteracao' sistema.id %}" method="POST" autocomplete="off">       
         {% csrf_token %}        
         <fieldset>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="nome_sistema">Nome: </label>
-                        <input type="text" class="form-control" name="nome_sistema" id="nome_sistema">
+                        <input type="text" class="form-control" name="nome_sistema" id="nome_sistema" value="{{ sistema.nome_sistema }}">
                     </div>                    
                 </div>                
                 <div class="col-md-12">                    

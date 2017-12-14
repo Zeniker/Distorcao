@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="cabecalho">
+    <h1>Lista de Sistemas</h1>
+</div>
+<div class="container">
+    
+    <div class="margin-bottom-10px">        
+        <a href="{% url 'sistema_cadastro' %}" class="btn btn-primary">
+            Novo Sistema
+        </a>    
+        <a href="{% url 'index' %}" class="btn btn-danger margin-left">
+            Voltar
+        </a>
+    </div>    
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Nome           
+                    </th>
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Excluir         
+                    </th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for sistema in sistemas %}
+                    <tr>
+                        <td>
+                            {{ sistema.nome_sistema }}
+                        </td>
+                        <td>
+                            <a href="{% url 'sistema_alteracao' sistema.id %}">Editar</a>
+                        </td>
+                        <td>
+                            Excluir
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+{% endblock %}

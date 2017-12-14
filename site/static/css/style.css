@@ -53,6 +53,10 @@
 	max-width: 150px;
 }
 
+.full{
+	width: 100%;
+}
+
 #modalConfiguracao .modal-dialog{
 	width: 60%;
 	max-width: none;
@@ -119,6 +123,34 @@
 
 .cartao-combatente progress{	
 	width: 90%;
+}
+
+.btn:hover{
+	cursor: pointer;
+}
+
+.fr {
+	float: right;
+}
+
+.btn-cancelar {
+	background-color: #cccccc;
+	border-color: #cccccc;
+	color: #FFF;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.btn-cancelar.margin-right {
+	margin-right: 20px;
+}
+
+.margin-bottom-10px {
+	margin-bottom: 10px !important;
+}
+
+.margin-left{
+	margin-left: 20px;
 }
 
 /*parte mobile*/
