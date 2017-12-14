@@ -1,0 +1,180 @@
+.cabecalho{
+	width: 100%;	
+}
+
+.cabecalho h1{
+	text-align: center;
+}
+
+.input-file-configuracao .form-control,
+.input-file-acoes {	
+	width: 450px;
+}
+
+.input-file-configuracao{
+	padding-left: 5%;
+}
+
+.secao-config{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 1%;
+}
+
+.secao-ficha{
+	width: 50%;
+	float: left;	
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+#resultadosArma .alert{
+	display: block;
+	float:left;
+}
+
+.tabela-acao{
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	margin-top: 1%;
+}
+
+.inputs-ficha .input-group{
+	margin-bottom: 5px;
+}
+
+.inputs-ficha .input-group-addon{
+	width: 120px;
+}
+
+.inputs-ficha .form-control{
+	max-width: 150px;
+}
+
+#modalConfiguracao .modal-dialog{
+	width: 60%;
+	max-width: none;
+}
+
+#modalConfiguracao .modal-body .form-configuracao{
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+.input-configuracao{
+	width: 30%;	
+	margin-left: 1.5%;
+	margin-right: 1.5%;
+	margin-bottom: 1%;
+}
+
+.input-configuracao label{
+	font-size: 0.80em;
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
+.opcoes{
+	margin-left: 5%;	
+}
+
+.cartao-desabilitado{
+	pointer-events: none;
+    opacity: 0.4;
+}
+
+.menu-inicial-flex{	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;	
+	height: calc(100vh - 44px);
+}
+
+.cartao-combatente{
+	padding: 5%;
+	display: static;
+}
+
+.cartao-combatente .card{
+	max-width: 500px;
+	width: 500px !important;
+	min-width: 500px;
+}
+
+.cartao-combatente .form-inline .input-group{
+	width: 100%;
+}
+
+.cartao-combatente .form-inline .input-group .form-control:first-child{
+	width: 70%;
+}
+
+.cartao-combatente .form-inline .input-group .form-control:last-child{
+	width: 30%;
+}
+
+.cartao-combatente progress{	
+	width: 90%;
+}
+
+/*parte mobile*/
+@media (max-width: 768px){
+	.input-file-configuracao{
+		padding-left: 4.5%;
+		padding-right: 4.5%;
+		padding-bottom: 5%;
+		width: 100%;
+	}
+
+	.secao-config{
+		padding-left: 4.5%;
+		padding-right: 4.5%;	
+	}
+
+	.secao-config .alert{
+		width: 100%;
+		text-align: center;
+	}
+
+	.secao-ficha{
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-bottom: 2%;
+	}
+
+	.inputs-ficha .input-group-addon{
+		width: 210px;
+	}
+
+	.inputs-ficha{
+		width: 100%;
+	}	
+
+	.inputs-ficha .form-control{
+		max-width: none;
+		width: 100%;
+	}
+
+	#modalConfiguracao .modal-dialog{
+		width: 90%;		
+	}
+
+	#modalConfiguracao .modal-header{
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	#modalConfiguracao h4{
+		margin-bottom: 5%;
+	}
+
+	.input-configuracao{
+		width: 95%;			
+	}
+}
