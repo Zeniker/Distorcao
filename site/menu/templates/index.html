@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="cabecalho">
+    <h1>Tela inicial</h1>
+</div>
+<div class="container menu-inicial-flex">
+    <a href="{% url 'ficha_simulador' %}" class="btn btn-outline-primary btn-block">Simulador de ficha</a>
+    <a href="{% url 'calculadora_dano' %}" class="btn btn-outline-primary btn-block">Calculadora de Dano</a>
+    <a href="{% url 'acoes' %}" class="btn btn-outline-primary btn-block">Cadastro de ações</a>
+    <a href="{% url 'simulador_combate' %}" class="btn btn-outline-primary btn-block">Simulador</a>
+    <a href="{% url 'tabela_inicializacao' %}" class="btn btn-outline-primary btn-block">Inicialização de Combatentes</a>
+</div>
+{% endblock %}

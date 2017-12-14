@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div ng-controller="armaController as arma" ng-init="arma.inicializaFicha()">
+    <div class="cabecalho">
+        <nav class="navbar navbar-toggleable-md">
+            <a href="{% url 'index' %}" class="navbar-brand btn-arrow-left"><h2>🔙</h2></a>
+        </nav>
+{% verbatim %}
+        <h1>Arma Distorção</h1>
+        <div class="input-file-configuracao">
+            <label for="configuracao-arma">Configuração</label>
+            <input type="file" class="form-control" id="configuracao-arma" accept=".json" ng-json-select="arma.carregaJson(contents)">				
+        </div>
+    </div>
+    <div class="container secao-ficha inputs-ficha">
+        <h5>Atributos de personagem</h5>
+        <div class="input-group">
+            <span class="input-group-addon">Força</span>
+            <input type="number" class="form-control" ng-model="arma.attForca" min="0">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Destreza</span>
+            <input type="number" class="form-control" ng-model="arma.attDestreza" min="0">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Mental</span>
+            <input type="number" class="form-control" ng-model="arma.attMental" min="0">
+        </div>
+        <h5>Dados do equipamento</h5>
+        <div class="input-group">
+            <span class="input-group-addon">Dano base</span>
+            <input type="number" class="form-control" ng-model="arma.danoBase" min="0">
+        </div>
+        <h6>Escalamento</h6>
+        <div class="input-group">
+            <span class="input-group-addon">Força</span>
+            <select class="form-control" 
+                    ng-options="escalamento.sigla for escalamento in arma.escalamentoArma track by escalamento.valor" 
+                    ng-model="arma.escalamentoForca">
+            </select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Destreza</span>
+            <select class="form-control" 
+                    ng-options="escalamento.sigla for escalamento in arma.escalamentoArma track by escalamento.valor" 
+                    ng-model="arma.escalamentoDestreza">
+            </select>
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">Mental</span>
+            <select class="form-control" 
+                    ng-options="escalamento.sigla for escalamento in arma.escalamentoArma track by escalamento.valor" 
+                    ng-model="arma.escalamentoMental">>
+            </select>
+        </div>
+        <button class="btn btn-dark" ng-click="arma.calculaDano()">Calcular</button>
+    </div>
+    <div class="container" id="resultadosArma">
+        <h5>Resultado</h5>
+        <span ng-hide="arma.resultadoDanoBase" class="alert alert-warning">Informe os dados e selecione 'Calcular'!</span>
+        <div ng-show="arma.resultadoDanoBase">
+            <button class="btn btn-light" data-toggle="collapse" data-target="#detalheDado">Dano total: {{arma.resultadoDano}}</button>
+            <br><small class="text-muted">Clique no resultado para ver seus detalhes.</small>
+            <div class="collapse" id="detalheDado">
+                <div class="card card-body">
+                    <div ng-show="arma.resultadoDanoBase">
+                        Dano detalhado:<strong> {{arma.resultadoDano}}
+                        (
+                        <span class="text-secondary">{{arma.resultadoDanoBase}}</span>
+                        <span ng-show="arma.totalForca" class="text-danger">+ {{arma.totalForca | number: arma.totalForca % 1 > 0 ? 2 : 0}}</span>
+                        <span ng-show="arma.totalDestreza" class="text-success">+ {{arma.totalDestreza | number: arma.totalForca % 1 > 0 ? 2 : 0}}</span>
+                        <span ng-show="arma.totalMental" class="text-info">+ {{arma.totalMental | number: arma.totalForca % 1 > 0 ? 2 : 0}}</span>
+                        )
+                        </strong>
+                    </div>
+                    <span class="text-danger">Bonus por força ({{arma.bonusForca | number: arma.bonusForca % 1 > 0 ? 2 : 0}}%): {{arma.totalForca | number: arma.totalForca % 1 > 0 ? 2 : 0}}<br></span>
+                    <span class="text-success">Bonus por destreza ({{arma.bonusDestreza | number: arma.bonusDestreza % 1 > 0 ? 2 : 0}}%): {{arma.totalDestreza | number: arma.totalDestreza % 1 > 0 ? 2 : 0}}<br></span>
+                    <span class="text-info"> Bonus por mental ({{arma.bonusMental | number: arma.bonusMental % 1 > 0 ? 2 : 0}}%): {{arma.totalMental | number: arma.totalMental % 1 > 0 ? 2 : 0}}<br></span>
+                    <span ng-show="arma.escalamentoForca.valor">Escalamento de força {{arma.escalamentoForca.sigla}} ({{arma.escalamentoForca.valor}}%)</span>
+                    <span ng-show="arma.escalamentoDestreza.valor">Escalamento de destreza {{arma.escalamentoDestreza.sigla}} ({{arma.escalamentoDestreza.valor}}%)</span>
+                    <span ng-show="arma.escalamentoMental.valor">Escalamento de mental {{arma.escalamentoMental.sigla}} ({{arma.escalamentoMental.valor}}%)</span>
+                    <small class="alert alert-info">
+                        <strong>Info:</strong><br>
+                        Valores fracionados perdem suas frações no resultado final.<br>
+                        A formula de calculo é:<br>
+                        DT = DB + (DB x ((BF ÷ 100) x (EF ÷ 100))) + (DB x ((BD ÷ 100) x (ED ÷ 100)) + (DB x ((BM ÷ 100) x (EM ÷ 100))
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endverbatim %}
+</div>
+{% endblock %}
