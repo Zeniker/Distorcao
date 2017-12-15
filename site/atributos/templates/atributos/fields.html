@@ -1,0 +1,46 @@
+{% extends "atributos/form.html" %}
+{% load widget_tweaks %}
+
+{% block form_fields %}
+<form action="{{url_destino}}" method="POST" autocomplete="off">       
+    {% csrf_token %}        
+    <fieldset>        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Nome: </label>                    
+                    {% render_field form.nome_atributo class+="form-control" %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Tipo do Atributo: </label>                    
+                    {% render_field form.tipo_atributo class+="form-control" %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Valor mínimo: </label>
+                    {% render_field form.valor_minimo_atributo class+="form-control" %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Valor máximo: </label>                    
+                    {% render_field form.valor_maximo_atributo class+="form-control" %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Sistema: </label>                    
+                    {% render_field form.fk_id_sistema class+="form-control" %}
+                </div>
+            </div>
+            <div class="col-md-12">                    
+                <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
+                <a href="{% url 'sistema_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+            </div>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}
