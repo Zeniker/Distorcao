@@ -1,57 +1,60 @@
-{% block table_atributo %}
-<table class="table table-bordered" id="table-atributo">
-    <thead>
-        <tr>
-            <th>
-                Nome           
-            </th>
-            <th>
-                Sistema
-            </th>
-            <th>
-                Tipo
-            </th>
-            <th>
-                Valor Mínimo
-            </th>
-            <th>
-                Valor Máximo
-            </th>
-            <th>
-                Editar
-            </th>
-            <th>
-                Excluir
-            </th>
-        </tr>                
-    </thead>
-    <tbody>
-        {% for atributo in atributos %}
-            <tr>
-                <td>
-                    {{ atributo.nome_atributo }}
-                </td>
-                <td>
-                    {{ atributo.fk_id_sistema.nome_sistema }}
-                </td>
-                <td>
-                    {{ atributo.get_tipo_atributo_display }}
-                </td>
-                <td>
-                    {{ atributo.valor_minimo_atributo }}
-                </td>
-                <td>
-                    {{ atributo.valor_maximo_atributo }}
-                </td>
-                <td>
-                    <a href="{% url 'atributo_alteracao' atributo.id %}">Editar</a>
-                </td>
-                <td>
-                    <a href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
+<div class="results" id="table-atributo">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Nome           
+                    </th>
+                    <th>
+                        Sistema
+                    </th>
+                    <th>
+                        Tipo
+                    </th>
+                    <th>
+                        Valor Mínimo
+                    </th>
+                    <th>
+                        Valor Máximo
+                    </th>
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Excluir
+                    </th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for atributo in atributos %}
+                    <tr>
+                        <td>
+                            {{ atributo.nome_atributo }}
+                        </td>
+                        <td>
+                            {{ atributo.fk_id_sistema.nome_sistema }}
+                        </td>
+                        <td>
+                            {{ atributo.get_tipo_atributo_display }}
+                        </td>
+                        <td>
+                            {{ atributo.valor_minimo_atributo }}
+                        </td>
+                        <td>
+                            {{ atributo.valor_maximo_atributo }}
+                        </td>
+                        <td>
+                            <a href="{% url 'atributo_alteracao' atributo.id %}">Editar</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-</table>
-{% endblock %}
+    {% include "pagination.html" with item_list=atributos type='atributo' %}
+</div>

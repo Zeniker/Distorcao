@@ -1,13 +1,19 @@
-$('.filter-atributo').on('change', function(){
-    var url = $(this).attr('data-url');
-    url = url.substring(0, url.length-1)    
-    url += $(this).val()
+$('.filter-atributo').on('change', function(){    
+    filter_atributo(url)    
+});
+
+function filter_atributo(url, page = 1){
+    var url = $(this).attr('data-url');    
+
+    objectData = new Object()
+
+    objectData['sistema_id'] = 
 
     $.ajax({
         'url' : url,
-        'type' : 'GET',
+        'type' : 'POST',
         'success' : function(result){
-            $('#table-atributo').html(result);            
+            $('#table-atributo').html(result);         
         },
         'error': function(XMLHttpRequest, textStatus, errorThrown) {
             console.log("Status: " + textStatus); 
@@ -15,4 +21,25 @@ $('.filter-atributo').on('change', function(){
             console.log(XMLHttpRequest.responseText);
         }
     });
-})
+}
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('input[name="csrfmiddlewaretoken"]').val()
+    }
+});
+
+
+$('.next-page').on('click', function(event){
+    event.preventDefault();
+    type = $(this).closest('.pagination').attr('data-type');
+    page_number = $(this).attr('data-page');
+
+    functionName = 'filter_' + type;
+
+    class_name = '.filter-' + type;
+
+    url = $(class_name).attr('data-url');    
+
+    window[functionName](url, page_number)    
+});

@@ -4,24 +4,34 @@ from django.shortcuts import redirect
 from atributo.forms import AtributoForm
 from atributo.models import Atributo
 from sistema.models import Sistema
-from distorcao.views import get_form_variables
+from distorcao.views import get_form_variables, get_paginated_result
 
 
 def list(request):
-    atributos = Atributo.objects.all()
+    atributos_list = Atributo.objects.all()
     sistemas = Sistema.objects.all()
+
+    page = request.GET.get('page', 1)
+
+    atributos = get_paginated_result(atributos_list, page, 1)
+
     context = {
         'sistemas': sistemas,
-        'atributos': atributos        
+        'atributos': atributos
     }
-    
+
     return render(request, 'atributo/list.html', context)
 
-def ajax_table(request, sistema_id):
+def ajax_table(request):
+
+    sistema_id = request.POST['sistema_id']
+    
     if sistema_id != '0':
-        atributos = Atributo.objects.filter(fk_id_sistema=sistema_id)
+        atributos_list = Atributo.objects.filter(fk_id_sistema=sistema_id)
     else:
-        atributos = Atributo.objects.all()
+        atributos_list = Atributo.objects.all()
+
+    atributos = get_paginated_result(atributos_list, 1, 1)
 
     return render(request, 'atributo/table.html', {'atributos': atributos})
 

@@ -16,7 +16,7 @@
             </a>
         </div>        
         <div class="col-md-6">
-            <select class="form-control filter-atributo" data-url="{% url 'atributo_filtro_tabela' 0 %}">
+            <select class="form-control filter-atributo" data-url="{% url 'atributo_filtro_tabela' %}">
                 <option value="0">Todos</option>
                 {% for sistema in sistemas %}
                     <option value="{{ sistema.id }}">{{ sistema.nome_sistema }}</option>
@@ -24,10 +24,11 @@
             </select>
         </div>         
         
-    </div>    
-
-    <div class="table-responsive">
-        {% include "atributo/table.html" %}              
     </div>
+
+    {% csrf_token %}
+
+    {% include "atributo/table.html" %}
+    
 </div>
 {% endblock %}
