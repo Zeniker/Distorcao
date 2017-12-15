@@ -11,7 +11,14 @@ Para instalar o projeto é necessário seguir os passos abaixo
 
 
 - Instalar o Python
-- Instalar o framework Django
+- Instalar o framework Django v1.7.4 através do comando abaixo
+```
+    >>> pip install django==1.7.4
+```
+- Instalar o Django Widget Tweaks através do comando
+```
+    >>> pip install django-widget-tweaks
+```
 - Utilizando o terminal, ir até a pasta distorcao/site
 - Rodar os comandos abaixo
 
