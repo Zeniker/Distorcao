@@ -6,71 +6,28 @@
 </div>
 <div class="container">
     
-    <div class="margin-bottom-10px">        
-        <a href="{% url 'atributo_cadastro' %}" class="btn btn-primary">
-            Novo Atributo
-        </a>    
-        <a href="{% url 'index' %}" class="btn btn-danger margin-left">
-            Voltar
-        </a>
+    <div class="margin-bottom-10px row">
+        <div class="col-md-6">
+            <a href="{% url 'atributo_cadastro' %}" class="btn btn-primary">
+                Novo Atributo
+            </a>    
+            <a href="{% url 'index' %}" class="btn btn-danger margin-left">
+                Voltar
+            </a>
+        </div>        
+        <div class="col-md-6">
+            <select class="form-control filter-atributo" data-url="{% url 'atributo_filtro_tabela' 0 %}">
+                <option value="0">Todos</option>
+                {% for sistema in sistemas %}
+                    <option value="{{ sistema.id }}">{{ sistema.nome_sistema }}</option>
+                {% endfor %}
+            </select>
+        </div>         
+        
     </div>    
 
     <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        Nome           
-                    </th>
-                    <th>
-                        Sistema
-                    </th>
-                    <th>
-                        Tipo
-                    </th>
-                    <th>
-                        Valor Mínimo
-                    </th>
-                    <th>
-                        Valor Máximo
-                    </th>
-                    <th>
-                        Editar
-                    </th>
-                    <th>
-                        Excluir  
-                    </th>
-                </tr>                
-            </thead>
-            <tbody>
-                {% for atributo in atributos %}
-                    <tr>
-                        <td>
-                            {{ atributo.nome_atributo }}
-                        </td>
-                        <td>
-                            {{ atributo.fk_id_sistema.nome_sistema }}
-                        </td>
-                        <td>
-                            {{ atributo.get_tipo_atributo_display }}
-                        </td>
-                        <td>
-                            {{ atributo.valor_minimo_atributo }}
-                        </td>
-                        <td>
-                            {{ atributo.valor_maximo_atributo }}
-                        </td>
-                        <td>
-                            <a href="{% url 'atributo_alteracao' atributo.id %}">Editar</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
+        {% include "atributo/table.html" %}              
     </div>
 </div>
 {% endblock %}

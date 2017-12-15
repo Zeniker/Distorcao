@@ -3,12 +3,27 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from atributo.forms import AtributoForm
 from atributo.models import Atributo
+from sistema.models import Sistema
 from distorcao.views import get_form_variables
 
 
 def list(request):
     atributos = Atributo.objects.all()
-    return render(request, 'atributo/list.html', {'atributos' : atributos})
+    sistemas = Sistema.objects.all()
+    context = {
+        'sistemas': sistemas,
+        'atributos': atributos        
+    }
+    
+    return render(request, 'atributo/list.html', context)
+
+def ajax_table(request, sistema_id):
+    if sistema_id != '0':
+        atributos = Atributo.objects.filter(fk_id_sistema=sistema_id)
+    else:
+        atributos = Atributo.objects.all()
+
+    return render(request, 'atributo/table.html', {'atributos': atributos})
 
 def create(request):
     template_name = 'atributo/fields.html'    
@@ -44,13 +59,13 @@ def update(request, atributo_id):
             return redirect('atributo_consulta')
 
         else:
-            form_variables = get_form_variables('Alteração de Cadastro', request.path, form)
+            form_variables = get_form_variables('Alteração de Atributo', request.path, form)
         
             return render(request, template_name, form_variables)
     else:    
         form = AtributoForm(instance=atributo, initial={'fk_id_sistema':atributo.fk_id_sistema})
 
-        form_variables = get_form_variables('Alteração de Cadastro', request.path, form=form)
+        form_variables = get_form_variables('Alteração de Atributo', request.path, form=form)
 
         return render(request, template_name, form_variables)
 
