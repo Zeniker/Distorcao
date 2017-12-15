@@ -5,6 +5,7 @@ from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 from sistema.forms import SistemaForm
 from sistema.models import Sistema
+from distorcao.views import get_form_variables
 
 def list(request):
     sistemas = Sistema.objects.all()
@@ -39,7 +40,7 @@ def update(request, sistema_id):
         form = SistemaForm(request.POST, instance=sistema)
 
         if form.is_valid():
-            sistema.save()
+            form.save()
 
             return redirect('sistema_consulta')
 
@@ -50,7 +51,7 @@ def update(request, sistema_id):
     else:    
         form = SistemaForm(instance=sistema)
 
-        form_variables = get_form_variables('Alteração de Sistema', request.path, form=form, sistema=sistema)
+        form_variables = get_form_variables('Alteração de Sistema', request.path, form=form)
 
         return render(request, template_name, form_variables)
 
@@ -67,13 +68,3 @@ def delete(request, sistema_id):
         sistema = Sistema.objects.get(id=sistema_id)
 
         return render(request, template_name, {'sistema': sistema})
-
-def get_form_variables(page_header, url_destino, form=None, sistema=None):
-    form_variables = {
-        'page_header' : page_header,
-        'url_destino' : url_destino,
-        'form' : form,
-        'sistema' : sistema
-    }
-
-    return form_variables

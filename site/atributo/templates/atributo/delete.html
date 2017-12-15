@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="cabecalho">
-    <h1>Exclusão de Sistema</h1>
+    <h1>Exclusão de Atributo</h1>
 </div>
 <div class="container">
     
@@ -16,11 +16,11 @@
     <form action="{{url_destino}}" method="POST" autocomplete="off">       
         {% csrf_token %}        
         <fieldset>
-            <h1>Deseja mesmo excluir o sistema "{{sistema.nome_sistema}}"?</h1>        
+            <h1>Deseja mesmo excluir o atributo "{{atributo.nome_atributo}}"?</h1>        
             <div class="row">                
                 <div class="col-md-12">                    
                     <button class="btn btn-danger fr" role="button" id="save_button">Excluir</button>
-                    <a href="{% url 'sistema_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                    <a href="{% url 'atributo_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
         </fieldset>

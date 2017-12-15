@@ -11,17 +11,6 @@ class AtributoForm(forms.ModelForm):
             'valor_minimo_atributo': forms.TextInput(),
             'valor_maximo_atributo': forms.TextInput(),                        
         }
-    
-    '''def __init__(self, *args, **kwargs):
-        super(AtributoForm, self).__init__(*args, **kwargs)
-        for field_name in self.fields:
-            if(field_name == 'tipo_atributo'):
-                #print(type(self.fields[field_name].widget))
-                print(isinstance(self.fields[field_name].widget, forms.Select))
-            
-            if isinstance(self.fields[field_name].widget, forms.Select):
-                self.fields[field_name].empty_label = "Selecione"        
-                self.fields[field_name].widget.choices = self.fields[field_name].choices'''
 
     nome_atributo = forms.CharField(required=True, max_length=150)
 
@@ -31,11 +20,10 @@ class AtributoForm(forms.ModelForm):
     )
 
     fk_id_sistema = forms.ModelChoiceField(
-        queryset=Sistema.objects.all(),
-        to_field_name="nome_sistema",
+        queryset=Sistema.objects.all(),        
         empty_label="Selecione",
         required=True        
-    )    
+    )
 
     def is_valid(self):
         valid = True

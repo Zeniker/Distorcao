@@ -38,7 +38,7 @@
                         Editar
                     </th>
                     <th>
-                        Excluir         
+                        Excluir  
                     </th>
                 </tr>                
             </thead>
@@ -52,7 +52,7 @@
                             {{ atributo.fk_id_sistema.nome_sistema }}
                         </td>
                         <td>
-                            {{ atributo.tipo_atributo }}
+                            {{ atributo.get_tipo_atributo_display }}
                         </td>
                         <td>
                             {{ atributo.valor_minimo_atributo }}
@@ -61,10 +61,10 @@
                             {{ atributo.valor_maximo_atributo }}
                         </td>
                         <td>
-                            {% comment %} <a href="{% url 'atributo_alteracao' atributo.id %}">Editar</a> {% endcomment %}
+                            <a href="{% url 'atributo_alteracao' atributo.id %}">Editar</a>
                         </td>
                         <td>
-                            {% comment %} <a href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a> {% endcomment %}
+                            <a href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a>
                         </td>
                     </tr>
                 {% endfor %}
