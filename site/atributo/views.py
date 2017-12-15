@@ -23,8 +23,8 @@ def list(request):
     return render(request, 'atributo/list.html', context)
 
 def ajax_table(request):
-
-    sistema_id = request.POST['sistema_id']
+    #sistema_id = request.POST['sistema_id']
+    sistema_id = '0'
     
     if sistema_id != '0':
         atributos_list = Atributo.objects.filter(fk_id_sistema=sistema_id)
