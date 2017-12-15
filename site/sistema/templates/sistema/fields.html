@@ -1,4 +1,5 @@
-{% extends "form.html" %}
+{% extends "sistema/form.html" %}
+{% load widget_tweaks %}
 
 {% block form_fields %}
 <form action="{{url_destino}}" method="POST" autocomplete="off">       
@@ -8,9 +9,9 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="nome_sistema">Nome: </label>
-                    <input type="text" class="form-control" name="nome_sistema" id="nome_sistema" value="{{ sistema.nome_sistema }}">
+                    {% render_field form.nome_sistema class+="form-control" %}
                 </div>                    
-            </div>                
+            </div>
             <div class="col-md-12">                    
                 <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
                 <a href="{% url 'sistema_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>

@@ -1,22 +1,21 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from atributo.forms import AtributoForm
 from atributo.models import Atributo
 
-# Create your views here.
+
+def list(request):
+    atributos = Atributo.objects.all()
+    return render(request, 'atributo/list.html', {'atributos' : atributos})
+
 def create(request):
-    template_name = 'atributos/fields.html'    
+    template_name = 'atributo/fields.html'    
 
     if request.method == 'POST':
         form = AtributoForm(request.POST)
 
         if form.is_valid():
-            dados_form = form.data
-
-            sistema = Atributo(
-                nome_sistema=dados_form['nome_atributo']
-            )
-
-            sistema.save()
+            form.save()
 
             return redirect('index')
         else:

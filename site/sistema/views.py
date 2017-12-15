@@ -8,20 +8,16 @@ from sistema.models import Sistema
 
 def list(request):
     sistemas = Sistema.objects.all()
-    return render(request, 'list.html', {'sistemas' : sistemas})
+    return render(request, 'sistema/list.html', {'sistemas' : sistemas})
 
 def create(request):
-    template_name = 'fields.html'    
+    template_name = 'sistema/fields.html'    
 
     if request.method == 'POST':
         form = SistemaForm(request.POST)
 
-        if form.is_valid():
-            dados_form = form.data
-
-            sistema = Sistema(nome_sistema=dados_form['nome_sistema'])
-
-            sistema.save()
+        if form.is_valid():        
+            form.save()
 
             return redirect('sistema_consulta')
         else:
@@ -29,22 +25,20 @@ def create(request):
 
             return render(request, template_name, form_variables)
     else:
-        form_variables = get_form_variables('Cadastro de Sistema', request.path)                
+        form = SistemaForm()
+
+        form_variables = get_form_variables('Cadastro de Sistema', request.path, form)                
 
         return render(request, template_name, form_variables)
 
 def update(request, sistema_id):
-    template_name = 'fields.html'
+    template_name = 'sistema/fields.html'
+    sistema = Sistema.objects.get(id=sistema_id)
 
-    if request.method == 'POST':
-        form = SistemaForm(request.POST)
+    if request.method == 'POST':        
+        form = SistemaForm(request.POST, instance=sistema)
 
         if form.is_valid():
-            dados_form = form.data
-
-            sistema = Sistema.objects.get(id=sistema_id)
-            sistema.nome_sistema = dados_form['nome_sistema']
-
             sistema.save()
 
             return redirect('sistema_consulta')
@@ -53,15 +47,15 @@ def update(request, sistema_id):
             form_variables = get_form_variables('Alteração de Sistema', request.path, form)
         
             return render(request, template_name, form_variables)
-    else:
-        sistema = Sistema.objects.get(id=sistema_id)
+    else:    
+        form = SistemaForm(instance=sistema)
 
-        form_variables = get_form_variables('Alteração de Sistema', request.path, sistema=sistema)
+        form_variables = get_form_variables('Alteração de Sistema', request.path, form=form, sistema=sistema)
 
         return render(request, template_name, form_variables)
 
 def delete(request, sistema_id):
-    template_name = 'delete.html'
+    template_name = 'sistema/delete.html'
 
     if request.method == 'POST':
         sistema = Sistema.objects.get(id=sistema_id)        

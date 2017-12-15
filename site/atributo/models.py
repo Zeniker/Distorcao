@@ -8,10 +8,12 @@ class Atributo(models.Model):
         max_length=150, 
         null=False
     )
+
     tipo_atributo = models.IntegerField(
         choices=TIPO_ATRIBUTO_CHOICES,
         null=False
     )
+    
     valor_minimo_atributo = models.IntegerField(null=False)
     valor_maximo_atributo = models.IntegerField()
     fk_id_sistema = models.ForeignKey(Sistema, null=False)

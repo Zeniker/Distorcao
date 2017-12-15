@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="cabecalho">
+    <h1>Lista de Atributos</h1>
+</div>
+<div class="container">
+    
+    <div class="margin-bottom-10px">        
+        <a href="{% url 'atributo_cadastro' %}" class="btn btn-primary">
+            Novo Atributo
+        </a>    
+        <a href="{% url 'index' %}" class="btn btn-danger margin-left">
+            Voltar
+        </a>
+    </div>    
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Nome           
+                    </th>
+                    <th>
+                        Sistema
+                    </th>
+                    <th>
+                        Tipo
+                    </th>
+                    <th>
+                        Valor Mínimo
+                    </th>
+                    <th>
+                        Valor Máximo
+                    </th>
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Excluir         
+                    </th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for atributo in atributos %}
+                    <tr>
+                        <td>
+                            {{ atributo.nome_atributo }}
+                        </td>
+                        <td>
+                            {{ atributo.fk_id_sistema.nome_sistema }}
+                        </td>
+                        <td>
+                            {{ atributo.tipo_atributo }}
+                        </td>
+                        <td>
+                            {{ atributo.valor_minimo_atributo }}
+                        </td>
+                        <td>
+                            {{ atributo.valor_maximo_atributo }}
+                        </td>
+                        <td>
+                            {% comment %} <a href="{% url 'atributo_alteracao' atributo.id %}">Editar</a> {% endcomment %}
+                        </td>
+                        <td>
+                            {% comment %} <a href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a> {% endcomment %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+{% endblock %}
