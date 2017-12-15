@@ -1,8 +1,11 @@
 from django import forms
+from sistema.models import Sistema
 
-class SistemaForm(forms.Form):
-    nome_sistema = forms.CharField(required=True)
-
+class SistemaForm(forms.ModelForm):
+    class Meta:
+        model = Sistema
+        fields = '__all__'
+        
     def is_valid(self):
         valid = True
         if not super(SistemaForm, self).is_valid():

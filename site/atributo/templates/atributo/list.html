@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="cabecalho">
+    <h1>Lista de Atributos</h1>
+</div>
+<div class="container">
+    
+    <div class="margin-bottom-10px row">
+        <div class="col-md-6">
+            <a href="{% url 'atributo_cadastro' %}" class="btn btn-primary">
+                Novo Atributo
+            </a>    
+            <a href="{% url 'index' %}" class="btn btn-danger margin-left">
+                Voltar
+            </a>
+        </div>
+        <div class="col-md-6">
+            <select class="form-control filter-atributo" data-url="{% url 'atributo_filtro_tabela' %}" id="sistema_filtro">
+                <option value="0">Todos</option>
+                {% for sistema in sistemas %}
+                    <option value="{{ sistema.id }}">{{ sistema.nome_sistema }}</option>
+                {% endfor %}
+            </select>
+        </div>         
+        
+    </div>
+
+    {% csrf_token %}
+
+    {% include "atributo/table.html" %}
+    
+</div>
+{% endblock %}
