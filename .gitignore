@@ -1,0 +1,6 @@
+# DB
+*.sqlite3
+
+# Python compiled
+*.pyc
+
