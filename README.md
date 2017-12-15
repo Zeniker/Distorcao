@@ -11,9 +11,9 @@ Para instalar o projeto é necessário seguir os passos abaixo
 
 
 - Instalar o Python
-- Instalar o framework Django v1.7.4 através do comando abaixo
+- Instalar o framework Django v1.11 através do comando abaixo
 ```
-    >>> pip install django==1.7.4
+    >>> pip install django==1.11
 ```
 - Instalar o Django Widget Tweaks através do comando
 ```

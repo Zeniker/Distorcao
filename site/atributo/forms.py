@@ -3,7 +3,7 @@ from django import forms
 class AtributoForm(forms.Form):
     nome_atributo = forms.CharField(required=True, max_length=150)
 
-    escolhas_tipo_atributo = (
+    '''escolhas_tipo_atributo = (
         (1, 'Texto'),
         (2, 'Numeral'),
         (3, 'Decimal'),
@@ -11,7 +11,7 @@ class AtributoForm(forms.Form):
     tipo_atributo = forms.CharField(
         choicest=escolhas_tipo_atributo,
         required=True
-    )
+    )'''
     valor_minimo_atributo = forms.IntegerField(required=True)
     valor_maximo_atributo = forms.IntegerField()
     fk_id_sistema = forms.IntegerField(required=True)    

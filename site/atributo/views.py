@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from atributos.forms import AtributoForm
+from atributo.forms import AtributoForm
 
 # Create your views here.
 def create(request):
