@@ -1,20 +1,29 @@
 from django import forms
+from atributo.choices import *
+from sistema.models import Sistema
 
 class AtributoForm(forms.Form):
     nome_atributo = forms.CharField(required=True, max_length=150)
 
-    '''escolhas_tipo_atributo = (
-        (1, 'Texto'),
-        (2, 'Numeral'),
-        (3, 'Decimal'),
-    )
-    tipo_atributo = forms.CharField(
-        choicest=escolhas_tipo_atributo,
+    tipo_atributo = forms.ChoiceField(
+        choices=TIPO_ATRIBUTO_CHOICES,
         required=True
-    )'''
-    valor_minimo_atributo = forms.IntegerField(required=True)
-    valor_maximo_atributo = forms.IntegerField()
-    fk_id_sistema = forms.IntegerField(required=True)    
+    )
+    valor_minimo_atributo = forms.IntegerField(
+        required=True,
+        widget=forms.TextInput
+    )
+    valor_maximo_atributo = forms.IntegerField(widget=forms.TextInput)
+    fk_id_sistema = forms.ModelChoiceField(
+        queryset=Sistema.objects.all(),
+        to_field_name="nome_sistema",
+        empty_label="Selecione",
+        required=True        
+    )
+
+    '''widgets = {
+            'name': Textarea(attrs={'cols': 80, 'rows': 20}),
+        }'''
 
     def is_valid(self):
         valid = True
