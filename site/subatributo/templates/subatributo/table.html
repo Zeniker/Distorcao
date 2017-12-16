@@ -1,0 +1,54 @@
+<div class="results" id="table-atributo">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Sistema
+                    </th>
+                    <th>
+                        Tipo
+                    </th>
+                    <th>
+                        Possui Valor Inicial?
+                    </th>                    
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Excluir
+                    </th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for subatributo in subatributos %}
+                    <tr>
+                        <td>
+                            {{ subatributo.nome_subatributo }}
+                        </td>
+                        <td>
+                            {{ subatributo.fk_id_sistema.nome_sistema }}
+                        </td>
+                        <td>
+                            {{ subatributo.get_tipo_subatributo_display }}
+                        </td>
+                        <td>
+                            {{ subatributo.get_valor_inicial_subatributo_display }}
+                        </td>                        
+                        <td>
+                            <a href="{% url 'subatributo_alteracao' subatributo.id %}">Editar</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'subatributo_exclusao' subatributo.id %}">Excluir</a>                            
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include "pagination.html" with item_list=subatributos type='atributo' %}
+</div>
