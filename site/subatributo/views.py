@@ -44,3 +44,41 @@ def create(request):
         form_variables = get_form_variables('Cadastro de Subatributo', request.path, form)
 
         return render(request, template_name, form_variables)
+
+
+def update(request, subatributo_id):
+    template_name = 'subatributo/fields.html'
+    subatributo = Subatributo.objects.get(id=subatributo_id)
+
+    if request.method == 'POST':        
+        form = SubatributoForm(request.POST, instance=subatributo, initial={'fk_id_sistema':subatributo.fk_id_sistema})
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('subatributo_consulta')
+
+        else:
+            form_variables = get_form_variables('Alteração de Subatributo', request.path, form)
+        
+            return render(request, template_name, form_variables)
+    else:    
+        form = SubatributoForm(instance=subatributo, initial={'fk_id_sistema':subatributo.fk_id_sistema})
+
+        form_variables = get_form_variables('Alteração de Subatributo', request.path, form=form)
+
+        return render(request, template_name, form_variables)
+
+def delete(request, subatributo_id):
+    template_name = 'subatributo/delete.html'
+
+    if request.method == 'POST':
+        subatributo = Subatributo.objects.get(id=subatributo_id)        
+
+        subatributo.delete()
+
+        return redirect('subatributo_consulta')
+    else:
+        subatributo = Subatributo.objects.get(id=subatributo_id)
+
+        return render(request, template_name, {'subatributo': subatributo})

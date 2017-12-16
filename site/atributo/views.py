@@ -13,7 +13,7 @@ def list(request):
 
     page = request.GET.get('page', 1)
 
-    atributos = get_paginated_result(atributos_list, page, 1)
+    atributos = get_paginated_result(atributos_list, page, 10)
 
     context = {
         'sistemas': sistemas,

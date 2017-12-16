@@ -39,10 +39,10 @@
                             {{ subatributo.get_valor_inicial_subatributo_display }}
                         </td>                        
                         <td>
-                            Editar
+                            <a href="{% url 'subatributo_alteracao' subatributo.id %}">Editar</a>
                         </td>
                         <td>
-                            Excluir
+                            <a href="{% url 'subatributo_exclusao' subatributo.id %}">Excluir</a>                            
                         </td>
                     </tr>
                 {% endfor %}
