@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'menu',
     'sistema',
     'atributo',
-    'subatributo'
+    'subatributo',
+    'atributo_subatributo'
 
 ]
 

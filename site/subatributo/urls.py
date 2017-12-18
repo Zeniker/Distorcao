@@ -1,5 +1,3 @@
-# arquivo connectedin/perfis/urls.py
-
 from django.conf.urls import url
 from subatributo import views
 
