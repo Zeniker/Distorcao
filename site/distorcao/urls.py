@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^sistema/', include('sistema.urls')),
     url(r'^atributo/', include('atributo.urls')),
     url(r'^subatributo/', include('subatributo.urls')),
+    url(r'^atributo_subatributo/', include('atributo_subatributo.urls')),
 ]
