@@ -1,9 +1,9 @@
 from django import forms
-from atributo_subatributo.choices import *
-from atributo.models import Sistema
-from subatributo.models import Subatributo
-from atributo.models import Atributo
-from atributo_subatributo.models import Atributo_subatributo
+from apps.atributo_subatributo.choices import *
+from apps.atributo.models import Sistema
+from apps.subatributo.models import Subatributo
+from apps.atributo.models import Atributo
+from apps.atributo_subatributo.models import Atributo_subatributo
 
 class Atributo_subatributoForm(forms.ModelForm):
     class Meta:

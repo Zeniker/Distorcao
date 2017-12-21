@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.shortcuts import redirect
-from subatributo.forms import SubatributoForm
-from subatributo.models import Subatributo
-from sistema.models import Sistema
+from apps.subatributo.forms import SubatributoForm
+from apps.subatributo.models import Subatributo
+from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
 
 # Create your views here.

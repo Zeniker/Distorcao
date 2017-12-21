@@ -1,7 +1,7 @@
 from django import forms
-from atributo.choices import *
-from sistema.models import Sistema
-from atributo.models import Atributo
+from apps.atributo.choices import *
+from apps.sistema.models import Sistema
+from apps.atributo.models import Atributo
 
 class AtributoForm(forms.ModelForm):
     class Meta:

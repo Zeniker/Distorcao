@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from sistema.models import Sistema
-from atributo.choices import *
-from subatributo.choices import *
+from apps.sistema.models import Sistema
+from apps.atributo.choices import *
+from apps.subatributo.choices import *
 
 # Create your models here.
 class Subatributo(models.Model):

@@ -1,8 +1,8 @@
 from django import forms
-from atributo.choices import *
-from subatributo.choices import *
-from sistema.models import Sistema
-from subatributo.models import Subatributo
+from apps.atributo.choices import *
+from apps.subatributo.choices import *
+from apps.sistema.models import Sistema
+from apps.subatributo.models import Subatributo
 
 class SubatributoForm(forms.ModelForm):
     class Meta:

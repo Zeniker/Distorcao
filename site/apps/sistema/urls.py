@@ -1,7 +1,7 @@
 # arquivo connectedin/perfis/urls.py
 
 from django.conf.urls import url
-from sistema import views
+from apps.sistema import views
 
 urlpatterns = [
     url(r'^cadastro$', views.create, name='sistema_cadastro'),

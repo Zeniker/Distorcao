@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    'menu',
-    'sistema',
-    'atributo',
-    'subatributo',
-    'atributo_subatributo'
+    'apps.menu',
+    'apps.sistema',
+    'apps.atributo',
+    'apps.subatributo',
+    'apps.atributo_subatributo'
 
 ]
 

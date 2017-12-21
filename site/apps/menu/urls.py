@@ -1,7 +1,7 @@
 # arquivo connectedin/perfis/urls.py
 
 from django.conf.urls import url
-from menu.views import *
+from apps.menu.views import *
 
 urlpatterns = [
     url(r'^$', index, name='index'),
