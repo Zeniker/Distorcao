@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="cabecalho">
+    <h1>Lista de Narrações</h1>
+</div>
+<div class="container">
+    
+    <div class="margin-bottom-10px row">
+        <div class="col-md-6">
+            <a href="{% url 'narracao_cadastro' %}" class="btn btn-primary">
+                Nova Narração
+            </a>    
+            <a href="{% url 'index' %}" class="btn btn-danger margin-left">
+                Voltar
+            </a>
+        </div>    
+        
+    </div>    
+
+    {% include "narracao/table.html" %}
+    
+</div>
+{% endblock %}
