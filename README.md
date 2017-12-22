@@ -8,7 +8,7 @@ Este sistema tem como objetivo, facilitar a criação de fichas de um sistema pr
 Para instalar o projeto é necessário seguir os passos abaixo
 
 
-- Instalar o Python v2.7.14
+- Instalar o Python v3.6.4
 - Instalar o framework Django v1.11 através do comando abaixo
 ```
     >>> pip install django==1.11

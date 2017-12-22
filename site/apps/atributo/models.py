@@ -18,5 +18,5 @@ class Atributo(models.Model):
     valor_maximo_atributo = models.IntegerField()
     fk_id_sistema = models.ForeignKey(Sistema, null=False)
 
-    def __unicode__(self):
-        return u'{0}'.format(self.nome_atributo)
+    def __str__(self):
+        return self.nome_atributo

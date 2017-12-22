@@ -25,5 +25,5 @@ class Subatributo(models.Model):
 
     fk_id_sistema = models.ForeignKey(Sistema, null=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{0}'.format(self.nome_subatributo)
