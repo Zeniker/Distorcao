@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.shortcuts import redirect
-from atributo.forms import AtributoForm
-from atributo.models import Atributo
-from sistema.models import Sistema
+from apps.atributo.forms import AtributoForm
+from apps.atributo.models import Atributo
+from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
 
 

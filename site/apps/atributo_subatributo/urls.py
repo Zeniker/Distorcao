@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from atributo_subatributo import views
+from apps.atributo_subatributo import views
 
 urlpatterns = [
     url(r'^cadastro$', views.create, name='atributo_subatributo_cadastro'),

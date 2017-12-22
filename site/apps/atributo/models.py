@@ -1,6 +1,6 @@
 from django.db import models
-from sistema.models import Sistema
-from atributo.choices import *
+from apps.sistema.models import Sistema
+from apps.atributo.choices import *
 
 # Create your models here.
 class Atributo(models.Model):

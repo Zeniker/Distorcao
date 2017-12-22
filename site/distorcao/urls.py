@@ -18,9 +18,9 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),    
-    url(r'^', include('menu.urls')),
-    url(r'^sistema/', include('sistema.urls')),
-    url(r'^atributo/', include('atributo.urls')),
-    url(r'^subatributo/', include('subatributo.urls')),
-    url(r'^atributo_subatributo/', include('atributo_subatributo.urls')),
+    url(r'^', include('apps.menu.urls')),
+    url(r'^sistema/', include('apps.sistema.urls')),
+    url(r'^atributo/', include('apps.atributo.urls')),
+    url(r'^subatributo/', include('apps.subatributo.urls')),
+    url(r'^atributo_subatributo/', include('apps.atributo_subatributo.urls')),
 ]

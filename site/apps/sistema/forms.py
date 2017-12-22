@@ -1,5 +1,5 @@
 from django import forms
-from sistema.models import Sistema
+from apps.sistema.models import Sistema
 
 class SistemaForm(forms.ModelForm):
     class Meta:

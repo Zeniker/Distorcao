@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic.base import View
 from django.core.urlresolvers import reverse
-from sistema.forms import SistemaForm
-from sistema.models import Sistema
+from apps.sistema.forms import SistemaForm
+from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables
 
 def list(request):
