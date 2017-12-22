@@ -23,7 +23,7 @@ class Subatributo(models.Model):
         null=False
     )
 
-    fk_id_sistema = models.ForeignKey(Sistema, null=False)
+    fk_id_sistema = models.ForeignKey(Sistema, null=False, on_delete=models.CASCADE,)
 
     def __str__(self):
         return u'{0}'.format(self.nome_subatributo)

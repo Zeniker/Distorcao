@@ -16,7 +16,7 @@ class Atributo(models.Model):
     
     valor_minimo_atributo = models.IntegerField(null=False)
     valor_maximo_atributo = models.IntegerField()
-    fk_id_sistema = models.ForeignKey(Sistema, null=False)
+    fk_id_sistema = models.ForeignKey(Sistema, null=False, on_delete=models.CASCADE,)
 
     def __str__(self):
         return self.nome_atributo
