@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'apps.atributo',
     'apps.subatributo',
     'apps.atributo_subatributo',
-    'apps.narracao'
+    'apps.narracao',
+    'apps.ficha',
 
 ]
 

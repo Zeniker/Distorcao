@@ -1,0 +1,42 @@
+<div class="results" id="table-atributo">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Sistema
+                    </th>                    
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Excluir
+                    </th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for narracao in narracoes %}
+                    <tr>
+                        <td>
+                            {{ narracao.nome_narracao }}
+                        </td>
+                        <td>
+                            {{ narracao.fk_id_sistema.nome_sistema }}
+                        </td>                        
+                        <td>
+                            <a href="{% url 'narracao_alteracao' narracao.id %}">Editar</a>
+                        </td>
+                        <td>
+                                <a href="{% url 'narracao_exclusao' narracao.id %}">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include "pagination.html" with item_list=narracoes type='atributo' %}
+</div>

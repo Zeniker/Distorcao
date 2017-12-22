@@ -1,0 +1,43 @@
+{% extends "atributo/form.html" %}
+{% load widget_tweaks %}
+
+{% block form_fields %}
+<div ng-controller="fichaDynController as ficha">
+    <form action="{{url_destino}}" method="POST" autocomplete="off">       
+        {% csrf_token %}
+        <fieldset>        
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Narração: </label>                    
+                        {% render_field form.fk_id_narracao|attr:"ng-change:ficha.getAtributosSistema()"|attr:"ng-model:ficha.sistema" class+="form-control" %}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Nome: </label>                    
+                        {% render_field form.nome_ficha class+="form-control" %}
+                    </div>
+                </div>
+                <div class="col-md-12">                    
+                    <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
+                    <a href="{% url 'narracao_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                </div>
+            </div>
+            <div class="secao-ficha" ng-show="ficha.atributos.length > 0">
+                <h5>Atributos</h5>
+                <div class="inputs-ficha" ng-repeat="atributo in ficha.atributos">
+                    
+                    {% verbatim %}
+                    <div class="input-group">
+                        <span class="input-group-addon">{{atributo.nome_atributo}}</span>
+                        <input type="number" class="form-control" min="0">
+                    </div>
+                    {% endverbatim %}                    
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+{% endblock %}

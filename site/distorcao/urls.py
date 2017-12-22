@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^subatributo/', include('apps.subatributo.urls')),
     url(r'^atributo_subatributo/', include('apps.atributo_subatributo.urls')),
     url(r'^narracao/', include('apps.narracao.urls')),
+    url(r'^ficha/', include('apps.ficha.urls')),
 ]
