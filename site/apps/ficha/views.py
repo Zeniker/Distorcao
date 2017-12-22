@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from apps.ficha.models import Ficha
 from apps.narracao.models import Narracao
 from apps.atributo.models import Atributo
+from apps.subatributo.models import Subatributo
 from apps.ficha.forms import FichaForm
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
@@ -41,3 +42,13 @@ def get_atributos(request, narracao_id):
 
     return JsonResponse(atributos_json, safe=False)
 
+def get_subatributos(request, narracao_id):
+    narracao = Narracao.objects.get(id=narracao_id)
+
+    subatributos = Subatributo.objects.filter(fk_id_sistema=narracao.fk_id_sistema.id)    
+
+    custom_serializer = Serializer()
+
+    subatributos_json = custom_serializer.serialize(subatributos)
+
+    return JsonResponse(subatributos_json, safe=False)

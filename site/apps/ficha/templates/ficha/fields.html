@@ -10,7 +10,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Narração: </label>                    
-                        {% render_field form.fk_id_narracao|attr:"ng-change:ficha.getAtributosSistema()"|attr:"ng-model:ficha.sistema" class+="form-control" %}
+                        {% render_field form.fk_id_narracao|attr:"ng-change:ficha.changeNarracaoConfigurations()"|attr:"ng-model:ficha.narracao" class+="form-control" %}
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -19,22 +19,32 @@
                         {% render_field form.nome_ficha class+="form-control" %}
                     </div>
                 </div>
-                <div class="col-md-12">                    
+                <div class="col-md-12">
                     <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
                     <a href="{% url 'narracao_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
             <div class="secao-ficha" ng-show="ficha.atributos.length > 0">
                 <h5>Atributos</h5>
-                <div class="inputs-ficha" ng-repeat="atributo in ficha.atributos">
-                    
+                <div class="inputs-ficha">                    
                     {% verbatim %}
-                    <div class="input-group">
+                    <div class="input-group" ng-repeat="atributo in ficha.atributos">
                         <span class="input-group-addon">{{atributo.nome_atributo}}</span>
                         <input type="number" class="form-control" min="0">
                     </div>
                     {% endverbatim %}                    
                 </div>
+            </div>
+            <div class="secao-ficha" ng-show="ficha.subatributos.length > 0">
+                <h5>Subatributos</h5>
+                <table class="table table-striped">
+                    {% verbatim %}
+                    <tr class="row" ng-repeat="subatributo in ficha.subatributos">
+                        <td class="col-xs-4">{{subatributo.nome_subatributo}}:</td>
+                        <td class="col-xs-8	"> bla </td>
+                    </tr>
+                    {% endverbatim %}
+                </table>
             </div>
         </fieldset>
     </form>

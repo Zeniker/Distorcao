@@ -6,27 +6,26 @@ function fichaController($http) {
 	var vm = this;
 	
 	//Funções
-    vm.getAtributosSistema = getAtributosSistema;
+    vm.changeNarracaoConfigurations = changeNarracaoConfigurations;
 
     //Variáveis
-    vm.sistema=null;
-	vm.attNivel=0;
-	vm.attVigor=0;
-	vm.attDeterminacao=0;
-	vm.attForca=0;
-	vm.attDestreza=0;
-	vm.attMental=0;
-	vm.msgErro = null;
-	vm.validacao = '^[+0-9.,]+$';
+    vm.narracao = null;
+    vm.atributos = null;
+    vm.subatributos = null;	
 	
-	//Implementação de funções
-	function getAtributosSistema(){                
-        if (vm.sistema === undefined){
+    //Implementação de funções
+    function changeNarracaoConfigurations(){
+        getAtributos();
+        getSubatributos();
+    }
+
+	function getAtributos(){          
+        if (vm.narracao === undefined){
             vm.atributos = null;
         }else{
             $http({
                 method: 'GET',
-                url: '/ficha/ajax/atributos/' + vm.sistema
+                url: '/ficha/ajax/atributos/' + vm.narracao
             }).then(function successCallback(response) {                
                 vm.atributos = response.data;
                 
@@ -35,6 +34,24 @@ function fichaController($http) {
                 vm.atributos = null;
             });
         }        
+    }
+
+    function getSubatributos(){
+        if (vm.narracao === undefined){
+            vm.subatributos = null;
+        }else{
+            $http({
+                method: 'GET',
+                url: '/ficha/ajax/subatributos/' + vm.narracao
+            }).then(function successCallback(response) {    
+                console.log(response.data);
+                vm.subatributos = response.data;
+                
+            }, function errorCallback(response) {
+                console.log(response)
+                vm.subatributos = null;
+            });
+        } 
     }
 
 }
