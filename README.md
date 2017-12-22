@@ -9,7 +9,7 @@ Para instalar o projeto é necessário seguir os passos abaixo
 
 
 - Instalar o Python v3.6.4
-- Instalar o framework Django v1.11 através do comando abaixo
+- Instalar o framework Django v2.0 através do comando abaixo
 ```
     >>> pip install django==2.0
 ```
