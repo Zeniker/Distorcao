@@ -10,6 +10,21 @@ from distorcao.serializer import Serializer
 from django.http import JsonResponse
 
 # Create your views here.
+def list(request):
+    fichas_list = Ficha.objects.all()
+    narracoes = Narracao.objects.all()
+
+    page = request.GET.get('page', 1)
+
+    fichas = get_paginated_result(fichas_list, page, 10)
+
+    context = {
+        'narracoes': narracoes,
+        'fichas': fichas
+    }
+
+    return render(request, 'ficha/list.html', context)
+
 def create(request):
     template_name = 'ficha/fields.html'    
 

@@ -2,14 +2,14 @@
 
 {% block body %}
 <div class="cabecalho">
-    <h1>Lista de Narrações</h1>
+    <h1>Lista de Fichas</h1>
 </div>
 <div class="container">
     
     <div class="margin-bottom-10px row">
         <div class="col-md-6">
-            <a href="{% url 'narracao_cadastro' %}" class="btn btn-primary">
-                Nova Narração
+            <a href="{% url 'ficha_cadastro' %}" class="btn btn-primary">
+                Nova Ficha
             </a>    
             <a href="{% url 'index' %}" class="btn btn-danger margin-left">
                 Voltar
@@ -18,7 +18,7 @@
         
     </div>    
 
-    {% include "narracao/table.html" %}
+    {% include "ficha/table.html" %}
     
 </div>
 {% endblock %}

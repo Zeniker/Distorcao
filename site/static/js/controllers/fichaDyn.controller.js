@@ -7,6 +7,7 @@ function fichaController($http) {
 	
 	//Funções
     vm.changeNarracaoConfigurations = changeNarracaoConfigurations;
+    vm.initNarracaoUpdate = initNarracaoUpdate;
 
     //Variáveis
     vm.narracao = null;
@@ -52,6 +53,30 @@ function fichaController($http) {
                 vm.subatributos = null;
             });
         } 
+    }
+
+    function initNarracaoUpdate(){
+        if(!(vm.narracao === undefined) || !(vm.narracao === null)){
+            getPopulatedAtributos();
+        }
+    }
+
+    function getPopulatedAtributos(){
+        if (vm.narracao === undefined){
+            vm.subatributos = null;
+        }else{
+            $http({
+                method: 'GET',
+                url: '/ficha/ajax/subatributos_values/' + vm.narracao + '/1'
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                vm.subatributos = response.data;
+
+            }, function errorCallback(response) {
+                console.log(response)
+                vm.subatributos = null;
+            });
+        }
     }
 
 }

@@ -7,7 +7,7 @@
                         Nome
                     </th>
                     <th>
-                        Sistema
+                        Narração
                     </th>                    
                     <th>
                         Editar
@@ -18,19 +18,19 @@
                 </tr>                
             </thead>
             <tbody>
-                {% for narracao in narracoes %}
+                {% for ficha in fichas %}
                     <tr>
                         <td>
-                            {{ narracao.nome_narracao }}
+                            {{ ficha.nome_ficha }}
                         </td>
                         <td>
-                            {{ narracao.fk_id_sistema.nome_sistema }}
+                            {{ ficha.fk_id_narracao.nome_narracao }}
                         </td>                        
                         <td>
-                            <a href="{% url 'narracao_alteracao' narracao.id %}">Editar</a>
+                            <a href="{% url 'ficha_consulta' %}">Editar</a>
                         </td>
                         <td>
-                                <a href="{% url 'narracao_exclusao' narracao.id %}">Excluir</a>
+                            <a href="{% url 'ficha_consulta'  %}">Excluir</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -38,5 +38,5 @@
         </table>
     </div>
 
-    {% include "pagination.html" with item_list=narracoes type='atributo' %}
+    {% include "pagination.html" with item_list=fichas type='atributo' %}
 </div>

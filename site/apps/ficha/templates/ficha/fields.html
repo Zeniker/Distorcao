@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block form_fields %}
-<div ng-controller="fichaDynController as ficha">
+<div ng-controller="fichaDynController as ficha" ng-init="">
     <form action="{{url_destino}}" method="POST" autocomplete="off">       
         {% csrf_token %}
         <fieldset>        
@@ -26,7 +26,7 @@
             </div>
             <div class="secao-ficha" ng-show="ficha.atributos.length > 0">
                 <h5>Atributos</h5>
-                <div class="inputs-ficha">                    
+                <div class="inputs-ficha">
                     {% verbatim %}
                     <div class="input-group" ng-repeat="atributo in ficha.atributos">
                         <span class="input-group-addon">{{atributo.nome_atributo}}</span>
