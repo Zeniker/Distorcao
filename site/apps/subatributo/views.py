@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.shortcuts import redirect
 from apps.subatributo.forms import SubatributoForm
-from apps.subatributo.models import Subatributo
+from apps.subatributo.models import *
 from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
 
@@ -82,3 +82,18 @@ def delete(request, subatributo_id):
         subatributo = Subatributo.objects.get(id=subatributo_id)
 
         return render(request, template_name, {'subatributo': subatributo})
+
+def getSubatributos_json(sistema_id):
+    lista_subatributo = Subatributo.objects.filter(fk_id_sistema=sistema_id)
+    lista_subatributo_json = []
+
+    for subatributo in lista_subatributo:
+        subatributo_json = Subatributo_json()
+        subatributo_json.id = subatributo.id
+        subatributo_json.fk_id_sistema = subatributo.fk_id_sistema.id
+        subatributo_json.nome_subatributo = subatributo.nome_subatributo
+        subatributo_json.tipo_subatributo = subatributo.tipo_subatributo
+        subatributo_json.valor_inicial_subatributo = subatributo.valor_inicial_subatributo
+        lista_subatributo_json.append(subatributo_json)
+
+    return lista_subatributo_json

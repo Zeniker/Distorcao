@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from apps.atributo_subatributo.models import Atributo_subatributo
+from apps.atributo_subatributo.models import *
 from apps.atributo_subatributo.forms import Atributo_subatributoForm
 from distorcao.views import get_form_variables, get_paginated_result
 
@@ -82,3 +82,20 @@ def delete(request, atributo_subatributo_id):
         atributo_subatributo = Atributo_subatributo.objects.get(id=atributo_subatributo_id)
 
         return render(request, template_name, {'atributo_subatributo': atributo_subatributo})
+
+def getAtributo_subatributo_json(subatributo_id):
+    lista_atributo_subatributo = Atributo_subatributo.objects.filter(fk_id_subatributo=subatributo_id)
+    lista_atributo_subatributo_json = []
+
+    for atributo_subatributo in lista_atributo_subatributo:
+        atributo_subatributo_json = Atributo_subatributo_json()
+        atributo_subatributo_json.id = atributo_subatributo.id
+        atributo_subatributo_json.fk_id_atributo = atributo_subatributo.fk_id_atributo.id
+        atributo_subatributo_json.fk_id_subatributo = atributo_subatributo.fk_id_subatributo.id
+        atributo_subatributo_json.tipo_relacao_atributo_subatributo = atributo_subatributo.tipo_relacao_atributo_subatributo
+        atributo_subatributo_json.intervalo_atributo_subatributo = atributo_subatributo.intervalo_atributo_subatributo
+        atributo_subatributo_json.multiplicador_atributo_subatributo = atributo_subatributo.multiplicador_atributo_subatributo
+        lista_atributo_subatributo_json.append(atributo_subatributo_json)
+
+    return lista_atributo_subatributo_json
+

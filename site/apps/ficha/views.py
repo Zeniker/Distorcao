@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect
-from apps.ficha.models import Ficha
+from django.http import HttpResponse
+from apps.ficha.models import Ficha, Subatributo_calculo
 from apps.narracao.models import Narracao
 from apps.atributo.models import Atributo
 from apps.subatributo.models import Subatributo
 from apps.ficha.forms import FichaForm
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
+from apps.atributo_subatributo.views import getAtributo_subatributo_json
+from apps.subatributo.views import getSubatributos_json
+from distorcao.json_complex_encoder import ComplexEncoder
+import json
 
 from django.http import JsonResponse
 
@@ -60,10 +65,16 @@ def get_atributos(request, narracao_id):
 def get_subatributos(request, narracao_id):
     narracao = Narracao.objects.get(id=narracao_id)
 
-    subatributos = Subatributo.objects.filter(fk_id_sistema=narracao.fk_id_sistema.id)    
+    subatributos = getSubatributos_json(sistema_id=narracao.fk_id_sistema.id)
 
-    custom_serializer = Serializer()
+    lista_subatributos = []
 
-    subatributos_json = custom_serializer.serialize(subatributos)
+    for subatributo in subatributos:
+        subatributo_calculo = Subatributo_calculo()
+        subatributo_calculo.subatributo = subatributo
+        subatributo_calculo.calculos = getAtributo_subatributo_json(subatributo_id=subatributo.id)
+        lista_subatributos.append(subatributo_calculo)
 
-    return JsonResponse(subatributos_json, safe=False)
+    json_string = json.dumps(lista_subatributos,cls=ComplexEncoder)
+
+    return HttpResponse(json_string, content_type='application/json')
