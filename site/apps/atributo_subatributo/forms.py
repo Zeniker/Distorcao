@@ -8,10 +8,16 @@ from apps.atributo_subatributo.models import Atributo_subatributo
 class Atributo_subatributoForm(forms.ModelForm):
     class Meta:
         model = Atributo_subatributo
-        fields = '__all__'    
+        fields = '__all__'
+
+    fk_id_sistema = forms.ModelChoiceField(
+        queryset=Sistema.objects.all(),
+        empty_label="Selecione",
+        required=True
+    )
 
     fk_id_subatributo = forms.ModelChoiceField(
-        queryset=Subatributo.objects.all(),        
+        queryset=Subatributo.objects.all(),
         empty_label="Selecione",
         required=True        
     )

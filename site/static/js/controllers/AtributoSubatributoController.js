@@ -1,40 +1,40 @@
 angular
-	.module('distorcao')
-	.controller('fichaDynController', fichaController);
+    .module('distorcao')
+    .controller('AtributoSubatributoController', AtributoSubatributoController);
 
-function fichaController($http) {
-	var vm = this;
-	
-	//Funções
-    vm.changeNarracaoConfigurations = changeNarracaoConfigurations;
+function AtributoSubatributoController($http) {
+    var vm = this;
+
+    //Funções
+    vm.changeSistema = changeSistema;
     //vm.initNarracaoUpdate = initNarracaoUpdate;
 
     //Variáveis
     vm.narracao = null;
     vm.lista_atributos = null;
     vm.lista_subatributos = null;
-	
+
     //Implementação de funções
-    function changeNarracaoConfigurations(){
+    function changeSistema(){
         getAtributos();
         getSubatributos();
     }
 
-	function getAtributos(){          
+    function getAtributos(){
         if (vm.narracao === undefined){
             vm.lista_atributos = null;
         }else{
             $http({
                 method: 'GET',
                 url: '/ficha/ajax/atributos/' + vm.narracao
-            }).then(function successCallback(response) {                
+            }).then(function successCallback(response) {
                 vm.lista_atributos = response.data;
-                
+
             }, function errorCallback(response) {
                 console.log(response)
                 vm.lista_atributos = null;
             });
-        }        
+        }
     }
 
     function getSubatributos(){
@@ -44,15 +44,15 @@ function fichaController($http) {
             $http({
                 method: 'GET',
                 url: '/ficha/ajax/subatributos/' + vm.narracao
-            }).then(function successCallback(response) {    
+            }).then(function successCallback(response) {
                 console.log(response.data);
                 vm.lista_subatributos = response.data;
-                
+
             }, function errorCallback(response) {
                 console.log(response)
                 vm.lista_subatributos = null;
             });
-        } 
+        }
     }
 
     /*function initNarracaoUpdate(){

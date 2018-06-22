@@ -24,24 +24,24 @@
                     <a href="{% url 'narracao_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
-            <div class="secao-ficha" ng-show="ficha.atributos.length > 0">
+            <div class="secao-ficha" ng-show="ficha.lista_atributos.length > 0">
                 <h5>Atributos</h5>
                 <div class="inputs-ficha">
                     {% verbatim %}
-                    <div class="input-group" ng-repeat="atributo in ficha.atributos">
+                    <div class="input-group" ng-repeat="atributo in ficha.lista_atributos">
                         <span class="input-group-addon">{{atributo.nome_atributo}}</span>
                         <input type="number" class="form-control" min="0">
                     </div>
                     {% endverbatim %}                    
                 </div>
             </div>
-            <div class="secao-ficha" ng-show="ficha.subatributos.length > 0">
+            <div class="secao-ficha" ng-show="ficha.lista_subatributos.length > 0">
                 <h5>Subatributos</h5>
                 <table class="table table-striped">
                     {% verbatim %}
-                    <tr class="row" ng-repeat="subatributo in ficha.subatributos">
+                    <tr class="row" ng-repeat="subatributo in ficha.lista_subatributos">
                         <td class="col-xs-4">{{subatributo.nome_subatributo}}:</td>
-                        <td class="col-xs-8	"> bla </td>
+                        <td class="col-xs-8"> bla </td>
                     </tr>
                     {% endverbatim %}
                 </table>
