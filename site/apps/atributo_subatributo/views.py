@@ -5,6 +5,14 @@ from django.shortcuts import render, redirect
 from apps.atributo_subatributo.models import *
 from apps.atributo_subatributo.forms import Atributo_subatributoForm
 from distorcao.views import get_form_variables, get_paginated_result
+from distorcao.json_complex_encoder import *
+from distorcao.serializer import Serializer
+from django.http import JsonResponse, HttpResponse
+from django.urls import reverse
+from apps.atributo_subatributo.choices import *
+from apps.sistema.views import get_sistemas_json
+import json
+from distorcao.json_response import json_response
 
 # Create your views here.
 def list(request):
@@ -23,21 +31,27 @@ def list(request):
 def create(request):    
     template_name = 'atributo_subatributo/fields.html'    
 
-    if request.method == 'POST':
-        form = Atributo_subatributoForm(request.POST)
+    if request.method == 'POST':            
+        form = Atributo_subatributoForm(json.loads(request.body))        
 
         if form.is_valid():
             form.save()
 
-            return redirect('atributo_subatributo_consulta')
+            resposta = json_response()
+            resposta.status = 'OK'
+            resposta.data = reverse('atributo_subatributo_consulta')
+
+            json_string = json.dumps(resposta,cls=ComplexEncoder)
+
+            return HttpResponse(json_string, content_type='application/json')
         else:
-            form_variables = get_form_variables('Cadastro de Relação', request.path, form)
+            form_variables = get_form_variables('Cadastro de Cálculo', request.path, form)
 
             return render(request, template_name, form_variables)
     else:
         form = Atributo_subatributoForm()
 
-        form_variables = get_form_variables('Cadastro de Relação', request.path, form)
+        form_variables = get_form_variables('Cadastro de Cálculo', request.path)
 
         return render(request, template_name, form_variables)
 
@@ -51,21 +65,28 @@ def update(request, atributo_subatributo_id):
     }
 
     if request.method == 'POST':        
-        form = Atributo_subatributoForm(request.POST, instance=atributo_subatributo, initial=initial)
+        form = Atributo_subatributoForm(json.loads(request.body), instance=atributo_subatributo, initial=initial)
 
         if form.is_valid():
             form.save()
 
-            return redirect('atributo_subatributo_consulta')
+            resposta = json_response()
+            resposta.status = 'OK'
+            resposta.data = reverse('atributo_subatributo_consulta')
 
+            json_string = json.dumps(resposta,cls=ComplexEncoder)
+
+            return HttpResponse(json_string, content_type='application/json')            
         else:
-            form_variables = get_form_variables('Alteração de Relação', request.path, form)
+            form_variables = get_form_variables('Alteração de Cálculo', request.path, form)
         
             return render(request, template_name, form_variables)
     else:    
-        form = Atributo_subatributoForm(instance=atributo_subatributo, initial=initial)
+        #form = Atributo_subatributoForm(instance=atributo_subatributo, initial=initial)
 
-        form_variables = get_form_variables('Alteração de Relação', request.path, form=form)
+        form = Atributo_subatributoForm()
+
+        form_variables = get_form_variables('Alteração de Cálculo', request.path, form=form, id=atributo_subatributo_id)
 
         return render(request, template_name, form_variables)
 
@@ -99,3 +120,22 @@ def getAtributo_subatributo_json(subatributo_id):
 
     return lista_atributo_subatributo_json
 
+def get_atributo_subatributo(request, id_atributo_subatributo):    
+    atributo_subatributo = Atributo_subatributo.objects.filter(id=id_atributo_subatributo)    
+
+    custom_serializer = Serializer()
+
+    atributo_subatributo_json = custom_serializer.serialize(atributo_subatributo)
+
+    return JsonResponse(atributo_subatributo_json, safe=False)
+
+def get_form_options(request):
+    teste = get_sistemas_json()
+    choices = calculo_choices()
+    
+    choices.sistemas = teste
+
+    json_string = json.dumps(choices,cls=ComplexEncoder)
+
+    return HttpResponse(json_string, content_type='application/json')
+    

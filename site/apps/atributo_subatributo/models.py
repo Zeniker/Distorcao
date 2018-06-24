@@ -6,6 +6,7 @@ from apps.atributo.models import Atributo
 from apps.subatributo.models import Subatributo
 from apps.sistema.models import Sistema
 from apps.atributo_subatributo.choices import *
+from distorcao.choice_para_dict import choice_para_dict
 
 # Create your models here.
 class Atributo_subatributo(models.Model):
@@ -46,3 +47,14 @@ class Atributo_subatributo_json(object):
             intervalo_atributo_subatributo=self.intervalo_atributo_subatributo,
             multiplicador_atributo_subatributo=self.multiplicador_atributo_subatributo
         )
+
+class calculo_choices(object):    
+    def __init__(self):
+        self.sistemas = None        
+        self.tipos_calculo = choice_para_dict().executar(TIPO_RELACAO_CHOICES)
+    
+    def to_dict(self):
+        return dict(
+            sistemas=self.sistemas,
+            tipos_calculo=self.tipos_calculo
+        )        

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic.base import View
 from apps.sistema.forms import SistemaForm
-from apps.sistema.models import Sistema
+from apps.sistema.models import *
 from distorcao.views import get_form_variables
 
 def list(request):
@@ -67,3 +67,15 @@ def delete(request, sistema_id):
         sistema = Sistema.objects.get(id=sistema_id)
 
         return render(request, template_name, {'sistema': sistema})
+
+def get_sistemas_json():
+    lista_sistema = Sistema.objects.all()
+    lista_sistema_json = []
+
+    for sistema in lista_sistema:
+        sistema_json = Sistema_json()
+        sistema_json.id = sistema.id
+        sistema_json.nome_sistema = sistema.nome_sistema
+        lista_sistema_json.append(sistema_json)
+
+    return lista_sistema_json

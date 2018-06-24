@@ -7,6 +7,8 @@ from apps.subatributo.forms import SubatributoForm
 from apps.subatributo.models import *
 from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
+from distorcao.serializer import Serializer
+from django.http import JsonResponse
 
 # Create your views here.
 def list(request):
@@ -82,6 +84,15 @@ def delete(request, subatributo_id):
         subatributo = Subatributo.objects.get(id=subatributo_id)
 
         return render(request, template_name, {'subatributo': subatributo})
+
+def get_subatributos_sistema(request, sistema_id):    
+    subatributos = Subatributo.objects.filter(fk_id_sistema=sistema_id)    
+
+    custom_serializer = Serializer()
+
+    subatributos_json = custom_serializer.serialize(subatributos)
+
+    return JsonResponse(subatributos_json, safe=False)            
 
 def getSubatributos_json(sistema_id):
     lista_subatributo = Subatributo.objects.filter(fk_id_sistema=sistema_id)
