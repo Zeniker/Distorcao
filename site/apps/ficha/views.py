@@ -4,7 +4,7 @@ from apps.ficha.models import Ficha, Subatributo_calculo
 from apps.narracao.models import Narracao
 from apps.atributo.models import Atributo
 from apps.subatributo.models import Subatributo
-from apps.atributo_subatributo.models import Atributo_subatributo
+from apps.calculo.models import Calculo
 from apps.ficha.forms import FichaForm
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
@@ -72,7 +72,7 @@ def get_subatributos(request, narracao_id):
 def get_atributos_subatributos(request, narracao_id):
     narracao = Narracao.objects.get(id=narracao_id)
 
-    subatributos = Atributo_subatributo.objects.filter(fk_id_sistema=narracao.fk_id_sistema.id)
+    subatributos = Calculo.objects.filter(fk_id_sistema=narracao.fk_id_sistema.id)
 
     custom_serializer = Serializer()
 

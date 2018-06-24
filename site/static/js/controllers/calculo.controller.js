@@ -1,8 +1,8 @@
 angular
     .module('distorcao')
-    .controller('AtributoSubatributoController', AtributoSubatributoController);
+    .controller('CalculoController', CalculoController);
 
-function AtributoSubatributoController(atributoService, subatributoService, atributoSubatributoService, $window) {
+function CalculoController(atributoService, subatributoService, calculoService, $window) {
     var vm = this;    
 
     //Funções
@@ -32,15 +32,15 @@ function AtributoSubatributoController(atributoService, subatributoService, atri
         vm.form.fk_id_sistema = null;
         vm.form.fk_id_atributo = null;
         vm.form.fk_id_subatributo = null;
-        vm.form.tipo_relacao_atributo_subatributo = null;
-        vm.form.multiplicador_atributo_subatributo = null;
-        vm.form.intervalo_atributo_subatributo = null;
+        vm.form.tipo_calculo = null;
+        vm.form.multiplicador_calculo = null;
+        vm.form.intervalo_calculo = null;
 
         if(id === undefined){
-            atributoSubatributoService.getFormOptions(carregaOpcoesIniciais);
+            calculoService.getFormOptions(carregaOpcoesIniciais);
         }else{
             vm.form.id = id;    
-            atributoSubatributoService.getFormOptions(carregaOpcoesIniciais);        
+            calculoService.getFormOptions(carregaOpcoesIniciais);        
             getAtributoSubatributo(id);
         }
         vm.destino = destino;
@@ -63,7 +63,7 @@ function AtributoSubatributoController(atributoService, subatributoService, atri
                 vm.lista_atributos = response.data;
                 
                 if(atributoPadrao !== null){
-                    vm.form.fk_id_atributo = atributoSubatributoService.findObjectById(vm.lista_atributos, atributoPadrao);
+                    vm.form.fk_id_atributo = calculoService.findObjectById(vm.lista_atributos, atributoPadrao);
                 }else{
                     if(vm.lista_atributos.length > 0){                    
                         vm.form.fk_id_atributo = vm.lista_atributos[0];
@@ -83,7 +83,7 @@ function AtributoSubatributoController(atributoService, subatributoService, atri
                 vm.lista_subatributos = response.data;
                 
                 if(subatributoPadrao !== null){
-                    vm.form.fk_id_subatributo = atributoSubatributoService.findObjectById(vm.lista_atributos, subatributoPadrao);
+                    vm.form.fk_id_subatributo = calculoService.findObjectById(vm.lista_atributos, subatributoPadrao);
                 }else{
                     if(vm.lista_subatributos.length > 0){
                         vm.form.fk_id_subatributo= vm.lista_subatributos[0];
@@ -94,26 +94,26 @@ function AtributoSubatributoController(atributoService, subatributoService, atri
     }
 
     function sendFormData(){                        
-        formData = atributoSubatributoService.gambiarraNgOptions(vm.form);            
+        formData = calculoService.gambiarraNgOptions(vm.form);            
         
-        atributoSubatributoService.sendFormData(formData, vm.destino, function(response){
+        calculoService.sendFormData(formData, vm.destino, function(response){
             if(response.data.status == 'OK'){                
                 $window.location.href = response.data.data;
             }
         });
     }
 
-    function getAtributoSubatributo(atributo_subatributo_id){
-        if (atributo_subatributo_id === undefined){
+    function getAtributoSubatributo(calculo_id){
+        if (calculo_id === undefined){
             //vm.lista_subatributos = null;
         }else{            
-            atributoSubatributoService.getAtributoSubatributo(atributo_subatributo_id, function(response){
+            calculoService.getCalculo(calculo_id, function(response){
                 registro = response.data[0];
 
-                vm.form.intervalo_atributo_subatributo = registro.intervalo_atributo_subatributo;
-                vm.form.multiplicador_atributo_subatributo = registro.multiplicador_atributo_subatributo;
-                vm.form.tipo_relacao_atributo_subatributo = atributoSubatributoService.findObjectById(vm.lista_tipo_calculo, registro.tipo_relacao_atributo_subatributo);
-                vm.form.fk_id_sistema = atributoSubatributoService.findObjectById(vm.lista_sistema, registro.fk_id_sistema);
+                vm.form.intervalo_calculo = registro.intervalo_calculo;
+                vm.form.multiplicador_calculo = registro.multiplicador_calculo;
+                vm.form.tipo_calculo = calculoService.findObjectById(vm.lista_tipo_calculo, registro.tipo_calculo);
+                vm.form.fk_id_sistema = calculoService.findObjectById(vm.lista_sistema, registro.fk_id_sistema);
                 getAtributos(registro.fk_id_atributo);
                 getSubatributos(registro.fk_id_subatributo);
 

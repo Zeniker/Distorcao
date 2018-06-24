@@ -1,10 +1,10 @@
-{% extends "atributo_subatributo/form.html" %}
+{% extends "calculo/form.html" %}
 {% load widget_tweaks %}
 
 {% block form_fields %}
 {{ form.errors }}
 {{ form.non_field_errors }}
-<div ng-controller="AtributoSubatributoController as vm">
+<div ng-controller="CalculoController as vm">
     <form method="POST" autocomplete="off" ng-init="vm.carregaDados({{id}}, '{{url_destino}}')">            
         {% csrf_token %}
         <fieldset>
@@ -36,7 +36,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Tipo de Relação: </label>
-                        <select name="tipo_relacao_atributo_subatributo" class="form-control" id="id_tipo_relacao_atributo_subatributo" ng-model="vm.form.tipo_relacao_atributo_subatributo"
+                        <select name="tipo_calculo" class="form-control" id="id_tipo_calculo" ng-model="vm.form.tipo_calculo"
                             ng-options="tipo.nome for tipo in vm.lista_tipo_calculo track by tipo.id">                                                                    
                         </select>
                     </div>
@@ -44,18 +44,18 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Intervalos: </label>
-                        <input id="id_intervalo_calculo" name="intervalo_atributo_subatributo" class="form-control" ng-model="vm.form.intervalo_atributo_subatributo" type="text">
+                        <input id="id_intervalo_calculo" name="intervalo_calculo" class="form-control" ng-model="vm.form.intervalo_calculo" type="text">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Multiplicadores: </label>
-                        <input id="id_multiplicador_calculo" name="multiplicador_atributo_subatributo" class="form-control" ng-model="vm.form.multiplicador_atributo_subatributo" type="text">                        
+                        <input id="id_multiplicador_calculo" name="multiplicador_calculo" class="form-control" ng-model="vm.form.multiplicador_calculo" type="text">                        
                     </div>
                 </div>
                 <div class="col-md-12">
                     <button class="btn btn-success fr" role="button" id="save_button" ng-click="vm.sendFormData()">Salvar</button>
-                    <a href="{% url 'atributo_subatributo_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                    <a href="{% url 'calculo_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
         </fieldset>

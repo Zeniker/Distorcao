@@ -1,13 +1,13 @@
 from django import forms
-from apps.atributo_subatributo.choices import *
+from apps.calculo.choices import *
 from apps.atributo.models import Sistema
 from apps.subatributo.models import Subatributo
 from apps.atributo.models import Atributo
-from apps.atributo_subatributo.models import Atributo_subatributo
+from apps.calculo.models import Calculo
 
-class Atributo_subatributoForm(forms.ModelForm):
+class CalculoForm(forms.ModelForm):
     class Meta:
-        model = Atributo_subatributo
+        model = Calculo
         fields = '__all__'
 
     fk_id_sistema = forms.ModelChoiceField(
@@ -29,13 +29,13 @@ class Atributo_subatributoForm(forms.ModelForm):
     )
 
     tipo_relacao_atributo_subatributo = forms.ChoiceField(
-        choices=TIPO_RELACAO_CHOICES,
+        choices=TIPO_CALCULO_CHOICES,
         required=True        
     )
 
     def is_valid(self):
         valid = True
-        if not super(Atributo_subatributoForm, self).is_valid():
+        if not super(CalculoForm, self).is_valid():
             self.adiciona_erro('Por favor, verifique os dados informados')
             valid = False
 

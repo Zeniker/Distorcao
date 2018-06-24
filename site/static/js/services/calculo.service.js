@@ -2,11 +2,11 @@
 
     angular
         .module('distorcao')
-        .service('atributoSubatributoService', atributoSubatributoService);
+        .service('calculoService', calculoService);
     
-    function atributoSubatributoService($http){
+    function calculoService($http){
         var service = {
-            getAtributoSubatributo: getAtributoSubatributo,
+            getCalculo: getCalculo,
             getFormOptions: getFormOptions,
             sendFormData: sendFormData,
             gambiarraNgOptions: gambiarraNgOptions,
@@ -15,13 +15,13 @@
         
         return service;
     
-        function getAtributoSubatributo(id_registro, callback){
+        function getCalculo(id_registro, callback){
             if (id_registro === null || !angular.isNumber(+id_registro)){
                 return null
             }else{
                 $http({
                     method: 'GET',
-                    url: '/atributo_subatributo/ajax/get_atributo_subatributo/' + id_registro
+                    url: '/calculo/ajax/get_calculo/' + id_registro
                 }).then(callback, function errorCallback(response) {
                     console.log(response)
                     return null;
@@ -32,7 +32,7 @@
         function getFormOptions(callback){
             $http({
                 method: 'GET',
-                url: '/atributo_subatributo/ajax/get_form_options'
+                url: '/calculo/ajax/get_form_options'
             }).then(callback, function errorCallback(response) {
                 console.log(response)
                 return null;

@@ -1,45 +1,45 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
 from django.shortcuts import render, redirect
-from apps.atributo_subatributo.models import *
-from apps.atributo_subatributo.forms import Atributo_subatributoForm
+from apps.calculo.models import *
+from apps.calculo.forms import CalculoForm
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.json_complex_encoder import *
 from distorcao.serializer import Serializer
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
-from apps.atributo_subatributo.choices import *
+from apps.calculo.choices import *
 from apps.sistema.views import get_sistemas_json
-import json
 from distorcao.json_response import json_response
 
 # Create your views here.
 def list(request):
-    result_list = Atributo_subatributo.objects.all()    
+    result_list = Calculo.objects.all()    
 
     page = request.GET.get('page', 1)
 
-    atributos_subatributos = get_paginated_result(result_list, page, 10)
+    calculos = get_paginated_result(result_list, page, 10)
 
     context = {        
-        'atributos_subatributos': atributos_subatributos
+        'calculos': calculos
     }
 
-    return render(request, 'atributo_subatributo/list.html', context)
+    return render(request, 'calculo/list.html', context)
 
 def create(request):    
-    template_name = 'atributo_subatributo/fields.html'    
+    template_name = 'calculo/fields.html'    
 
     if request.method == 'POST':            
-        form = Atributo_subatributoForm(json.loads(request.body))        
+        form = CalculoForm(json.loads(request.body))        
 
         if form.is_valid():
             form.save()
 
             resposta = json_response()
             resposta.status = 'OK'
-            resposta.data = reverse('atributo_subatributo_consulta')
+            resposta.data = reverse('calculo_consulta')
 
             json_string = json.dumps(resposta,cls=ComplexEncoder)
 
@@ -49,30 +49,30 @@ def create(request):
 
             return render(request, template_name, form_variables)
     else:
-        form = Atributo_subatributoForm()
+        form = CalculoForm()
 
         form_variables = get_form_variables('Cadastro de Cálculo', request.path)
 
         return render(request, template_name, form_variables)
 
-def update(request, atributo_subatributo_id):
-    template_name = 'atributo_subatributo/fields.html'
-    atributo_subatributo = Atributo_subatributo.objects.get(id=atributo_subatributo_id)
+def update(request, calculo_id):
+    template_name = 'calculo/fields.html'
+    calculo = Calculo.objects.get(id=calculo_id)
 
     initial = {
-        'fk_id_atributo':atributo_subatributo.fk_id_atributo,
-        'fk_id_subatributo':atributo_subatributo.fk_id_subatributo,
+        'fk_id_atributo':calculo.fk_id_atributo,
+        'fk_id_subatributo':calculo.fk_id_subatributo,
     }
 
     if request.method == 'POST':        
-        form = Atributo_subatributoForm(json.loads(request.body), instance=atributo_subatributo, initial=initial)
+        form = CalculoForm(json.loads(request.body), instance=calculo, initial=initial)
 
         if form.is_valid():
             form.save()
 
             resposta = json_response()
             resposta.status = 'OK'
-            resposta.data = reverse('atributo_subatributo_consulta')
+            resposta.data = reverse('calculo_consulta')
 
             json_string = json.dumps(resposta,cls=ComplexEncoder)
 
@@ -84,27 +84,27 @@ def update(request, atributo_subatributo_id):
     else:    
         #form = Atributo_subatributoForm(instance=atributo_subatributo, initial=initial)
 
-        form = Atributo_subatributoForm()
+        #form = CalculoForm()
 
-        form_variables = get_form_variables('Alteração de Cálculo', request.path, form=form, id=atributo_subatributo_id)
+        form_variables = get_form_variables('Alteração de Cálculo', request.path, id=calculo_id)
 
         return render(request, template_name, form_variables)
 
-def delete(request, atributo_subatributo_id):
-    template_name = 'atributo_subatributo/delete.html'
+def delete(request, calculo_id):
+    template_name = 'calculo/delete.html'
 
     if request.method == 'POST':
-        atributo_subatributo = Atributo_subatributo.objects.get(id=atributo_subatributo_id)        
+        calculo = Calculo.objects.get(id=calculo_id)        
 
-        atributo_subatributo.delete()
+        calculo.delete()
 
-        return redirect('atributo_subatributo_consulta')
+        return redirect('calculo_consulta')
     else:
-        atributo_subatributo = Atributo_subatributo.objects.get(id=atributo_subatributo_id)
+        calculo = Calculo.objects.get(id=calculo_id)
 
-        return render(request, template_name, {'atributo_subatributo': atributo_subatributo})
+        return render(request, template_name, {'calculo': calculo})
 
-def getAtributo_subatributo_json(subatributo_id):
+""" def get_calculo_json(calculo_id):
     lista_atributo_subatributo = Atributo_subatributo.objects.filter(fk_id_subatributo=subatributo_id)
     lista_atributo_subatributo_json = []
 
@@ -118,20 +118,20 @@ def getAtributo_subatributo_json(subatributo_id):
         atributo_subatributo_json.multiplicador_atributo_subatributo = atributo_subatributo.multiplicador_atributo_subatributo
         lista_atributo_subatributo_json.append(atributo_subatributo_json)
 
-    return lista_atributo_subatributo_json
+    return lista_atributo_subatributo_json """
 
-def get_atributo_subatributo(request, id_atributo_subatributo):    
-    atributo_subatributo = Atributo_subatributo.objects.filter(id=id_atributo_subatributo)    
+def get_calculo(request, calculo_id):    
+    calculo = Calculo.objects.filter(id=calculo_id)
 
     custom_serializer = Serializer()
 
-    atributo_subatributo_json = custom_serializer.serialize(atributo_subatributo)
+    calculo_json = custom_serializer.serialize(calculo)
 
-    return JsonResponse(atributo_subatributo_json, safe=False)
+    return JsonResponse(calculo_json, safe=False)
 
 def get_form_options(request):
     teste = get_sistemas_json()
-    choices = calculo_choices()
+    choices = CalculoChoices()
     
     choices.sistemas = teste
 
