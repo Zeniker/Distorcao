@@ -13,16 +13,3 @@ class Ficha(models.Model):
     def __str__(self):
         return self.nome_ficha
 
-
-class Subatributo_calculo(object):
-
-    def __init__(self):
-        self.calculos = []
-        self.subatributo = object()
-
-    def to_dict(self):
-        return dict(
-            calculos=self.calculos,
-            subatributo=self.subatributo
-        )
-

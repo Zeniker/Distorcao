@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+import json
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic.base import View
 from apps.sistema.forms import SistemaForm
 from apps.sistema.models import *
 from distorcao.views import get_form_variables
+from django.http import JsonResponse, HttpResponse
+from distorcao.json_complex_encoder import *
+
 
 def list(request):
     sistemas = Sistema.objects.all()
@@ -68,7 +72,7 @@ def delete(request, sistema_id):
 
         return render(request, template_name, {'sistema': sistema})
 
-def get_sistemas_json():
+def get_lista_sistemas():
     lista_sistema = Sistema.objects.all()
     lista_sistema_json = []
 
@@ -79,3 +83,10 @@ def get_sistemas_json():
         lista_sistema_json.append(sistema_json)
 
     return lista_sistema_json
+
+def get_lista_sistema_json(request):
+    lista_sistema = get_lista_sistemas()
+
+    json_string = json.dumps(lista_sistema,cls=ComplexEncoder)
+
+    return HttpResponse(json_string, content_type='application/json')

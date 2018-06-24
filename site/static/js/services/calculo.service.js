@@ -9,11 +9,24 @@
             getCalculo: getCalculo,
             getFormOptions: getFormOptions,
             sendFormData: sendFormData,
-            gambiarraNgOptions: gambiarraNgOptions,
-            findObjectById: findObjectById
+            getCalculoSistema: getCalculoSistema
         };
         
         return service;
+
+        function getCalculoSistema(sistema_id, callback){
+            if (sistema_id === null || !angular.isNumber(+sistema_id)){
+                return null
+            }else{
+                $http({
+                    method: 'GET',
+                    url: '/calculo/ajax/get_calculo_sistema/' + sistema_id
+                }).then(callback, function errorCallback(response) {
+                    console.log(response)
+                    return null;
+                });
+            } 
+        }
     
         function getCalculo(id_registro, callback){
             if (id_registro === null || !angular.isNumber(+id_registro)){
@@ -48,30 +61,7 @@
                 console.log(response)
                 return null;
             });
-        }
-
-        function gambiarraNgOptions(objeto){
-            novoObjeto = {}
-
-            angular.forEach(objeto, function(value, key){
-                if(angular.isObject(value)){
-                    novoObjeto[key] = value.id;
-                }else{
-                    
-                    novoObjeto[key] = value;
-                }
-            })
-
-            return novoObjeto;
-        }
-
-        function findObjectById(lista_objetos, id){
-            for(i = 0; i < lista_objetos.length; i++){
-                if(lista_objetos[i].id == id){
-                    return lista_objetos[i];
-                }
-            }
-        }
+        }         
     }
     
     })();

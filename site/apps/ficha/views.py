@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from apps.ficha.models import Ficha, Subatributo_calculo
+from apps.ficha.models import Ficha
 from apps.narracao.models import Narracao
 from apps.atributo.models import Atributo
 from apps.subatributo.models import Subatributo
@@ -41,41 +41,8 @@ def create(request):
 
             return render(request, template_name, form_variables)
     else:
-        form = FichaForm()
+        #form = FichaForm()
 
-        form_variables = get_form_variables('Cadastro de Ficha', request.path, form)
+        form_variables = get_form_variables('Cadastro de Ficha', request.path)
 
         return render(request, template_name, form_variables)
-
-def get_atributos(request, narracao_id):
-    narracao = Narracao.objects.get(id=narracao_id)
-
-    atributos = Atributo.objects.filter(fk_id_sistema=narracao.fk_id_sistema.id)    
-
-    custom_serializer = Serializer()
-
-    atributos_json = custom_serializer.serialize(atributos)
-
-    return JsonResponse(atributos_json, safe=False)
-
-def get_subatributos(request, narracao_id):
-    narracao = Narracao.objects.get(id=narracao_id)
-
-    subatributos = Subatributo.objects.filter(fk_id_sistema=narracao.fk_id_sistema.id)
-
-    custom_serializer = Serializer()
-
-    subatributos_json = custom_serializer.serialize(subatributos)
-
-    return JsonResponse(subatributos_json, safe=False)
-
-def get_atributos_subatributos(request, narracao_id):
-    narracao = Narracao.objects.get(id=narracao_id)
-
-    subatributos = Calculo.objects.filter(fk_id_sistema=narracao.fk_id_sistema.id)
-
-    custom_serializer = Serializer()
-
-    subatributos_json = custom_serializer.serialize(subatributos)
-
-    return JsonResponse(subatributos_json, safe=False)

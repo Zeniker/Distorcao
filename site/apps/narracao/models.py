@@ -12,3 +12,17 @@ class Narracao(models.Model):
 
     def __str__(self):
         return self.nome_narracao
+
+
+class NarracaoJson(object):
+    def __init__(self):
+        self.id = 0
+        self.fk_id_sistema = 0
+        self.nome_narracao = ""
+
+    def to_dict(self):
+        return dict(
+            id=self.id,
+            fk_id_sistema=self.fk_id_sistema,
+            nome_narracao=self.nome_narracao
+        )

@@ -11,7 +11,7 @@ from distorcao.serializer import Serializer
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 from apps.calculo.choices import *
-from apps.sistema.views import get_sistemas_json
+from apps.sistema.views import get_lista_sistemas
 from distorcao.json_response import json_response
 
 # Create your views here.
@@ -104,21 +104,21 @@ def delete(request, calculo_id):
 
         return render(request, template_name, {'calculo': calculo})
 
-""" def get_calculo_json(calculo_id):
-    lista_atributo_subatributo = Atributo_subatributo.objects.filter(fk_id_subatributo=subatributo_id)
-    lista_atributo_subatributo_json = []
+# def get_calculo_json(calculo_id):
+#     lista_atributo_subatributo = Atributo_subatributo.objects.filter(fk_id_subatributo=subatributo_id)
+#     lista_atributo_subatributo_json = []
 
-    for atributo_subatributo in lista_atributo_subatributo:
-        atributo_subatributo_json = Atributo_subatributo_json()
-        atributo_subatributo_json.id = atributo_subatributo.id
-        atributo_subatributo_json.fk_id_atributo = atributo_subatributo.fk_id_atributo.id
-        atributo_subatributo_json.fk_id_subatributo = atributo_subatributo.fk_id_subatributo.id
-        atributo_subatributo_json.tipo_relacao_atributo_subatributo = atributo_subatributo.tipo_relacao_atributo_subatributo
-        atributo_subatributo_json.intervalo_atributo_subatributo = atributo_subatributo.intervalo_atributo_subatributo
-        atributo_subatributo_json.multiplicador_atributo_subatributo = atributo_subatributo.multiplicador_atributo_subatributo
-        lista_atributo_subatributo_json.append(atributo_subatributo_json)
+#     for atributo_subatributo in lista_atributo_subatributo:
+#         atributo_subatributo_json = Atributo_subatributo_json()
+#         atributo_subatributo_json.id = atributo_subatributo.id
+#         atributo_subatributo_json.fk_id_atributo = atributo_subatributo.fk_id_atributo.id
+#         atributo_subatributo_json.fk_id_subatributo = atributo_subatributo.fk_id_subatributo.id
+#         atributo_subatributo_json.tipo_relacao_atributo_subatributo = atributo_subatributo.tipo_relacao_atributo_subatributo
+#         atributo_subatributo_json.intervalo_atributo_subatributo = atributo_subatributo.intervalo_atributo_subatributo
+#         atributo_subatributo_json.multiplicador_atributo_subatributo = atributo_subatributo.multiplicador_atributo_subatributo
+#         lista_atributo_subatributo_json.append(atributo_subatributo_json)
 
-    return lista_atributo_subatributo_json """
+#     return lista_atributo_subatributo_json
 
 def get_calculo(request, calculo_id):    
     calculo = Calculo.objects.filter(id=calculo_id)
@@ -130,12 +130,23 @@ def get_calculo(request, calculo_id):
     return JsonResponse(calculo_json, safe=False)
 
 def get_form_options(request):
-    teste = get_sistemas_json()
+    lista_sistemas = get_lista_sistemas()
     choices = CalculoChoices()
     
-    choices.sistemas = teste
+    choices.sistemas = lista_sistemas
 
     json_string = json.dumps(choices,cls=ComplexEncoder)
 
     return HttpResponse(json_string, content_type='application/json')
+
+def get_calculo_sistema(sistema_id):
+    return Calculo.objects.filter(fk_id_sistema=sistema_id)  
     
+def get_calculo_sistema_json(request, sistema_id):
+    lista_calculo = get_calculo_sistema(sistema_id)
+
+    custom_serializer = Serializer()
+
+    calculo_json = custom_serializer.serialize(lista_calculo)
+
+    return JsonResponse(calculo_json, safe=False)

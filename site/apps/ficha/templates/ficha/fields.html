@@ -2,26 +2,37 @@
 {% load widget_tweaks %}
 
 {% block form_fields %}
-<div ng-controller="fichaDynController as ficha" ng-init="">
+<div ng-controller="fichaDynController as ficha" ng-init="ficha.carregaDados()">
     <form action="{{url_destino}}" method="POST" autocomplete="off">       
         {% csrf_token %}
         <fieldset>        
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Narração: </label>                    
-                        {% render_field form.fk_id_narracao|attr:"ng-change:ficha.changeNarracaoConfigurations()"|attr:"ng-model:ficha.narracao" class+="form-control" %}
+                        <label>Sistema: </label>                    
+                        <select name="fk_id_sistema" class="form-control" id="id_fk_id_sistema" ng-model="ficha.sistema"
+                            ng-options="sistema.nome_sistema for sistema in ficha.lista_sistemas track by sistema.id" ng-change="ficha.changeSistema()">
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Nome: </label>                    
-                        {% render_field form.nome_ficha class+="form-control" %}
+                        <label>Narração: </label>                    
+                        <select name="fk_id_narracao" class="form-control" id="id_fk_id_narracao" ng-model="ficha.form.fk_id_narracao"
+                            ng-options="narracao.nome_narracao for narracao in ficha.lista_narracoes track by narracao.id"
+                            ng-disabled="ficha.lista_narracoes == null">
+                        </select>                        
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Nome: </label>  
+                        <input id="id_nome_ficha" name="nome_ficha" class="form-control" ng-model="vm.form.nome_ficha" type="text">                        
                     </div>
                 </div>
                 <div class="col-md-12">
                     <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
-                    <a href="{% url 'narracao_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                    <a href="{% url 'ficha_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
             <div class="secao-ficha" ng-show="ficha.lista_atributos.length > 0">
@@ -30,7 +41,7 @@
                     {% verbatim %}
                     <div class="input-group" ng-repeat="atributo in ficha.lista_atributos">
                         <span class="input-group-addon">{{atributo.nome_atributo}}</span>
-                        <input type="number" class="form-control" min="0">
+                        <input type="number" class="form-control" min="0" ng-change="ficha.alteraAtributo($index)" ng-model="ficha.valor_atributo[$index]">
                     </div>
                     {% endverbatim %}                    
                 </div>
@@ -40,8 +51,17 @@
                 <table class="table table-striped">
                     {% verbatim %}
                     <tr class="row" ng-repeat="subatributo in ficha.lista_subatributos">
-                        <td class="col-xs-4">{{subatributo.nome_subatributo}}:</td>
-                        <td class="col-xs-8"> bla </td>
+                        <td class="col-md-4">{{subatributo.nome_subatributo}}:</td>
+                        <td class="col-md-2">                                
+                            <input type="text" name="teste" class="form-control" ng-model="ficha.valores_iniciais[$index]" ng-change="ficha.alteraValorInicial($index)"
+                                ng-disabled="subatributo.valor_inicial_subatributo == 2">                                                                                        
+                        </td>
+                        <td class="col-md-6">
+                            {{ficha.valor_subatributo[$index]}}
+                            <span ng-if="subatributo.tipo_subatributo == 4 || subatributo.tipo_subatributo == 5">
+                                %
+                            </span>
+                        </td>
                     </tr>
                     {% endverbatim %}
                 </table>

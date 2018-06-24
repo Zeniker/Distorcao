@@ -2,13 +2,13 @@ angular
     .module('distorcao')
     .controller('CalculoController', CalculoController);
 
-function CalculoController(atributoService, subatributoService, calculoService, $window) {
+function CalculoController(atributoService, subatributoService, calculoService, distorcaoService, $window) {
     var vm = this;    
 
     //Funções
     vm.changeSistema = changeSistema;    
     vm.carregaDados = carregaDados;    
-    vm.sendFormData = sendFormData;
+    vm.sendFormData = sendFormData;    
 
     //Variáveis    
     vm.lista_atributos = null;
@@ -59,11 +59,11 @@ function CalculoController(atributoService, subatributoService, calculoService, 
         if (vm.form.fk_id_sistema === undefined){
             vm.lista_atributos = null;
         }else{            
-            atributoService.getAtributosSistema(vm.form.fk_id_sistema.id, function(response){
+            atributoService.getAtributosSistema(vm.form.fk_id_sistema.id, function(response){                
                 vm.lista_atributos = response.data;
                 
                 if(atributoPadrao !== null){
-                    vm.form.fk_id_atributo = calculoService.findObjectById(vm.lista_atributos, atributoPadrao);
+                    vm.form.fk_id_atributo = distorcaoService.findObjectById(vm.lista_atributos, atributoPadrao);
                 }else{
                     if(vm.lista_atributos.length > 0){                    
                         vm.form.fk_id_atributo = vm.lista_atributos[0];
@@ -83,18 +83,18 @@ function CalculoController(atributoService, subatributoService, calculoService, 
                 vm.lista_subatributos = response.data;
                 
                 if(subatributoPadrao !== null){
-                    vm.form.fk_id_subatributo = calculoService.findObjectById(vm.lista_atributos, subatributoPadrao);
+                    vm.form.fk_id_subatributo = distorcaoService.findObjectById(vm.lista_atributos, subatributoPadrao);
                 }else{
                     if(vm.lista_subatributos.length > 0){
                         vm.form.fk_id_subatributo= vm.lista_subatributos[0];
                     }                          
                 }                
             });            
-        }       
+        }
     }
 
     function sendFormData(){                        
-        formData = calculoService.gambiarraNgOptions(vm.form);            
+        formData = distorcaoService.gambiarraNgOptions(vm.form);            
         
         calculoService.sendFormData(formData, vm.destino, function(response){
             if(response.data.status == 'OK'){                
@@ -112,8 +112,8 @@ function CalculoController(atributoService, subatributoService, calculoService, 
 
                 vm.form.intervalo_calculo = registro.intervalo_calculo;
                 vm.form.multiplicador_calculo = registro.multiplicador_calculo;
-                vm.form.tipo_calculo = calculoService.findObjectById(vm.lista_tipo_calculo, registro.tipo_calculo);
-                vm.form.fk_id_sistema = calculoService.findObjectById(vm.lista_sistema, registro.fk_id_sistema);
+                vm.form.tipo_calculo = distorcaoService.findObjectById(vm.lista_tipo_calculo, registro.tipo_calculo);
+                vm.form.fk_id_sistema = distorcaoService.findObjectById(vm.lista_sistema, registro.fk_id_sistema);
                 getAtributos(registro.fk_id_atributo);
                 getSubatributos(registro.fk_id_subatributo);
 
@@ -121,6 +121,6 @@ function CalculoController(atributoService, subatributoService, calculoService, 
 
             });            
         }
-    }    
+    }   
 
 }

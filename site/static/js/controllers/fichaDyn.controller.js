@@ -2,81 +2,163 @@ angular
 	.module('distorcao')
 	.controller('fichaDynController', fichaController);
 
-function fichaController($http) {
+function fichaController(sistemaService, narracaoService, atributoService, subatributoService, distorcaoService, calculoService, calculaBonus) {
 	var vm = this;
 	
-	//Funções
-    vm.changeNarracaoConfigurations = changeNarracaoConfigurations;
-    //vm.initNarracaoUpdate = initNarracaoUpdate;
+	//Funções    
+    vm.carregaDados = carregaDados;
+    vm.changeSistema = changeSistema;    
+    vm.alteraValorInicial = alteraValorInicial;
+    vm.alteraAtributo = alteraAtributo;
 
     //Variáveis
+    vm.sistema = null;
     vm.narracao = null;
     vm.lista_atributos = null;
     vm.lista_subatributos = null;
+    vm.lista_sistemas = null;
+    vm.lista_calculos = null;
+    vm.valores_iniciais = [];
+    vm.valor_atributo = [];
+    vm.valor_subatributo = [];    
 	
     //Implementação de funções
-    function changeNarracaoConfigurations(){
-        getAtributos();
-        getSubatributos();
+    function carregaDados(){
+        vm.form = {}
+        vm.form.id = null;
+        vm.form.nome_ficha = null;
+        vm.form.fk_id_narracao = null;
+        sistemaService.getSistemas(carregaSistemas);
     }
 
-	function getAtributos(){          
-        if (vm.narracao === undefined){
-            vm.lista_atributos = null;
-        }else{
-            $http({
-                method: 'GET',
-                url: '/ficha/ajax/atributos/' + vm.narracao
-            }).then(function successCallback(response) {                
-                vm.lista_atributos = response.data;
+    function carregaSistemas(response){
+        vm.lista_sistemas = response.data;
+    }
+
+    function changeSistema(){   
+        getNarracoes();     
+        getAtributos();
+        getSubatributos();
+        getCalculos();
+    }
+
+    function getNarracoes(narracaoPadrao = null){
+        if (vm.sistema === undefined){
+            vm.lista_narracoes = null;
+        }else{            
+            narracaoService.getNarracoesSistema(vm.sistema.id, function(response){
+                vm.lista_narracoes = response.data;
                 
-            }, function errorCallback(response) {
-                console.log(response)
-                vm.lista_atributos = null;
-            });
-        }        
+                if(narracaoPadrao !== null){
+                    vm.form.fk_id_narracao = distorcaoService.findObjectById(vm.lista_atributos, narracaoPadrao);
+                }else{
+                    if(vm.lista_narracoes.length > 0){
+                        vm.form.fk_id_narracao= vm.lista_narracoes[0];
+                    }                          
+                }                
+            });            
+        }
+    }
+
+    function inicializaArrayValores(lista){
+        valores = [];
+
+        for(i = 0; i < lista.length; i++){
+            valores[i] = 0;
+        }
+
+        return valores;
+    }
+
+    function getAtributos(){
+        if (vm.sistema === undefined){
+            vm.lista_atributos = null;
+        }else{            
+            atributoService.getAtributosSistema(vm.sistema.id, function(response){                
+                vm.lista_atributos = response.data;                                                                
+
+                vm.valor_atributo = inicializaArrayValores(vm.lista_atributos);
+            });           
+        }
     }
 
     function getSubatributos(){
-        if (vm.narracao === undefined){
+        if (vm.sistema === undefined){
             vm.lista_subatributos = null;
-        }else{
-            $http({
-                method: 'GET',
-                url: '/ficha/ajax/subatributos/' + vm.narracao
-            }).then(function successCallback(response) {    
-                console.log(response.data);
-                vm.lista_subatributos = response.data;
-                
-            }, function errorCallback(response) {
-                console.log(response)
-                vm.lista_subatributos = null;
-            });
-        } 
-    }
+        }else{            
+            subatributoService.getSubatributosSistema(vm.sistema.id, function(response){
+                vm.lista_subatributos = response.data;                
 
-    /*function initNarracaoUpdate(){
-        if(!(vm.narracao === undefined) || !(vm.narracao === null)){
-            getPopulatedAtributos();
+                vm.valor_subatributo = inicializaArrayValores(vm.lista_subatributos);
+                vm.valores_iniciais = inicializaArrayValores(vm.lista_subatributos);
+            });            
         }
     }
 
-    function getPopulatedAtributos(){
-        if (vm.narracao === undefined){
-            vm.subatributos = null;
-        }else{
-            $http({
-                method: 'GET',
-                url: '/ficha/ajax/subatributos_values/' + vm.narracao + '/1'
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                vm.subatributos = response.data;
-
-            }, function errorCallback(response) {
-                console.log(response)
-                vm.subatributos = null;
-            });
+    function getCalculos(){
+        if (vm.sistema === undefined){
+            vm.lista_calculos = null;
+        }else{            
+            calculoService.getCalculoSistema(vm.sistema.id, function(response){
+                vm.lista_calculos = response.data;                        
+            });            
         }
-    }*/
+    }
+
+    function alteraAtributo(index){
+        valor = vm.valor_atributo[index];
+        atributoAtual = vm.lista_atributos[index];
+
+        for(i in vm.lista_calculos){
+            if(vm.lista_calculos[i].fk_id_atributo == atributoAtual.id){                
+                recalculaSubatributo(vm.lista_calculos[i].fk_id_subatributo);                
+            }            
+        }        
+    }
+
+    function recalculaSubatributo(subatributo_id){            
+        valorInicial = 0.0;        
+        indiceValorSubatributo = 0;
+        for(i in vm.lista_subatributos){            
+            if(vm.lista_subatributos[i].id == subatributo_id){                
+                valorInicial = vm.valores_iniciais[i];
+                indiceValorSubatributo = i;
+                break;
+            }
+        }
+
+        valorTotal = Number(valorInicial);
+        
+        kill = 0;
+        for(i in vm.lista_calculos){            
+            kill++;
+            if(kill > 20){
+                console.log(kill);
+                return;
+            }
+
+            calculoAtual = vm.lista_calculos[i];
+            if(calculoAtual.fk_id_subatributo != subatributo_id){
+                continue;
+            }
+            console.log(calculoAtual);
+
+            valorAtributo = null;
+            for(j = 0; j < vm.lista_atributos.length; j++){                
+                if(vm.lista_atributos[j].id == calculoAtual.fk_id_atributo){
+                    valorAtributo = vm.valor_atributo[j];                    
+                }
+            }            
+            
+            valorTotal += calculaBonus.retornaValorBonusString(calculoAtual.intervalo_calculo, calculoAtual.multiplicador_calculo, valorAtributo);
+        }
+
+        vm.valor_subatributo[indiceValorSubatributo] = valorTotal;
+    }
+
+    function alteraValorInicial(indice){
+        console.log(vm.valores_iniciais[indice]);
+        console.log(vm.lista_subatributos[indice]);
+    }
 
 }
