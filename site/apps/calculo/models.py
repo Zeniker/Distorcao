@@ -29,6 +29,12 @@ class Calculo(models.Model):
         null=True
     )
 
+    percentual_calculo = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True
+    )
+
 class CalculoJson(object):
     def __init__(self):
         id = 0
@@ -37,6 +43,7 @@ class CalculoJson(object):
         tipo_calculo = 0
         intervalo_calculo = ""
         multiplicador_calculo = ""
+        percentual_calculo = 0.0
 
     def to_dict(self):
         return dict(
@@ -45,7 +52,8 @@ class CalculoJson(object):
             fk_id_atributo=self.fk_id_atributo,
             tipo_calculo=self.tipo_calculo,
             intervalo_calculo=self.intervalo_calculo,
-            multiplicador_calculo=self.multiplicador_calculo
+            multiplicador_calculo=self.multiplicador_calculo,
+            percentual_calculo=self.percentual_calculo
         )
 
 class CalculoChoices(object):    

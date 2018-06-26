@@ -41,18 +41,26 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-4" ng-if="vm.form.tipo_calculo.id == 1">
                     <div class="form-group">
                         <label>Intervalos: </label>
                         <input id="id_intervalo_calculo" name="intervalo_calculo" class="form-control" ng-model="vm.form.intervalo_calculo" type="text">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" ng-if="vm.form.tipo_calculo.id == 1">
                     <div class="form-group">
                         <label>Multiplicadores: </label>
                         <input id="id_multiplicador_calculo" name="multiplicador_calculo" class="form-control" ng-model="vm.form.multiplicador_calculo" type="text">
                     </div>
                 </div>
+                <div class="col-md-4" ng-if="vm.form.tipo_calculo.id == 2">
+                    <div class="form-group">
+                        <label>Percentual: </label>
+                        <input id="id_percentual_calculo" name="percentual_calculo" class="form-control" ng-model="vm.form.percentual_calculo" type="text">
+                    </div>
+                </div>
+
                 <div class="col-md-12">
                     <button class="btn btn-success fr" role="button" id="save_button" ng-click="vm.sendFormData()">Salvar</button>
                     <a href="{% url 'calculo_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>

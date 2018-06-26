@@ -127,16 +127,9 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             }
         }
 
-        valorTotal = Number(valorInicial);
-        
-        kill = 0;
-        for(i in vm.lista_calculos){            
-            kill++;
-            if(kill > 20){
-                console.log(kill);
-                return;
-            }
+        var valorTotal = Number(valorInicial);
 
+        for(i in vm.lista_calculos){
             calculoAtual = vm.lista_calculos[i];
             if(calculoAtual.fk_id_subatributo != subatributo_id){
                 continue;
@@ -148,9 +141,14 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
                 if(vm.lista_atributos[j].id == calculoAtual.fk_id_atributo){
                     valorAtributo = vm.valor_atributo[j];                    
                 }
-            }            
-            
-            valorTotal += calculaBonus.retornaValorBonusString(calculoAtual.intervalo_calculo, calculoAtual.multiplicador_calculo, valorAtributo);
+            }
+
+            if(calculoAtual.tipo_calculo == 1){
+                valorTotal += calculaBonus.retornaValorBonusString(calculoAtual.intervalo_calculo, calculoAtual.multiplicador_calculo, valorAtributo);
+            }else{
+                valorTotal += (calculoAtual.percentual_calculo / 100) * valorAtributo;
+            }
+
         }
 
         vm.valor_subatributo[indiceValorSubatributo] = valorTotal;
