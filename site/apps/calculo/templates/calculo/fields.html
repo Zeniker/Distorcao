@@ -57,7 +57,11 @@
                 <div class="col-md-4" ng-if="vm.form.tipo_calculo.id == 2">
                     <div class="form-group">
                         <label>Percentual: </label>
-                        <input id="id_percentual_calculo" name="percentual_calculo" class="form-control" ng-model="vm.form.percentual_calculo" type="text">
+                        <div class="input-group">
+                            <input id="id_percentual_calculo" name="percentual_calculo" class="form-control" ng-model="vm.form.percentual_calculo" type="text">
+                            <span class="input-group-addon">%</span>
+                        </div>
+
                     </div>
                 </div>
 
