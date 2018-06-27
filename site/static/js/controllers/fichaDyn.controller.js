@@ -119,29 +119,23 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     function recalculaSubatributo(subatributo_id){            
         valorInicial = 0.0;        
         indiceValorSubatributo = 0;
+        subAtributo = null;
         for(i in vm.lista_subatributos){            
             if(vm.lista_subatributos[i].id == subatributo_id){                
                 valorInicial = vm.valores_iniciais[i];
                 indiceValorSubatributo = i;
+                subAtributo = vm.lista_subatributos[i];
                 break;
             }
         }
 
         valorTotal = Number(valorInicial);
-        
-        kill = 0;
-        for(i in vm.lista_calculos){            
-            kill++;
-            if(kill > 20){
-                console.log(kill);
-                return;
-            }
-
+                
+        for(i in vm.lista_calculos){                        
             calculoAtual = vm.lista_calculos[i];
             if(calculoAtual.fk_id_subatributo != subatributo_id){
                 continue;
-            }
-            console.log(calculoAtual);
+            }            
 
             valorAtributo = null;
             for(j = 0; j < vm.lista_atributos.length; j++){                
@@ -153,12 +147,15 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             valorTotal += calculaBonus.retornaValorBonusString(calculoAtual.intervalo_calculo, calculoAtual.multiplicador_calculo, valorAtributo);
         }
 
+        if([2,4].indexOf(subAtributo.tipo_subatributo) > -1) {
+            valorTotal = Math.floor(valorTotal);
+        }
+
         vm.valor_subatributo[indiceValorSubatributo] = valorTotal;
     }
 
-    function alteraValorInicial(indice){
-        console.log(vm.valores_iniciais[indice]);
-        console.log(vm.lista_subatributos[indice]);
+    function alteraValorInicial(indice){        
+        recalculaSubatributo(vm.lista_subatributos[indice].id);
     }
 
 }

@@ -58,7 +58,7 @@
                         </td>
                         <td class="col-md-6">
                             {{ficha.valor_subatributo[$index]}}
-                            <span ng-if="subatributo.tipo_subatributo == 4 || subatributo.tipo_subatributo == 5">
+                            <span ng-if="[4,5].indexOf(subatributo.tipo_subatributo) > -1">
                                 %
                             </span>
                         </td>
