@@ -10,28 +10,34 @@ class CalculoForm(forms.ModelForm):
         model = Calculo
         fields = '__all__'
 
-    fk_id_sistema = forms.ModelChoiceField(
-        queryset=Sistema.objects.all(),
-        empty_label="Selecione",
-        required=True
-    )
+    # fk_id_sistema = forms.ModelChoiceField(
+    #     queryset=Sistema.objects.all(),
+    #     empty_label="Selecione",
+    #     required=True
+    # )
+    #
+    # fk_id_subatributo = forms.ModelChoiceField(
+    #     queryset=Subatributo.objects.all(),
+    #     empty_label="Selecione",
+    #     required=True
+    # )
+    #
+    # fk_id_atributo = forms.ModelChoiceField(
+    #     queryset=Atributo.objects.all(),
+    #     empty_label="Selecione",
+    #     required=True
+    # )
 
-    fk_id_subatributo = forms.ModelChoiceField(
-        queryset=Subatributo.objects.all(),
-        empty_label="Selecione",
-        required=True        
-    )
+    # tipo_calculo = forms.ChoiceField(
+    #     choices=TIPO_CALCULO_CHOICES,
+    #     required=True
+    # )
 
-    fk_id_atributo = forms.ModelChoiceField(
-        queryset=Atributo.objects.all(),        
-        empty_label="Selecione",
-        required=True        
-    )
-
-    tipo_relacao_atributo_subatributo = forms.ChoiceField(
-        choices=TIPO_CALCULO_CHOICES,
-        required=True        
-    )
+    def __init__(self, *args, **kwargs):
+        super(CalculoForm, self).__init__(*args, **kwargs)
+        self.fields['intervalo_calculo'].required = False
+        self.fields['multiplicador_calculo'].required = False
+        self.fields['percentual_calculo'].required = False
 
     def is_valid(self):
         valid = True

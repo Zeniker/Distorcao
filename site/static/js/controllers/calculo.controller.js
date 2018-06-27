@@ -35,13 +35,14 @@ function CalculoController(atributoService, subatributoService, calculoService, 
         vm.form.tipo_calculo = null;
         vm.form.multiplicador_calculo = null;
         vm.form.intervalo_calculo = null;
+        vm.form.percentual_calculo = null;
 
         if(id === undefined){
             calculoService.getFormOptions(carregaOpcoesIniciais);
         }else{
             vm.form.id = id;    
             calculoService.getFormOptions(carregaOpcoesIniciais);        
-            getAtributoSubatributo(id);
+            getCalculo(id);
         }
         vm.destino = destino;
         
@@ -103,7 +104,7 @@ function CalculoController(atributoService, subatributoService, calculoService, 
         });
     }
 
-    function getAtributoSubatributo(calculo_id){
+    function getCalculo(calculo_id){
         if (calculo_id === undefined){
             //vm.lista_subatributos = null;
         }else{            
@@ -112,6 +113,7 @@ function CalculoController(atributoService, subatributoService, calculoService, 
 
                 vm.form.intervalo_calculo = registro.intervalo_calculo;
                 vm.form.multiplicador_calculo = registro.multiplicador_calculo;
+                vm.form.percentual_calculo = registro.percentual_calculo;
                 vm.form.tipo_calculo = distorcaoService.findObjectById(vm.lista_tipo_calculo, registro.tipo_calculo);
                 vm.form.fk_id_sistema = distorcaoService.findObjectById(vm.lista_sistema, registro.fk_id_sistema);
                 getAtributos(registro.fk_id_atributo);
