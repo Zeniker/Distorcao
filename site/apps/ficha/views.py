@@ -2,13 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from apps.ficha.models import Ficha
 from apps.narracao.models import Narracao
-from apps.atributo.models import Atributo
-from apps.subatributo.models import Subatributo
-from apps.calculo.models import Calculo
 from apps.ficha.forms import FichaForm
 from distorcao.views import get_form_variables, get_paginated_result
-from distorcao.serializer import Serializer
-from django.http import JsonResponse
+from distorcao.json_response import json_response
+from distorcao.json_complex_encoder import *
+from django.urls import reverse
+import json
 
 # Create your views here.
 def list(request):
@@ -30,12 +29,18 @@ def create(request):
     template_name = 'ficha/fields.html'    
 
     if request.method == 'POST':
-        form = FichaForm(request.POST)
+        form = FichaForm(json.loads(request.body))
 
         if form.is_valid():
-            form.save()
+            #ficha_nova = form.save()
 
-            return redirect('ficha_cadastro')
+            resposta = json_response()
+            resposta.status = 'OK'
+            resposta.data = 1#ficha_nova.id
+
+            json_string = json.dumps(resposta,cls=ComplexEncoder)
+
+            return HttpResponse(json_string, content_type='application/json')
         else:
             form_variables = get_form_variables('Cadastro de Ficha', request.path, form)
 

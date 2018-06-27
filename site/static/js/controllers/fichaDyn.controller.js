@@ -2,7 +2,8 @@ angular
 	.module('distorcao')
 	.controller('fichaDynController', fichaController);
 
-function fichaController(sistemaService, narracaoService, atributoService, subatributoService, distorcaoService, calculoService, calculaBonus) {
+function fichaController(sistemaService, narracaoService, atributoService, subatributoService, distorcaoService,
+                         calculoService, calculaBonus, fichaService, $window) {
 	var vm = this;
 	
 	//Funções    
@@ -10,6 +11,7 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     vm.changeSistema = changeSistema;    
     vm.alteraValorInicial = alteraValorInicial;
     vm.alteraAtributo = alteraAtributo;
+    vm.sendFormData = sendFormData;
 
     //Variáveis
     vm.sistema = null;
@@ -19,12 +21,13 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     vm.lista_sistemas = null;
     vm.lista_calculos = null;
     vm.valores_iniciais = [];
-    vm.valor_atributo = [];
-    vm.valor_subatributo = [];    
+    vm.ficha_atributo = [];
+    vm.ficha_subatributo = [];
 	
     //Implementação de funções
-    function carregaDados(){
-        vm.form = {}
+    function carregaDados(destino){
+        vm.destino = destino;
+        vm.form = {};
         vm.form.id = null;
         vm.form.nome_ficha = null;
         vm.form.fk_id_narracao = null;
@@ -60,11 +63,25 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
         }
     }
 
-    function inicializaArrayValores(lista){
+    function inicializaArrayValores(lista, tipo){
         valores = [];
 
         for(i = 0; i < lista.length; i++){
-            valores[i] = 0;
+            valores[i] = {};
+            valores[i].fk_id_ficha = 0;
+            switch (tipo){
+                case 1:
+                    valores[i].fk_id_atributo = lista[i].id;
+                    valores[i].valor_atributo = 0;
+                    break;
+                case 2:
+                    valores[i].fk_id_subatributo = lista[i].id;
+                    valores[i].valor_subatributo = 0;
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         return valores;
@@ -77,7 +94,7 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             atributoService.getAtributosSistema(vm.sistema.id, function(response){                
                 vm.lista_atributos = response.data;                                                                
 
-                vm.valor_atributo = inicializaArrayValores(vm.lista_atributos);
+                vm.ficha_atributo = inicializaArrayValores(vm.lista_atributos, 1);
             });           
         }
     }
@@ -89,8 +106,8 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             subatributoService.getSubatributosSistema(vm.sistema.id, function(response){
                 vm.lista_subatributos = response.data;                
 
-                vm.valor_subatributo = inicializaArrayValores(vm.lista_subatributos);
-                vm.valores_iniciais = inicializaArrayValores(vm.lista_subatributos);
+                vm.ficha_subatributo = inicializaArrayValores(vm.lista_subatributos);
+                //vm.valores_iniciais = inicializaArrayValores(vm.lista_subatributos);
             });            
         }
     }
@@ -106,11 +123,11 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     }
 
     function alteraAtributo(index){
-        valor = vm.valor_atributo[index];
-        atributoAtual = vm.lista_atributos[index];
+        valor = vm.ficha_atributo[index].valor_atributo;
+        atributoAtual = vm.ficha_atributo[index].fk_id_atributo;
 
         for(i in vm.lista_calculos){
-            if(vm.lista_calculos[i].fk_id_atributo == atributoAtual.id){                
+            if(vm.lista_calculos[i].fk_id_atributo == atributoAtual){
                 recalculaSubatributo(vm.lista_calculos[i].fk_id_subatributo);                
             }            
         }        
@@ -129,7 +146,12 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             }
         }
 
-        valorTotal = Number(valorInicial);
+        if(valorInicial != undefined && angular.isNumber(+valorInicial)){
+            valorTotal = Number(valorInicial);
+        }else{
+            valorTotal = 0;
+        }
+
                 
         for(i in vm.lista_calculos){                        
             calculoAtual = vm.lista_calculos[i];
@@ -140,22 +162,51 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             valorAtributo = null;
             for(j = 0; j < vm.lista_atributos.length; j++){                
                 if(vm.lista_atributos[j].id == calculoAtual.fk_id_atributo){
-                    valorAtributo = vm.valor_atributo[j];                    
+                    valorAtributo = vm.ficha_atributo[j].valor_atributo;
                 }
-            }            
-            
-            valorTotal += calculaBonus.retornaValorBonusString(calculoAtual.intervalo_calculo, calculoAtual.multiplicador_calculo, valorAtributo);
+            }
+
+            if(calculoAtual.tipo_calculo == 1){
+
+                valorTotal += calculaBonus.retornaValorBonusString(calculoAtual.intervalo_calculo, calculoAtual.multiplicador_calculo, valorAtributo);
+            }else{
+                valorTotal += (valorAtributo * (calculoAtual.percentual_calculo / 100));
+            }
+
         }
 
         if([2,4].indexOf(subAtributo.tipo_subatributo) > -1) {
             valorTotal = Math.floor(valorTotal);
         }
 
-        vm.valor_subatributo[indiceValorSubatributo] = valorTotal;
+        vm.ficha_subatributo[indiceValorSubatributo].valor_subatributo = valorTotal;
     }
 
-    function alteraValorInicial(indice){        
+    function alteraValorInicial(indice){
+        console.log(vm.lista_subatributos[indice]);
         recalculaSubatributo(vm.lista_subatributos[indice].id);
+    }
+
+    function sendFormData(){
+        formData = distorcaoService.gambiarraNgOptions(vm.form);
+
+        fichaService.sendFormData(formData, vm.destino, sendAtributoData);
+    }
+
+    function sendAtributoData(response){
+        if(response.data.status == 'OK'){
+            vm.form.id = response.data.data;
+            defineFkIdFicha_Atributo();
+            fichaService.sendAtributoData(vm.ficha_atributo);
+        }else{
+            return;
+        }
+    }
+
+    function defineFkIdFicha_Atributo(){
+        for(i in vm.ficha_atributo){
+            vm.ficha_atributo[i].fk_id_ficha = vm.form.id;
+        }
     }
 
 }

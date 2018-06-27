@@ -2,8 +2,8 @@
 {% load widget_tweaks %}
 
 {% block form_fields %}
-<div ng-controller="fichaDynController as ficha" ng-init="ficha.carregaDados()">
-    <form action="{{url_destino}}" method="POST" autocomplete="off">       
+<div ng-controller="fichaDynController as ficha" ng-init="ficha.carregaDados('{{url_destino}}')">
+    <form method="POST" autocomplete="off">
         {% csrf_token %}
         <fieldset>        
             <div class="row">
@@ -27,11 +27,11 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Nome: </label>  
-                        <input id="id_nome_ficha" name="nome_ficha" class="form-control" ng-model="vm.form.nome_ficha" type="text">                        
+                        <input id="id_nome_ficha" name="nome_ficha" class="form-control" ng-model="ficha.form.nome_ficha" type="text">
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
+                    <button class="btn btn-success fr" role="button" id="save_button" ng-click="ficha.sendFormData()">Salvar</button>
                     <a href="{% url 'ficha_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     {% verbatim %}
                     <div class="input-group" ng-repeat="atributo in ficha.lista_atributos">
                         <span class="input-group-addon">{{atributo.nome_atributo}}</span>
-                        <input type="number" class="form-control" min="0" ng-change="ficha.alteraAtributo($index)" ng-model="ficha.valor_atributo[$index]">
+                        <input type="number" class="form-control" min="0" ng-change="ficha.alteraAtributo($index)" ng-model="ficha.ficha_atributo[$index].valor_atributo">
                     </div>
                     {% endverbatim %}                    
                 </div>
@@ -57,7 +57,7 @@
                                 ng-disabled="subatributo.valor_inicial_subatributo == 2">                                                                                        
                         </td>
                         <td class="col-md-6">
-                            {{ficha.valor_subatributo[$index]}}
+                            {{ficha.ficha_subatributo[$index].valor_subatributo}}
                             <span ng-if="[4,5].indexOf(subatributo.tipo_subatributo) > -1">
                                 %
                             </span>
