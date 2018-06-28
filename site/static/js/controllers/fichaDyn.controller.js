@@ -3,7 +3,7 @@ angular
 	.controller('fichaDynController', fichaController);
 
 function fichaController(sistemaService, narracaoService, atributoService, subatributoService, distorcaoService,
-                         calculoService, calculaBonus, fichaService, $window) {
+                         calculoService, calculaBonus, fichaService, $window, $q) {
 	var vm = this;
 	
 	//Funções    
@@ -55,6 +55,7 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     }
 
     function getNarracoes(narracaoPadrao = null){
+        var d = $q.defer();
         if (vm.sistema === undefined){
             vm.lista_narracoes = null;
         }else{            
@@ -67,9 +68,11 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
                     if(vm.lista_narracoes.length > 0){
                         vm.form.ficha.fk_id_narracao= vm.lista_narracoes[0];
                     }                          
-                }                
+                }
+                d.resolve();
             });            
         }
+        return d.promise;
     }
 
     function inicializaArrayValores(lista, tipo){
@@ -103,6 +106,7 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     }
 
     function getAtributos(inicializaValores = true){
+        var d = $q.defer();
         if (vm.sistema === undefined){
             vm.lista_atributos = null;
         }else{            
@@ -112,11 +116,15 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
                 if(inicializaValores == true){
                     vm.ficha_atributo = inicializaArrayValores(vm.lista_atributos, 1);
                 }
+                d.resolve();
             });
         }
+
+        return d.promise;
     }
 
     function getSubatributos(inicializaValores = true){
+        var d = $q.defer();
         if (vm.sistema === undefined){
             vm.lista_subatributos = null;
         }else{            
@@ -131,21 +139,18 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
                         recalculaSubatributo(vm.lista_subatributos[i].id);
                     }
                 }
+                d.resolve();
             });            
         }
+        return d.promise;
     }
 
-    function getCalculos(update = false){
+    function getCalculos(){
         if (vm.sistema === undefined){
             vm.lista_calculos = null;
         }else{            
             calculoService.getCalculoSistema(vm.sistema.id, function(response){
                 vm.lista_calculos = response.data;
-
-                if(update){
-                    getAtributos(false);
-                    getSubatributos(false);
-                }
             });            
         }
     }
@@ -257,7 +262,13 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
                 vm.valores_iniciais[i].valor_total = 0;
             }
             getNarracoes(ficha.fk_id_narracao);
-            getCalculos(true);
+
+            $q.all([
+                getCalculos(),
+                getAtributos(false),
+            ]).then(function(){
+                getSubatributos(false);
+            });
         });
     }
 

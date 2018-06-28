@@ -143,7 +143,7 @@ def update(request, ficha_id):
 
 
 def delete(request, ficha_id):
-    template_name = 'calculo/delete.html'
+    template_name = 'ficha/delete.html'
 
     if request.method == 'POST':
         ficha_id = Ficha.objects.get(id=ficha_id)

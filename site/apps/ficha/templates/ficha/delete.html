@@ -16,11 +16,11 @@
     <form action="{{url_destino}}" method="POST" autocomplete="off">       
         {% csrf_token %}        
         <fieldset>
-            <h1>Deseja mesmo excluir a narração "{{narracao.nome_narracao}}"?</h1>        
+            <h1>Deseja mesmo excluir a ficha de "{{ficha.nome_ficha}}"?</h1>
             <div class="row">                
                 <div class="col-md-12">                    
                     <button class="btn btn-danger fr" role="button" id="save_button">Excluir</button>
-                    <a href="{% url 'narracao_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                    <a href="{% url 'ficha_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
         </fieldset>
