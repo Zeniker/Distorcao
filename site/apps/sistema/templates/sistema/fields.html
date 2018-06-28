@@ -2,14 +2,19 @@
 {% load widget_tweaks %}
 
 {% block form_fields %}
-<form action="{{url_destino}}" method="POST" autocomplete="off">       
+<form action="{{url_destino}}" method="POST" autocomplete="off">
     {% csrf_token %}        
     <fieldset>        
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="nome_sistema">Nome: </label>
-                    {% render_field form.nome_sistema class+="form-control" %}
+                    <label for="id_nome_sistema">Nome: </label>
+                    {% if form.nome_sistema.errors %}
+                        {% render_field form.nome_sistema class+="form-control is-invalid" %}
+                    {% else %}
+                        {% render_field form.nome_sistema class+="form-control" %}
+                    {% endif %}
+
                 </div>                    
             </div>
             <div class="col-md-12">                    

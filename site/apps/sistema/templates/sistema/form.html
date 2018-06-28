@@ -5,12 +5,16 @@
     <h1>{{ page_header }}</h1>
 </div>
 <div class="container">
-    
+
     {% if form.errors %}
-    <div class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{form.non_field_errors}}
-    </div>
+        {% for field in form %}
+            {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ error|escape }}
+            </div>
+            {% endfor %}
+        {% endfor %}
     {% endif %}
 
     {% block form_fields %}
