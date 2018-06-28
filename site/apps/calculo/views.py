@@ -121,7 +121,7 @@ def delete(request, calculo_id):
 #     return lista_atributo_subatributo_json
 
 def get_calculo(request, calculo_id):    
-    calculo = Calculo.objects.filter(id=calculo_id)
+    calculo = Calculo.objects.get(id=calculo_id)
 
     custom_serializer = Serializer()
 

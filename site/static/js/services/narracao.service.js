@@ -6,12 +6,12 @@
     
     function narracaoService($http){
         var service = {
-            getNarracoesSistema: getNarracoesSistema
+            getNarracoesSistema: getNarracoesSistema,
+            getNarracao: getNarracao
         };
         
         return service;
-    
-        //Não implementado no back-end
+
         function getNarracoesSistema(sistema_id, callback){            
             $http({
                 method: 'GET',
@@ -21,6 +21,18 @@
                 return null;
             });                    
         }
+
+        function getNarracao(narracao_id, callback){
+            $http({
+                method: 'GET',
+                url: '/narracao/ajax/get_narracao/' + narracao_id
+            }).then(callback, function errorCallback(response) {
+                console.log(response)
+                return null;
+            });
+        }
+
+
     }
     
     })();

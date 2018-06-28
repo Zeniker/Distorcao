@@ -6,36 +6,20 @@
 
     function fichaService($http){
         var service = {
-            getCalculo: getCalculo,
+            getFicha: getFicha,
             getFormOptions: getFormOptions,
-            sendFormData: sendFormData,
-            getCalculoSistema: getCalculoSistema,
-            sendAtributoData: sendAtributoData
+            sendFormData: sendFormData
         };
 
         return service;
 
-        function getCalculoSistema(sistema_id, callback){
-            if (sistema_id === null || !angular.isNumber(+sistema_id)){
-                return null
-            }else{
-                $http({
-                    method: 'GET',
-                    url: '/calculo/ajax/get_calculo_sistema/' + sistema_id
-                }).then(callback, function errorCallback(response) {
-                    console.log(response)
-                    return null;
-                });
-            }
-        }
-
-        function getCalculo(id_registro, callback){
+        function getFicha(id_registro, callback){
             if (id_registro === null || !angular.isNumber(+id_registro)){
                 return null
             }else{
                 $http({
                     method: 'GET',
-                    url: '/calculo/ajax/get_calculo/' + id_registro
+                    url: '/ficha/ajax/get_ficha/' + id_registro
                 }).then(callback, function errorCallback(response) {
                     console.log(response)
                     return null;
@@ -62,10 +46,6 @@
                 console.log(response)
                 return null;
             });
-        }
-
-        function sendAtributoData(data){
-            console.log(JSON.stringify(data));
         }
     }
 

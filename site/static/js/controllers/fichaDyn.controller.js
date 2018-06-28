@@ -15,7 +15,6 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
 
     //Variáveis
     vm.sistema = null;
-    vm.narracao = null;
     vm.lista_atributos = null;
     vm.lista_subatributos = null;
     vm.lista_sistemas = null;
@@ -25,13 +24,23 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     vm.ficha_subatributo = [];
 	
     //Implementação de funções
-    function carregaDados(destino){
+    function carregaDados(ficha_id, destino){
         vm.destino = destino;
         vm.form = {};
-        vm.form.id = null;
-        vm.form.nome_ficha = null;
-        vm.form.fk_id_narracao = null;
-        sistemaService.getSistemas(carregaSistemas);
+        vm.form.ficha = {};
+        vm.form.atributo = [];
+        vm.form.subatributo = [];
+        vm.form.ficha.id = null;
+        vm.form.ficha.nome_ficha = null;
+        vm.form.ficha.fk_id_narracao = null;
+
+        if(ficha_id === undefined){
+            sistemaService.getSistemas(carregaSistemas);
+        }else{
+            vm.form.id = ficha_id;
+            sistemaService.getSistemas(carregaSistemas);
+            getFicha(ficha_id);
+        }
     }
 
     function carregaSistemas(response){
@@ -53,10 +62,10 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
                 vm.lista_narracoes = response.data;
                 
                 if(narracaoPadrao !== null){
-                    vm.form.fk_id_narracao = distorcaoService.findObjectById(vm.lista_atributos, narracaoPadrao);
+                    vm.form.ficha.fk_id_narracao = distorcaoService.findObjectById(vm.lista_narracoes, narracaoPadrao);
                 }else{
                     if(vm.lista_narracoes.length > 0){
-                        vm.form.fk_id_narracao= vm.lista_narracoes[0];
+                        vm.form.ficha.fk_id_narracao= vm.lista_narracoes[0];
                     }                          
                 }                
             });            
@@ -71,12 +80,18 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             valores[i].fk_id_ficha = 0;
             switch (tipo){
                 case 1:
+                    valores[i].id = null;
                     valores[i].fk_id_atributo = lista[i].id;
                     valores[i].valor_atributo = 0;
                     break;
                 case 2:
+                    valores[i].id = null;
                     valores[i].fk_id_subatributo = lista[i].id;
                     valores[i].valor_subatributo = 0;
+                    break;
+                case 3:
+                    valores[i].valor_inicial = 0;
+                    valores[i].valor_total = 0;
                     break;
                 default:
                     break;
@@ -87,37 +102,50 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
         return valores;
     }
 
-    function getAtributos(){
+    function getAtributos(inicializaValores = true){
         if (vm.sistema === undefined){
             vm.lista_atributos = null;
         }else{            
             atributoService.getAtributosSistema(vm.sistema.id, function(response){                
                 vm.lista_atributos = response.data;                                                                
 
-                vm.ficha_atributo = inicializaArrayValores(vm.lista_atributos, 1);
-            });           
+                if(inicializaValores == true){
+                    vm.ficha_atributo = inicializaArrayValores(vm.lista_atributos, 1);
+                }
+            });
         }
     }
 
-    function getSubatributos(){
+    function getSubatributos(inicializaValores = true){
         if (vm.sistema === undefined){
             vm.lista_subatributos = null;
         }else{            
             subatributoService.getSubatributosSistema(vm.sistema.id, function(response){
                 vm.lista_subatributos = response.data;                
 
-                vm.ficha_subatributo = inicializaArrayValores(vm.lista_subatributos);
-                //vm.valores_iniciais = inicializaArrayValores(vm.lista_subatributos);
+                if(inicializaValores == true){
+                    vm.ficha_subatributo = inicializaArrayValores(vm.lista_subatributos, 2);
+                    vm.valores_iniciais = inicializaArrayValores(vm.lista_subatributos, 3);
+                }else{
+                    for(i in vm.lista_subatributos){
+                        recalculaSubatributo(vm.lista_subatributos[i].id);
+                    }
+                }
             });            
         }
     }
 
-    function getCalculos(){
+    function getCalculos(update = false){
         if (vm.sistema === undefined){
             vm.lista_calculos = null;
         }else{            
             calculoService.getCalculoSistema(vm.sistema.id, function(response){
-                vm.lista_calculos = response.data;                        
+                vm.lista_calculos = response.data;
+
+                if(update){
+                    getAtributos(false);
+                    getSubatributos(false);
+                }
             });            
         }
     }
@@ -126,11 +154,11 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
         valor = vm.ficha_atributo[index].valor_atributo;
         atributoAtual = vm.ficha_atributo[index].fk_id_atributo;
 
-        for(i in vm.lista_calculos){
-            if(vm.lista_calculos[i].fk_id_atributo == atributoAtual){
-                recalculaSubatributo(vm.lista_calculos[i].fk_id_subatributo);                
-            }            
-        }        
+        for(i in vm.lista_calculos) {
+            if (vm.lista_calculos[i].fk_id_atributo == atributoAtual) {
+                recalculaSubatributo(vm.lista_calculos[i].fk_id_subatributo);
+            }
+        }
     }
 
     function recalculaSubatributo(subatributo_id){            
@@ -139,12 +167,14 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
         subAtributo = null;
         for(i in vm.lista_subatributos){            
             if(vm.lista_subatributos[i].id == subatributo_id){                
-                valorInicial = vm.valores_iniciais[i];
+                valorInicial = vm.valores_iniciais[i].valor_inicial;
                 indiceValorSubatributo = i;
                 subAtributo = vm.lista_subatributos[i];
                 break;
             }
         }
+
+        var valorTotal = 0;
 
         if(valorInicial != undefined && angular.isNumber(+valorInicial)){
             valorTotal = Number(valorInicial);
@@ -179,34 +209,56 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
             valorTotal = Math.floor(valorTotal);
         }
 
-        vm.ficha_subatributo[indiceValorSubatributo].valor_subatributo = valorTotal;
+        vm.valores_iniciais[indiceValorSubatributo].valor_total = valorTotal;
+        vm.ficha_subatributo[indiceValorSubatributo].valor_subatributo = valorInicial;
     }
 
     function alteraValorInicial(indice){
-        console.log(vm.lista_subatributos[indice]);
         recalculaSubatributo(vm.lista_subatributos[indice].id);
     }
 
     function sendFormData(){
-        formData = distorcaoService.gambiarraNgOptions(vm.form);
+        var formData = {};
+        formData.ficha = {};
+        formData.ficha = distorcaoService.gambiarraNgOptions(vm.form.ficha);
+        formData.ficha_atributo = vm.ficha_atributo;
+        formData.ficha_subatributo = vm.ficha_subatributo;
 
-        fichaService.sendFormData(formData, vm.destino, sendAtributoData);
+        fichaService.sendFormData(formData, vm.destino, sendFormDataResponse);
     }
 
-    function sendAtributoData(response){
+    function sendFormDataResponse(response){
         if(response.data.status == 'OK'){
-            vm.form.id = response.data.data;
-            defineFkIdFicha_Atributo();
-            fichaService.sendAtributoData(vm.ficha_atributo);
-        }else{
-            return;
+            $window.location.href = response.data.data;
         }
     }
 
-    function defineFkIdFicha_Atributo(){
-        for(i in vm.ficha_atributo){
-            vm.ficha_atributo[i].fk_id_ficha = vm.form.id;
-        }
+    function getFicha(ficha_id){
+        fichaService.getFicha(ficha_id, getFichaResponse);
+    }
+
+    function getFichaResponse(response){
+        var ficha = response.data.ficha[0];
+        var ficha_atributo = response.data.ficha_atributo;
+        var ficha_subatributo = response.data.ficha_subatributo;
+
+
+        vm.form.ficha = ficha;
+        narracaoService.getNarracao(ficha.fk_id_narracao, function(response){
+            vm.sistema = distorcaoService.findObjectById(vm.lista_sistemas, response.data[0].fk_id_sistema);
+
+            vm.ficha_atributo = ficha_atributo;
+
+            vm.ficha_subatributo = ficha_subatributo;
+
+            for(i in ficha_subatributo){
+                vm.valores_iniciais[i] = {};
+                vm.valores_iniciais[i].valor_inicial = ficha_subatributo[i].valor_subatributo;
+                vm.valores_iniciais[i].valor_total = 0;
+            }
+            getNarracoes(ficha.fk_id_narracao);
+            getCalculos(true);
+        });
     }
 
 }

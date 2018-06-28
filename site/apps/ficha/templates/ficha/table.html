@@ -27,7 +27,7 @@
                             {{ ficha.fk_id_narracao.nome_narracao }}
                         </td>                        
                         <td>
-                            <a href="{% url 'ficha_consulta' %}">Editar</a>
+                            <a href="{% url 'ficha_alteracao' ficha.id %}">Editar</a>
                         </td>
                         <td>
                             <a href="{% url 'ficha_consulta'  %}">Excluir</a>
