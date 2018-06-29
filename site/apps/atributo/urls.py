@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^ajax/filtro-tabela$', views.ajax_table, name='atributo_filtro_tabela'),
     url(r'^alteracao/(?P<atributo_id>\d+)$', views.update, name='atributo_alteracao'),
     url(r'^exclusao/(?P<atributo_id>\d+)$', views.delete, name='atributo_exclusao'),   
+    url(r'^ajax/atributos_sistema/(?P<sistema_id>\d+)$', views.get_atributos_sistema, name='get_atributos_sistema'),
 ]

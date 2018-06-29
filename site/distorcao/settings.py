@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'apps.sistema',
     'apps.atributo',
     'apps.subatributo',
-    'apps.atributo_subatributo',
-    'apps.narracao'
+    'apps.calculo',
+    'apps.narracao',
+    'apps.ficha',
 
 ]
 

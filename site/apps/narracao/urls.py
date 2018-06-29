@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^consulta$', views.list, name='narracao_consulta'),
     url(r'^alteracao/(?P<narracao_id>\d+)$', views.update, name='narracao_alteracao'),
     url(r'^exclusao/(?P<narracao_id>\d+)$', views.delete, name='narracao_exclusao'),   
+    url(r'^ajax/get_narracao_sistema/(?P<sistema_id>\d+)$', views.get_narracao_sistema_json, name='get_narracao_sistema'),
+    url(r'^ajax/get_narracao/(?P<narracao_id>\d+)$', views.get_narracao, name='get_narracao'),
 ]

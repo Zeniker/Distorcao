@@ -27,3 +27,21 @@ class Subatributo(models.Model):
 
     def __str__(self):
         return u'{0}'.format(self.nome_subatributo)
+
+class Subatributo_json(object):
+    def __init__(self):
+        id = 0
+        fk_id_sistema = 0
+        nome_subatributo = ""
+        tipo_subatributo = 0
+        valor_inicial_subatributo = 0
+
+    def to_dict(self):
+        return dict(
+            id=self.id,
+            fk_id_sistema=self.fk_id_sistema,
+            nome_subatributo=self.nome_subatributo,
+            tipo_subatributo=self.tipo_subatributo,
+            valor_inicial_subatributo=self.valor_inicial_subatributo
+        )
+

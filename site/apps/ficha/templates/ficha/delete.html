@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="cabecalho">
+    <h1>Exclusão de Narração</h1>
+</div>
+<div class="container">
+    
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{form.non_field_errors}}
+    </div>
+    {% endif %}
+
+    <form action="{{url_destino}}" method="POST" autocomplete="off">       
+        {% csrf_token %}        
+        <fieldset>
+            <h1>Deseja mesmo excluir a ficha de "{{ficha.nome_ficha}}"?</h1>
+            <div class="row">                
+                <div class="col-md-12">                    
+                    <button class="btn btn-danger fr" role="button" id="save_button">Excluir</button>
+                    <a href="{% url 'ficha_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

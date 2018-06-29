@@ -5,6 +5,8 @@ from apps.atributo.forms import AtributoForm
 from apps.atributo.models import Atributo
 from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
+from distorcao.serializer import Serializer
+from django.http import JsonResponse
 
 
 def list(request):
@@ -92,3 +94,12 @@ def delete(request, atributo_id):
         atributo = Atributo.objects.get(id=atributo_id)
 
         return render(request, template_name, {'atributo': atributo})
+
+def get_atributos_sistema(request, sistema_id):    
+    atributos = Atributo.objects.filter(fk_id_sistema=sistema_id)    
+
+    custom_serializer = Serializer()
+
+    atributos_json = custom_serializer.serialize(atributos)
+
+    return JsonResponse(atributos_json, safe=False)        

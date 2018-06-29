@@ -1,0 +1,42 @@
+<div class="results" id="table-atributo">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Narração
+                    </th>                    
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Excluir
+                    </th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for ficha in fichas %}
+                    <tr>
+                        <td>
+                            {{ ficha.nome_ficha }}
+                        </td>
+                        <td>
+                            {{ ficha.fk_id_narracao.nome_narracao }}
+                        </td>                        
+                        <td>
+                            <a href="{% url 'ficha_alteracao' ficha.id %}">Editar</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'ficha_exclusao' ficha.id %}">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include "pagination.html" with item_list=fichas type='atributo' %}
+</div>

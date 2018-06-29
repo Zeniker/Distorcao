@@ -27,7 +27,7 @@
                 </tr>                
             </thead>
             <tbody>
-                {% for item in atributos_subatributos %}
+                {% for item in calculos %}
                     <tr>
                         <td>
                             {{ item.fk_id_atributo.nome_atributo }}
@@ -36,19 +36,19 @@
                             {{ item.fk_id_subatributo.nome_subatributo }}
                         </td>
                         <td>
-                            {{ item.get_tipo_relacao_atributo_subatributo_display }}
+                            {{ item.get_tipo_calculo_display }}
                         </td>                        
                         <td>
-                            {{ item.intervalo_atributo_subatributo }}
+                            {{ item.intervalo_calculo }}
                         </td>
                         <td>
-                            {{ item.multiplicador_atributo_subatributo }}
+                            {{ item.multiplicador_calculo }}
                         </td>
                         <td>
-                            <a href="{% url 'atributo_subatributo_alteracao' item.id %}">Editar</a>
+                            <a href="{% url 'calculo_alteracao' item.id %}">Editar</a>
                         </td>
                         <td>
-                            <a href="{% url 'atributo_subatributo_exclusao' item.id %}">Excluir</a>                            
+                            <a href="{% url 'calculo_exclusao' item.id %}">Excluir</a>                            
                         </td>
                     </tr>
                 {% endfor %}

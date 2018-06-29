@@ -1,0 +1,73 @@
+{% extends "atributo/form.html" %}
+{% load widget_tweaks %}
+
+{% block form_fields %}
+<div ng-controller="fichaDynController as vm" ng-init="vm.carregaDados({{ id }},'{{ url_destino }}')">
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+        <fieldset>        
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Sistema: </label>                    
+                        <select name="fk_id_sistema" class="form-control" id="id_fk_id_sistema" ng-model="vm.sistema"
+                            ng-options="sistema.nome_sistema for sistema in vm.lista_sistemas track by sistema.id" ng-change="vm.changeSistema()">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Narração: </label>                    
+                        <select name="fk_id_narracao" class="form-control" id="id_fk_id_narracao" ng-model="vm.form.ficha.fk_id_narracao"
+                            ng-options="narracao.nome_narracao for narracao in vm.lista_narracoes track by narracao.id"
+                            ng-disabled="vm.lista_narracoes == null">
+                        </select>                        
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Nome: </label>  
+                        <input id="id_nome_ficha" name="nome_ficha" class="form-control" ng-model="vm.form.ficha.nome_ficha" type="text">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button class="btn btn-success fr" role="button" id="save_button" ng-click="vm.sendFormData()">Salvar</button>
+                    <a href="{% url 'ficha_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                </div>
+            </div>
+            <div class="secao-ficha" ng-show="vm.lista_atributos.length > 0">
+                <h5>Atributos</h5>
+                <div class="inputs-ficha">
+                    {% verbatim %}
+                    <div class="input-group" ng-repeat="atributo in vm.lista_atributos">
+                        <span class="input-group-addon">{{atributo.nome_atributo}}</span>
+                        <input type="text" class="form-control" min="0" ng-change="vm.alteraAtributo($index)" ng-model="vm.ficha_atributo[$index].valor_atributo">
+                    </div>
+                    {% endverbatim %}                    
+                </div>
+            </div>
+            <div class="secao-ficha" ng-show="vm.lista_subatributos.length > 0">
+                <h5>Subatributos</h5>
+                <table class="table table-striped">
+                    {% verbatim %}
+                    <tr class="row" ng-repeat="subatributo in vm.lista_subatributos">
+                        <td class="col-md-4">{{subatributo.nome_subatributo}}:</td>
+                        <td class="col-md-2">                                
+                            <input type="text" name="teste" class="form-control" ng-model="vm.valores_iniciais[$index].valor_inicial" ng-change="vm.alteraValorInicial($index)"
+                                ng-disabled="subatributo.valor_inicial_subatributo == 2">                                                                                        
+                        </td>
+                        <td class="col-md-6">
+                            {{vm.valores_iniciais[$index].valor_total}}
+                            <span ng-if="[4,5].indexOf(subatributo.tipo_subatributo) > -1">
+                                %
+                            </span>
+                        </td>
+                    </tr>
+                    {% endverbatim %}
+                </table>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+{% endblock %}

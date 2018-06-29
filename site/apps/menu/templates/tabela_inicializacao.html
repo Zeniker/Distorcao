@@ -18,7 +18,7 @@
         <button type="button" class="btn btn-success btn-sm input-group-addon" ng-click="iniComb.novoCombatente()">+</button>
     </div>
     <div class="card-deck cartao-combatente">
-        <div class="card" ng-repeat="combatente in iniComb.combatentes">
+        <div class="card" ng-repeat="combatente in iniComb.combatentes track by $index">
             <div class="card-body">
                 <h6 class="card-title">
                     {{combatente.nome}}
