@@ -11,6 +11,8 @@
                     <label for="id_nome_sistema">Nome: </label>
                     {% if form.nome_sistema.errors %}
                         {% render_field form.nome_sistema class+="form-control is-invalid" %}
+                        {% include "invalid_feedback.html" with field=form.nome_sistema %}
+
                     {% else %}
                         {% render_field form.nome_sistema class+="form-control" %}
                     {% endif %}
