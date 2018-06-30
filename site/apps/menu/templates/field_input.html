@@ -1,0 +1,9 @@
+{% load widget_tweaks %}
+
+{% if text_field.errors %}
+    {% render_field text_field class+="form-control is-invalid" %}
+    {% include "invalid_feedback.html" with field=text_field %}
+
+{% else %}
+    {% render_field text_field class+="form-control" %}
+{% endif %}

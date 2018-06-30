@@ -15,14 +15,6 @@
                 Voltar
             </a>
         </div>
-        <div class="col-md-6">
-            <select class="form-control filter-atributo" data-url="{% url 'atributo_filtro_tabela' %}" id="sistema_filtro">
-                <option value="0">Todos</option>
-                {% for sistema in sistemas %}
-                    <option value="{{ sistema.id }}">{{ sistema.nome_sistema }}</option>
-                {% endfor %}
-            </select>
-        </div>         
         
     </div>
 

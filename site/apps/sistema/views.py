@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
 from django.urls import reverse
 from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDeleteView, CustomListView
 from apps.sistema.forms import SistemaForm
 from apps.sistema.models import Sistema, SistemaJson
 from distorcao.viewhelper import update_context
 from django.http import HttpResponse
-from distorcao.views import get_paginated_result
 from distorcao.json_complex_encoder import *
 
-
+# Views do sistema
 class SistemaCreate(CustomCreateView):
     template_name = 'sistema/fields.html'
     form_class = SistemaForm

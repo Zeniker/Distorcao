@@ -9,13 +9,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="id_nome_sistema">Nome: </label>
-                    {% if form.nome_sistema.errors %}
-                        {% render_field form.nome_sistema class+="form-control is-invalid" %}
-                        {% include "invalid_feedback.html" with field=form.nome_sistema %}
-
-                    {% else %}
-                        {% render_field form.nome_sistema class+="form-control" %}
-                    {% endif %}
+                    {% include "field_input.html" with text_field=form.nome_sistema %}
 
                 </div>                    
             </div>

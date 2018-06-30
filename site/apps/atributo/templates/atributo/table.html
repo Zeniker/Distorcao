@@ -27,7 +27,7 @@
                 </tr>                
             </thead>
             <tbody>
-                {% for atributo in atributos %}
+                {% for atributo in lista_atributos %}
                     <tr>
                         <td>
                             {{ atributo.nome_atributo }}
@@ -56,5 +56,5 @@
         </table>
     </div>
 
-    {% include "pagination.html" with item_list=atributos type='atributo' %}
+    {% include "pagination.html" with item_list=page_obj %}
 </div>
