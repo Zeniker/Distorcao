@@ -7,7 +7,7 @@ class Sistema(models.Model):
     def __str__(self):
         return self.nome_sistema
 
-class Sistema_json(object):
+class SistemaJson(object):
     def __init__(self):
         self.id = 0
         self.nome_sistema = ""

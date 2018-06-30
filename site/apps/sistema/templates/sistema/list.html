@@ -31,7 +31,7 @@
                 </tr>                
             </thead>
             <tbody>
-                {% for sistema in sistemas %}
+                {% for sistema in lista_sistemas %}
                     <tr>
                         <td>
                             {{ sistema.nome_sistema }}
@@ -48,5 +48,7 @@
 
         </table>
     </div>
+
+    {% include "pagination.html" with item_list=page_obj type='atributo' %}
 </div>
 {% endblock %}
