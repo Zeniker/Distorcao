@@ -24,7 +24,7 @@
                 </tr>                
             </thead>
             <tbody>
-                {% for subatributo in subatributos %}
+                {% for subatributo in lista_subatributos %}
                     <tr>
                         <td>
                             {{ subatributo.nome_subatributo }}
@@ -50,5 +50,5 @@
         </table>
     </div>
 
-    {% include "pagination.html" with item_list=subatributos type='atributo' %}
+    {% include "pagination.html" with item_list=page_obj %}
 </div>

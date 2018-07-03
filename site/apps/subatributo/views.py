@@ -3,14 +3,65 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.urls import reverse
 from apps.subatributo.forms import SubatributoForm
 from apps.subatributo.models import *
 from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
 from django.http import JsonResponse
+from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDeleteView, CustomListView
+from distorcao.viewhelper import update_context
 
-# Create your views here.
+# Views do subatributo.
+class SubatributoCreate(CustomCreateView):
+    template_name = 'subatributo/fields.html'
+    form_class = SubatributoForm
+
+    def get_success_url(self):
+        return reverse('subatributo_consulta')
+
+    def get_context_data(self, **kwargs):
+        context_data = super(SubatributoCreate, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Cadastro de Subatributo')
+        return context_data
+
+
+class SubatributoUpdate(CustomUpdateView):
+    template_name = 'subatributo/fields.html'
+    form_class = SubatributoForm
+    model = Subatributo
+
+    def get_success_url(self):
+        return reverse('subatributo_consulta')
+
+    def get_context_data(self, **kwargs):
+        context_data = super(SubatributoUpdate, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Alteração de Subatributo')
+        return context_data
+
+
+class SubatributoDelete(CustomDeleteView):
+    template_name = 'subatributo/delete.html'
+    form_class = SubatributoForm
+    model = Subatributo
+
+    def get_success_url(self):
+        return reverse('subatributo_consulta')
+
+    def get_context_data(self, **kwargs):
+        context_data = super(SubatributoDelete, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Exclusão de Sistema')
+        return context_data
+
+
+class SubatributoList(CustomListView):
+    template_name = 'subatributo/list.html'
+    model = Subatributo
+    paginate_by = 10
+    context_object_name = "lista_subatributos"
+
+
 def list(request):
     subatributos_list = Subatributo.objects.all()
     sistemas = Sistema.objects.all()
