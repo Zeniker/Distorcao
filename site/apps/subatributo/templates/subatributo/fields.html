@@ -16,20 +16,24 @@
                 <div class="form-group">
                     <label>Tipo do Atributo: </label>
                     {% include "field_input.html" with text_field=form.tipo_subatributo %}
+                    <div class="invalid-feedback">
+                        Teste
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Possui valor inicial? </label>
-                    <div class="radio">
-                        {% for radio in form.valor_inicial_subatributo %}
-                            <label for="{{ radio.id_for_label }}" class="radio-inline margin-right-10px">
+                    <div class="form-control {% if form.valor_inicial_subatributo.errors %} is-invalid {% endif %}">
+                        <div class="form-check-input">
+                            {% for radio in form.valor_inicial_subatributo %}
+                            <label for="{{ radio.id_for_label }}" class="form-check-label margin-right-10px">
                                 {{ radio.tag }}
                                 {{ radio.choice_label }}
-                            </label>                            
-                        {% endfor %}
+                            </label>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <!--TODO Verificar como incluir msg de erro -->
                     {% include "invalid_feedback.html" with field=form.valor_inicial_subatributo %}
                 </div>
             </div>            
