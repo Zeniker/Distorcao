@@ -27,10 +27,10 @@
                             {{ ficha.fk_id_narracao.nome_narracao }}
                         </td>                        
                         <td>
-                            <a href="{% url 'ficha_alteracao' ficha.id %}">Editar</a>
+                            <a class="table-link" href="{% url 'ficha_alteracao' ficha.id %}">Editar</a>
                         </td>
                         <td>
-                            <a href="{% url 'ficha_exclusao' ficha.id %}">Excluir</a>
+                            <a class="table-link" href="{% url 'ficha_exclusao' ficha.id %}">Excluir</a>
                         </td>
                     </tr>
                 {% endfor %}

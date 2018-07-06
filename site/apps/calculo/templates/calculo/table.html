@@ -45,10 +45,10 @@
                             {{ item.multiplicador_calculo }}
                         </td>
                         <td>
-                            <a href="{% url 'calculo_alteracao' item.id %}">Editar</a>
+                            <a class="table-link" href="{% url 'calculo_alteracao' item.id %}">Editar</a>
                         </td>
                         <td>
-                            <a href="{% url 'calculo_exclusao' item.id %}">Excluir</a>                            
+                            <a class="table-link" href="{% url 'calculo_exclusao' item.id %}">Excluir</a>
                         </td>
                     </tr>
                 {% endfor %}

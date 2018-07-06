@@ -45,10 +45,10 @@
                             {{ atributo.valor_maximo_atributo }}
                         </td>
                         <td>
-                            <a href="{% url 'atributo_alteracao' atributo.id %}">Editar</a>
+                            <a class="table-link" href="{% url 'atributo_alteracao' atributo.id %}">Editar</a>
                         </td>
                         <td>
-                            <a href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a>
+                            <a class="table-link" href="{% url 'atributo_exclusao' atributo.id %}">Excluir</a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -7,10 +7,10 @@
 <div class="container">
     
     <div class="margin-bottom-10px">        
-        <a href="{% url 'sistema_cadastro' %}" class="btn btn-primary">
+        <a href="{% url 'sistema_cadastro' %}" class="btn btn-novo">
             Novo Sistema
         </a>    
-        <a href="{% url 'index' %}" class="btn btn-danger margin-left">
+        <a href="{% url 'index' %}" class="btn btn-cancelar margin-left">
             Voltar
         </a>
     </div>    
@@ -37,10 +37,10 @@
                             {{ sistema.nome_sistema }}
                         </td>
                         <td>
-                            <a href="{% url 'sistema_alteracao' sistema.id %}">Editar</a>
+                            <a class="table-link" href="{% url 'sistema_alteracao' sistema.id %}">Editar</a>
                         </td>
                         <td>
-                            <a href="{% url 'sistema_exclusao' sistema.id %}">Excluir</a>
+                            <a class="table-link" href="{% url 'sistema_exclusao' sistema.id %}">Excluir</a>
                         </td>
                     </tr>
                 {% endfor %}
