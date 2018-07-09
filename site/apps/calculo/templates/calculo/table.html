@@ -13,12 +13,6 @@
                         Tipo
                     </th>
                     <th>
-                        Intervalos
-                    </th>
-                    <th>
-                        Multiplicadores
-                    </th>
-                    <th>
                         Editar
                     </th>
                     <th>
@@ -37,12 +31,6 @@
                         </td>
                         <td>
                             {{ item.get_tipo_calculo_display }}
-                        </td>                        
-                        <td>
-                            {{ item.intervalo_calculo }}
-                        </td>
-                        <td>
-                            {{ item.multiplicador_calculo }}
                         </td>
                         <td>
                             <a class="table-link" href="{% url 'calculo_alteracao' item.id %}">Editar</a>
@@ -56,5 +44,5 @@
         </table>
     </div>
 
-    {% include "pagination.html" with item_list=atributos_subatributos type='atributo' %}
+    {% include "pagination.html" with item_list=calculos %}
 </div>

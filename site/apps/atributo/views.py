@@ -68,4 +68,14 @@ def get_atributos_sistema(request, sistema_id):
 
     atributos_json = custom_serializer.serialize(atributos)
 
-    return JsonResponse(atributos_json, safe=False)        
+    return JsonResponse(atributos_json, safe=False)
+
+
+def get_atributos_sistema_sem_texto(request, sistema_id):
+    atributos = Atributo.objects.filter(fk_id_sistema=sistema_id).exclude(tipo_atributo=1)
+
+    custom_serializer = Serializer()
+
+    atributos_json = custom_serializer.serialize(atributos)
+
+    return JsonResponse(atributos_json, safe=False)

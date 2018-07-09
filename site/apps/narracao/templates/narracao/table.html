@@ -18,7 +18,7 @@
                 </tr>                
             </thead>
             <tbody>
-                {% for narracao in narracoes %}
+                {% for narracao in lista_narracoes %}
                     <tr>
                         <td>
                             {{ narracao.nome_narracao }}
@@ -38,5 +38,5 @@
         </table>
     </div>
 
-    {% include "pagination.html" with item_list=narracoes type='atributo' %}
+    {% include "pagination.html" with item_list=page_obj %}
 </div>

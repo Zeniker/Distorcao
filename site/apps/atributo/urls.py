@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^alteracao/(?P<pk>\d+)$', AtributoUpdate.as_view(), name='atributo_alteracao'),
     url(r'^exclusao/(?P<pk>\d+)$', AtributoDelete.as_view(), name='atributo_exclusao'),
     url(r'^ajax/atributos_sistema/(?P<sistema_id>\d+)$', views.get_atributos_sistema, name='get_atributos_sistema'),
+    url(r'^ajax/atributos_sistema_ntext/(?P<sistema_id>\d+)$', views.get_atributos_sistema_sem_texto, name='get_atributos_sistema_sem_texto'),
 ]

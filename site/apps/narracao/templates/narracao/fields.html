@@ -2,20 +2,20 @@
 {% load widget_tweaks %}
 
 {% block form_fields %}
-<form action="{{url_destino}}" method="POST" autocomplete="off">       
+<form action="" method="POST" autocomplete="off">
     {% csrf_token %}
     <fieldset>        
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label>Nome: </label>                    
-                    {% render_field form.nome_narracao class+="form-control" %}
+                    <label>Nome: </label>
+                    {% include "field_input.html" with text_field=form.nome_narracao %}
                 </div>
             </div>            
             <div class="col-md-4">
                 <div class="form-group">
-                    <label>Sistema: </label>                    
-                    {% render_field form.fk_id_sistema class+="form-control" %}
+                    <label>Sistema: </label>
+                    {% include "field_input.html" with text_field=form.fk_id_sistema %}
                 </div>
             </div>
             <div class="col-md-12">                    

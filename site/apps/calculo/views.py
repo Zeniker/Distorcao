@@ -45,9 +45,17 @@ def create(request):
 
             return HttpResponse(json_string, content_type='application/json')
         else:
-            form_variables = get_form_variables('Cadastro de Cálculo', request.path, form)
+            resposta = json_response()
+            resposta.status = 'ERRO'
+            resposta.data = dict(form.errors.items())
 
-            return render(request, template_name, form_variables)
+            json_string = json.dumps(resposta,cls=ComplexEncoder)
+
+            return HttpResponse(json_string, content_type='application/json')
+
+            # form_variables = get_form_variables('Cadastro de Cálculo', request.path, form)
+            #
+            # return render(request, template_name, form_variables)
     else:
         form = CalculoForm()
 
@@ -121,7 +129,7 @@ def delete(request, calculo_id):
 #     return lista_atributo_subatributo_json
 
 def get_calculo(request, calculo_id):    
-    calculo = Calculo.objects.get(id=calculo_id)
+    calculo = Calculo.objects.filter(id=calculo_id)
 
     custom_serializer = Serializer()
 

@@ -16,6 +16,7 @@ function CalculoController(atributoService, subatributoService, calculoService, 
     vm.lista_sistema = null;
     vm.lista_tipo_calculo = null;
     vm.destino = null;
+    vm.errors = {};
 
     //Implementação de funções
     function changeSistema(){
@@ -60,7 +61,7 @@ function CalculoController(atributoService, subatributoService, calculoService, 
         if (vm.form.fk_id_sistema === undefined){
             vm.lista_atributos = null;
         }else{            
-            atributoService.getAtributosSistema(vm.form.fk_id_sistema.id, function(response){                
+            atributoService.getAtributosSistemaSemTexto(vm.form.fk_id_sistema.id, function(response){
                 vm.lista_atributos = response.data;
                 
                 if(atributoPadrao !== null){
@@ -100,7 +101,11 @@ function CalculoController(atributoService, subatributoService, calculoService, 
         calculoService.sendFormData(formData, vm.destino, function(response){
             if(response.data.status == 'OK'){                
                 $window.location.href = response.data.data;
+            }else if (response.data.status == 'ERRO'){
+                vm.errors = response.data.data;
             }
+
+
         });
     }
 

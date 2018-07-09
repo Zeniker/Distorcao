@@ -8,21 +8,13 @@
     
     <div class="margin-bottom-10px row">
         <div class="col-md-6">
-            <a href="{% url 'subatributo_cadastro' %}" class="btn btn-primary">
+            <a href="{% url 'subatributo_cadastro' %}" class="btn btn-novo">
                 Novo Subatributo
             </a>    
-            <a href="{% url 'index' %}" class="btn btn-danger margin-left">
+            <a href="{% url 'index' %}" class="btn btn-cancelar margin-left">
                 Voltar
             </a>
         </div>
-        <div class="col-md-6">
-            <select class="form-control filter-atributo">
-                <option value="0">Todos</option>
-                {% for sistema in sistemas %}
-                    <option value="{{ sistema.id }}">{{ sistema.nome_sistema }}</option>
-                {% endfor %}
-            </select>
-        </div>         
         
     </div>
 

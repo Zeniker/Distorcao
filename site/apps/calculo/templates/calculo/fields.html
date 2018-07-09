@@ -13,55 +13,101 @@
                     <div class="form-group">
                         <label>Sistema: </label>
                         <select name="fk_id_sistema" class="form-control" id="id_fk_id_sistema" ng-model="vm.form.fk_id_sistema"
-                            ng-options="sistema.nome_sistema for sistema in vm.lista_sistema track by sistema.id" ng-change="vm.changeSistema()">
-                        </select>                        
+                                ng-options="sistema.nome_sistema for sistema in vm.lista_sistema track by sistema.id" ng-change="vm.changeSistema()"
+                                ng-class="{'is-invalid':vm.errors.fk_id_sistema}">
+                        </select>
+                        <div class="invalid-feedback" ng-if="vm.errors.fk_id_sistema">
+                            <ul class="errorList">
+                                <li ng-repeat="erro in vm.errors.fk_id_sistema"><span ng-bind="erro"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Atributo: </label>
                         <select id="id_fk_id_atributo" class="form-control" name="fk_id_atributo" required="true" ng-model="vm.form.fk_id_atributo"
-                            ng-options="atributo.nome_atributo for atributo in vm.lista_atributos track by atributo.id">                                                       
-                        </select>                        
+                                ng-options="atributo.nome_atributo for atributo in vm.lista_atributos track by atributo.id"
+                                ng-class="{'is-invalid':vm.errors.fk_id_atributo}">
+                        </select>
+                        <div class="invalid-feedback" ng-if="vm.errors.fk_id_atributo">
+                            <ul class="errorList">
+                                <li ng-repeat="erro in vm.errors.fk_id_atributo"><span ng-bind="erro"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Subatributo: </label>                                                
                         <select id="id_fk_id_subatributo" class="form-control" name="fk_id_subatributo" required="true" ng-model="vm.form.fk_id_subatributo"
-                            ng-options="subatributo.nome_subatributo for subatributo in vm.lista_subatributos track by subatributo.id">
-                        </select>                                            
+                                ng-options="subatributo.nome_subatributo for subatributo in vm.lista_subatributos track by subatributo.id"
+                                ng-class="{'is-invalid':vm.errors.fk_id_subatributo}">
+                        </select>
+                        <div class="invalid-feedback" ng-if="vm.errors.fk_id_subatributo">
+                            <ul class="errorList">
+                                <li ng-repeat="erro in vm.errors.fk_id_subatributo"><span ng-bind="erro"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Tipo de Relação: </label>
+                        <label>Tipo de Cálculo: </label>
                         <select name="tipo_calculo" class="form-control" id="id_tipo_calculo" ng-model="vm.form.tipo_calculo"
-                            ng-options="tipo.nome for tipo in vm.lista_tipo_calculo track by tipo.id">                                                                    
+                                ng-options="tipo.nome for tipo in vm.lista_tipo_calculo track by tipo.id" ng-class="{'is-invalid':vm.errors.tipo_calculo}">
                         </select>
+                        <div class="invalid-feedback" ng-if="vm.errors.tipo_calculo">
+                            <ul class="errorList">
+                                <li ng-repeat="erro in vm.errors.tipo_calculo"><span ng-bind="erro"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-md-4" ng-if="vm.form.tipo_calculo.id == 1">
                     <div class="form-group">
-                        <label>Intervalos: </label>
-                        <input id="id_intervalo_calculo" name="intervalo_calculo" class="form-control" ng-model="vm.form.intervalo_calculo" type="text">
+                        <label>Intervalos:
+                            <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="top" tooltip
+                                  title="Mínimo de 1 valor. Separar valores por vírgula.">?</span>
+                        </label>
+                        <input id="id_intervalo_calculo" name="intervalo_calculo" class="form-control" ng-model="vm.form.intervalo_calculo" type="text"
+                               ng-class="{'is-invalid':vm.errors.intervalo_calculo}">
+                        <div class="invalid-feedback" ng-if="vm.errors.intervalo_calculo">
+                            <ul class="errorList">
+                                <li ng-repeat="erro in vm.errors.intervalo_calculo"><span ng-bind="erro"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4" ng-if="vm.form.tipo_calculo.id == 1">
                     <div class="form-group">
-                        <label>Multiplicadores: </label>
-                        <input id="id_multiplicador_calculo" name="multiplicador_calculo" class="form-control" ng-model="vm.form.multiplicador_calculo" type="text">
+                        <label>Multiplicadores:
+                            <span class="badge badge-pill badge-info" data-toggle="tooltip" data-placement="top" tooltip
+                                  title="Mínimo de 2 valores. Separar valores por vírgula. Adicionar 1 valor a cada multiplicador">?</span>
+                        </label>
+                        <input id="id_multiplicador_calculo" name="multiplicador_calculo" class="form-control" ng-model="vm.form.multiplicador_calculo" type="text"
+                               ng-class="{'is-invalid':vm.errors.multiplicador_calculo}">
+                        <div class="invalid-feedback" ng-if="vm.errors.multiplicador_calculo">
+                            <ul class="errorList">
+                                <li ng-repeat="erro in vm.errors.multiplicador_calculo"><span ng-bind="erro"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4" ng-if="vm.form.tipo_calculo.id == 2">
                     <div class="form-group">
                         <label>Percentual: </label>
-                        <div class="input-group">
-                            <input id="id_percentual_calculo" name="percentual_calculo" class="form-control" ng-model="vm.form.percentual_calculo" type="text">
-                            <span class="input-group-addon">%</span>
+                        <!--<div class="input-group" ng-class="{'is-invalid':vm.errors.fk_id_sistema}">-->
+                            <input id="id_percentual_calculo" name="percentual_calculo" class="form-control" ng-model="vm.form.percentual_calculo" type="text"
+                                   ng-class="{'is-invalid':vm.errors.percentual_calculo}">
+                            <!--<span class="input-group-addon">%</span>-->
+                        <!--</div>-->
+                        <div class="invalid-feedback" ng-if="vm.errors.percentual_calculo">
+                            <ul class="errorList">
+                                <li ng-repeat="erro in vm.errors.fk_id_sistema"><span ng-bind="erro"></span></li>
+                            </ul>
                         </div>
-
                     </div>
                 </div>
 
