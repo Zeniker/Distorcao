@@ -17,7 +17,7 @@
                 if (text) {
                     if([2,4].indexOf($scope.numberInput) >  -1){
                         var transformedInput = text.replace(/[^\d+]/g, '');
-                    }else{
+                    }else if([3,5].indexOf($scope.numberInput) >  -1){
                         var transformedInput = text.replace(/[^\d+(\.\d{1,2})?]/g, '');
                     }
 
