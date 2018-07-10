@@ -54,7 +54,7 @@
                         <td class="col-md-4">{{subatributo.nome_subatributo}}:</td>
                         <td class="col-md-2">                                
                             <input type="text" name="teste" class="form-control" ng-model="vm.valores_iniciais[$index].valor_inicial" ng-change="vm.alteraValorInicial($index)"
-                                ng-disabled="subatributo.valor_inicial_subatributo == 2">                                                                                        
+                                ng-disabled="subatributo.valor_inicial_subatributo == 2" number-input="subatributo.tipo_subatributo">
                         </td>
                         <td class="col-md-6">
                             {{vm.valores_iniciais[$index].valor_total}}
