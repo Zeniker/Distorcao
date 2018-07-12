@@ -163,7 +163,6 @@ def get_form_options(request):
     return HttpResponse(json_string, content_type='application/json')
 
 
-@login_required
 def get_calculo_sistema(sistema_id):
     return Calculo.objects.filter(fk_id_sistema=sistema_id)  
 

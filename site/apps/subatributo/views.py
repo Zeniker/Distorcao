@@ -77,7 +77,6 @@ def get_subatributos_sistema(request, sistema_id):
     return JsonResponse(subatributos_json, safe=False)            
 
 
-@login_required
 def getSubatributos_json(sistema_id):
     lista_subatributo = Subatributo.objects.filter(fk_id_sistema=sistema_id)
     lista_subatributo_json = []
