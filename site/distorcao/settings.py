@@ -25,7 +25,7 @@ SECRET_KEY = 'c5(n_neqirwj)-19#*bj^9p+inglpi(b_ag=^eb-924g^te4t!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -131,3 +131,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"), 
 ]
+
+LOGIN_URL = 'distorcao_login'
+LOGOUT_REDIRECT_URL = 'distorcao_login'

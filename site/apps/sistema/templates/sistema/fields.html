@@ -2,25 +2,19 @@
 {% load widget_tweaks %}
 
 {% block form_fields %}
-<form action="{{url_destino}}" method="POST" autocomplete="off">
+<form action="" method="POST" autocomplete="off">
     {% csrf_token %}        
     <fieldset>        
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="id_nome_sistema">Nome: </label>
-                    {% if form.nome_sistema.errors %}
-                        {% render_field form.nome_sistema class+="form-control is-invalid" %}
-                        {% include "invalid_feedback.html" with field=form.nome_sistema %}
-
-                    {% else %}
-                        {% render_field form.nome_sistema class+="form-control" %}
-                    {% endif %}
+                    {% include "field_input.html" with text_field=form.nome_sistema %}
 
                 </div>                    
             </div>
             <div class="col-md-12">                    
-                <button class="btn btn-success fr" role="button" id="save_button">Salvar</button>
+                <button class="btn btn-sucesso fr" role="button" id="save_button">Salvar</button>
                 <a href="{% url 'sistema_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
             </div>
         </div>

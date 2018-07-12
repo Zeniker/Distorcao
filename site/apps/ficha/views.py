@@ -1,6 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from apps.ficha.models import *
 from apps.ficha.forms import *
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
@@ -13,6 +13,7 @@ import json
 # Create your views here.
 
 
+@login_required
 def list(request):
     fichas_list = Ficha.objects.all()
     narracoes = Narracao.objects.all()
@@ -29,6 +30,7 @@ def list(request):
     return render(request, 'ficha/list.html', context)
 
 
+@login_required
 def create(request):
     template_name = 'ficha/fields.html'    
 
@@ -77,6 +79,8 @@ def create(request):
 
         return render(request, template_name, form_variables)
 
+
+@login_required
 def update(request, ficha_id):
     template_name = 'ficha/fields.html'
 
@@ -142,6 +146,7 @@ def update(request, ficha_id):
         return render(request, template_name, form_variables)
 
 
+@login_required
 def delete(request, ficha_id):
     template_name = 'ficha/delete.html'
 
@@ -157,6 +162,7 @@ def delete(request, ficha_id):
         return render(request, template_name, {'ficha': ficha})
 
 
+@login_required
 def get_ficha(request, ficha_id):
     ficha_db = Ficha.objects.filter(id=ficha_id)
 

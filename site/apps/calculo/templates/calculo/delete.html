@@ -16,11 +16,11 @@
     <form action="{{url_destino}}" method="POST" autocomplete="off">       
         {% csrf_token %}
         <fieldset>
-            <h1>Deseja mesmo excluir a relação "{{atributo_subatributo.fk_id_atributo.nome_atributo}}"/"{{atributo_subatributo.fk_id_subatributo.nome_subatributo}}"?</h1>
+            <h1>Deseja mesmo excluir o cálculo de "{{calculo.fk_id_atributo.nome_atributo}}" e "{{calculo.fk_id_subatributo.nome_subatributo}}"?</h1>
             <div class="row">                
                 <div class="col-md-12">                    
-                    <button class="btn btn-danger fr" role="button" id="save_button">Excluir</button>
-                    <a href="{% url 'atributo_subatributo_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
+                    <button class="btn btn-sucesso fr" role="button" id="save_button">Excluir</button>
+                    <a href="{% url 'calculo_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>
         </fieldset>

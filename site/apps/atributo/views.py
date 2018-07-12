@@ -1,105 +1,85 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.urls import reverse
 from apps.atributo.forms import AtributoForm
 from apps.atributo.models import Atributo
 from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
 from django.http import JsonResponse
+from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDeleteView, CustomListView
+from distorcao.viewhelper import update_context
 
 
-def list(request):
-    atributos_list = Atributo.objects.all()
-    sistemas = Sistema.objects.all()
+# Views do Atributo
+class AtributoList(LoginRequiredMixin, CustomListView):
+    template_name = 'atributo/list.html'
+    model = Atributo
+    paginate_by = 10
+    context_object_name = 'lista_atributos'
 
-    page = request.GET.get('page', 1)
 
-    atributos = get_paginated_result(atributos_list, page, 10)
-
-    context = {
-        'sistemas': sistemas,
-        'atributos': atributos
-    }
-
-    return render(request, 'atributo/list.html', context)
-
-def ajax_table(request):
-    #sistema_id = request.POST['sistema_id']
-    sistema_id = '0'
-    
-    if sistema_id != '0':
-        atributos_list = Atributo.objects.filter(fk_id_sistema=sistema_id)
-    else:
-        atributos_list = Atributo.objects.all()
-
-    atributos = get_paginated_result(atributos_list, 1, 1)
-
-    return render(request, 'atributo/table.html', {'atributos': atributos})
-
-def create(request):
-    template_name = 'atributo/fields.html'    
-
-    if request.method == 'POST':
-        form = AtributoForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-
-            return redirect('atributo_consulta')
-        else:
-            form_variables = get_form_variables('Cadastro de Atributo', request.path, form)
-
-            return render(request, template_name, form_variables)
-    else:
-        form = AtributoForm()
-
-        form_variables = get_form_variables('Cadastro de Atributo', request.path, form)
-
-        return render(request, template_name, form_variables)
-
-def update(request, atributo_id):
+class AtributoCreate(LoginRequiredMixin, CustomCreateView):
     template_name = 'atributo/fields.html'
-    atributo = Atributo.objects.get(id=atributo_id)
+    form_class = AtributoForm
 
-    if request.method == 'POST':        
-        form = AtributoForm(request.POST, instance=atributo, initial={'fk_id_sistema':atributo.fk_id_sistema})
+    def get_success_url(self):
+        return reverse('atributo_consulta')
 
-        if form.is_valid():
-            form.save()
+    def get_context_data(self, **kwargs):
+        context_data = super(AtributoCreate, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Cadastro de Atributo')
+        return context_data
 
-            return redirect('atributo_consulta')
 
-        else:
-            form_variables = get_form_variables('Alteração de Atributo', request.path, form)
-        
-            return render(request, template_name, form_variables)
-    else:    
-        form = AtributoForm(instance=atributo, initial={'fk_id_sistema':atributo.fk_id_sistema})
+class AtributoUpdate(LoginRequiredMixin, CustomUpdateView):
+    template_name = 'atributo/fields.html'
+    form_class = AtributoForm
+    model = Atributo
 
-        form_variables = get_form_variables('Alteração de Atributo', request.path, form=form)
+    def get_success_url(self):
+        return reverse('atributo_consulta')
 
-        return render(request, template_name, form_variables)
+    def get_context_data(self, **kwargs):
+        context_data = super(AtributoUpdate, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Alteração de Atributo')
+        return context_data
 
-def delete(request, atributo_id):
+
+class AtributoDelete(LoginRequiredMixin, CustomDeleteView):
     template_name = 'atributo/delete.html'
+    form_class = AtributoForm
+    model = Atributo
 
-    if request.method == 'POST':
-        atributo = Atributo.objects.get(id=atributo_id)        
+    def get_success_url(self):
+        return reverse('atributo_consulta')
 
-        atributo.delete()
+    def get_context_data(self, **kwargs):
+        context_data = super(AtributoDelete, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Exclusão de Atributo')
+        return context_data
 
-        return redirect('atributo_consulta')
-    else:
-        atributo = Atributo.objects.get(id=atributo_id)
 
-        return render(request, template_name, {'atributo': atributo})
-
-def get_atributos_sistema(request, sistema_id):    
+@login_required
+def get_atributos_sistema(request, sistema_id):
     atributos = Atributo.objects.filter(fk_id_sistema=sistema_id)    
 
     custom_serializer = Serializer()
 
     atributos_json = custom_serializer.serialize(atributos)
 
-    return JsonResponse(atributos_json, safe=False)        
+    return JsonResponse(atributos_json, safe=False)
+
+
+@login_required
+def get_atributos_sistema_sem_texto(request, sistema_id):
+    atributos = Atributo.objects.filter(fk_id_sistema=sistema_id).exclude(tipo_atributo=1)
+
+    custom_serializer = Serializer()
+
+    atributos_json = custom_serializer.serialize(atributos)
+
+    return JsonResponse(atributos_json, safe=False)

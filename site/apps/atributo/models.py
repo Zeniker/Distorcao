@@ -14,8 +14,8 @@ class Atributo(models.Model):
         null=False
     )
     
-    valor_minimo_atributo = models.IntegerField(null=False)
-    valor_maximo_atributo = models.IntegerField()
+    valor_minimo_atributo = models.DecimalField(null=True, max_digits=6, decimal_places=2)
+    valor_maximo_atributo = models.DecimalField(null=True, max_digits=6, decimal_places=2)
     fk_id_sistema = models.ForeignKey(Sistema, null=False, on_delete=models.CASCADE,)
 
     def __str__(self):

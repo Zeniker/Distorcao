@@ -12,20 +12,60 @@
 				
 	</head>
 	<body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark navBarDistorcao">
+            <a class="navbar-brand" href="#">Menu</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMestre" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Mestre
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMestre">
+                            <a class="dropdown-item" href="{% url 'sistema_consulta' %}">Sistema</a>
+                            <a class="dropdown-item" href="{% url 'atributo_consulta' %}">Atributo</a>
+                            <a class="dropdown-item" href="{% url 'narracao_consulta' %}">Mesa</a>
+                            <a class="dropdown-item" href="{% url 'subatributo_consulta' %}">Subatributo</a>
+                            <a class="dropdown-item" href="{% url 'calculo_consulta' %}">Cálculo</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownJogador" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Jogador
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownJogador">
+                            <a class="dropdown-item" href="{% url 'ficha_consulta' %}">Ficha</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="my-2 my-lg-0">
+                    <a href="{% url 'distorcao_logout' %}">
+                        <button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Logout</button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
         {% block body %}
         {% endblock %}        
     </body>
 
     <!-- Scripts -->
-	<script src="{% static "lib/angular/angular.min.js" %}"></script>
+	<script src="{% static 'lib/angular/angular.min.js' %}"></script>
 	<script src="{% static "lib/jquery/jquery-3.2.1.min.js" %}"></script>
     <script src="{% static "lib/popper/popper.min.js" %}"></script>
     <script src="{% static "lib/bootstrap/js/bootstrap.min.js" %}"></script>
     <script src="{% static "js/distorcao.js" %}"></script>
-    <script src="{% static "js/atributo.js" %}"></script>    
+    <script src="{% static "js/jquery/atributo.js" %}"></script>
 
     <!-- Directives -->
     <script src="{% static "js/directives/ng-json-select.js" %}"></script>
+    <script src="{% static "js/directives/tooltip.directive.js" %}"></script>
+    <script src="{% static "js/directives/number-input.directive.js" %}"></script>
 
     <!-- Services -->
     <script src="{% static "js/services/calculabonus.service.js" %}"></script>
@@ -40,6 +80,7 @@
     <script src="{% static "js/services/ficha.service.js" %}"></script>
 
     <!-- Controllers -->
+    <script src="{% static "js/controllers/atributo.controller.js" %}"></script>
     <script src="{% static "js/controllers/calculo.controller.js" %}"></script>
     <script src="{% static "js/controllers/ficha.controller.js" %}"></script>
     <script src="{% static "js/controllers/fichaDyn.controller.js" %}"></script>

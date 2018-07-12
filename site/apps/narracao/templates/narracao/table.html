@@ -18,7 +18,7 @@
                 </tr>                
             </thead>
             <tbody>
-                {% for narracao in narracoes %}
+                {% for narracao in lista_narracoes %}
                     <tr>
                         <td>
                             {{ narracao.nome_narracao }}
@@ -27,10 +27,10 @@
                             {{ narracao.fk_id_sistema.nome_sistema }}
                         </td>                        
                         <td>
-                            <a href="{% url 'narracao_alteracao' narracao.id %}">Editar</a>
+                            <a class="table-link" href="{% url 'narracao_alteracao' narracao.id %}">Editar</a>
                         </td>
                         <td>
-                                <a href="{% url 'narracao_exclusao' narracao.id %}">Excluir</a>
+                            <a class="table-link" href="{% url 'narracao_exclusao' narracao.id %}">Excluir</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -38,5 +38,5 @@
         </table>
     </div>
 
-    {% include "pagination.html" with item_list=narracoes type='atributo' %}
+    {% include "pagination.html" with item_list=page_obj %}
 </div>

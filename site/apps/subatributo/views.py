@@ -1,90 +1,72 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.urls import reverse
 from apps.subatributo.forms import SubatributoForm
 from apps.subatributo.models import *
 from apps.sistema.models import Sistema
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
 from django.http import JsonResponse
+from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDeleteView, CustomListView
+from distorcao.viewhelper import update_context
 
-# Create your views here.
-def list(request):
-    subatributos_list = Subatributo.objects.all()
-    sistemas = Sistema.objects.all()
-
-    page = request.GET.get('page', 1)
-
-    subatributos = get_paginated_result(subatributos_list, page, 10)
-
-    context = {
-        'sistemas': sistemas,
-        'subatributos': subatributos
-    }
-
-    return render(request, 'subatributo/list.html', context)
-
-def create(request):    
-    template_name = 'subatributo/fields.html'    
-
-    if request.method == 'POST':
-        form = SubatributoForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-
-            return redirect('subatributo_consulta')
-        else:
-            form_variables = get_form_variables('Cadastro de Subatributo', request.path, form)
-
-            return render(request, template_name, form_variables)
-    else:
-        form = SubatributoForm()
-
-        form_variables = get_form_variables('Cadastro de Subatributo', request.path, form)
-
-        return render(request, template_name, form_variables)
+# Views do subatributo.
 
 
-def update(request, subatributo_id):
+class SubatributoCreate(LoginRequiredMixin, CustomCreateView):
     template_name = 'subatributo/fields.html'
-    subatributo = Subatributo.objects.get(id=subatributo_id)
+    form_class = SubatributoForm
 
-    if request.method == 'POST':        
-        form = SubatributoForm(request.POST, instance=subatributo, initial={'fk_id_sistema':subatributo.fk_id_sistema})
+    def get_success_url(self):
+        return reverse('subatributo_consulta')
 
-        if form.is_valid():
-            form.save()
+    def get_context_data(self, **kwargs):
+        context_data = super(SubatributoCreate, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Cadastro de Subatributo')
+        return context_data
 
-            return redirect('subatributo_consulta')
 
-        else:
-            form_variables = get_form_variables('Alteração de Subatributo', request.path, form)
-        
-            return render(request, template_name, form_variables)
-    else:    
-        form = SubatributoForm(instance=subatributo, initial={'fk_id_sistema':subatributo.fk_id_sistema})
+class SubatributoUpdate(LoginRequiredMixin, CustomUpdateView):
+    template_name = 'subatributo/fields.html'
+    form_class = SubatributoForm
+    model = Subatributo
 
-        form_variables = get_form_variables('Alteração de Subatributo', request.path, form=form)
+    def get_success_url(self):
+        return reverse('subatributo_consulta')
 
-        return render(request, template_name, form_variables)
+    def get_context_data(self, **kwargs):
+        context_data = super(SubatributoUpdate, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Alteração de Subatributo')
+        return context_data
 
-def delete(request, subatributo_id):
+
+class SubatributoDelete(LoginRequiredMixin, CustomDeleteView):
     template_name = 'subatributo/delete.html'
+    form_class = SubatributoForm
+    model = Subatributo
 
-    if request.method == 'POST':
-        subatributo = Subatributo.objects.get(id=subatributo_id)        
+    def get_success_url(self):
+        return reverse('subatributo_consulta')
 
-        subatributo.delete()
+    def get_context_data(self, **kwargs):
+        context_data = super(SubatributoDelete, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Exclusão de Sistema')
+        return context_data
 
-        return redirect('subatributo_consulta')
-    else:
-        subatributo = Subatributo.objects.get(id=subatributo_id)
 
-        return render(request, template_name, {'subatributo': subatributo})
+class SubatributoList(LoginRequiredMixin, CustomListView):
+    template_name = 'subatributo/list.html'
+    model = Subatributo
+    paginate_by = 10
+    context_object_name = "lista_subatributos"
 
+
+@login_required
 def get_subatributos_sistema(request, sistema_id):    
     subatributos = Subatributo.objects.filter(fk_id_sistema=sistema_id)    
 
@@ -94,6 +76,8 @@ def get_subatributos_sistema(request, sistema_id):
 
     return JsonResponse(subatributos_json, safe=False)            
 
+
+@login_required
 def getSubatributos_json(sistema_id):
     lista_subatributo = Subatributo.objects.filter(fk_id_sistema=sistema_id)
     lista_subatributo_json = []

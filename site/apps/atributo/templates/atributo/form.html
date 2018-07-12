@@ -6,11 +6,11 @@
 </div>
 <div class="container">
     
-    {% if form.errors %}
-    <div class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{form.non_field_errors}}
-    </div>
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{form.non_field_errors}}
+        </div>
     {% endif %}
 
     {% block form_fields %}

@@ -1,5 +1,16 @@
+body{
+	color: rgb(225,225,225);
+	/*background-color: rgb(72,78,84)*/
+	background-color: rgb(43,43,43)
+}
+
+.navBarDistorcao{
+	border-bottom: 2px solid rgb(255,255,255);
+}
+
 .cabecalho{
-	width: 100%;	
+	width: 100%;
+	margin-top: 30px;
 }
 
 .cabecalho h1{
@@ -95,7 +106,16 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;	
-	height: calc(100vh - 44px);
+	/*height: calc(10vh - 44px);*/
+}
+
+.login-flex{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	/*height: calc(70vh - 44px);*/
+    margin-top: 100px;
 }
 
 .cartao-combatente{
@@ -134,15 +154,46 @@
 }
 
 .btn-cancelar {
-	background-color: #cccccc;
-	border-color: #cccccc;
+	background-color: rgb(154, 37, 21);
+	border-color: rgb(154, 37, 21);
 	color: #FFF;
 	padding-left: 20px;
 	padding-right: 20px;
 }
 
+.btn-cancelar:hover{
+	background-color: rgb(189,33,48);
+	color: #FFF;
+}
+
 .btn-cancelar.margin-right {
 	margin-right: 20px;
+}
+
+.btn-sucesso {
+	background-color: rgb(49, 101, 81);
+	border-color: rgb(49, 101, 81);
+	color: #FFF;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.btn-sucesso:hover{
+	background-color: rgb(69, 121, 101);
+	color: #FFF;
+}
+
+.btn-novo {
+	background-color: rgb(124, 60, 118);
+	border-color: rgb(124, 60, 118);
+	color: #FFF;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.btn-novo:hover{
+	background-color: rgb(144, 80, 138);
+	color: #FFF;
 }
 
 .margin-bottom-10px {
@@ -159,6 +210,10 @@
 
 .margin-right-10px{
 	margin-right: 10px;
+}
+
+.table-link:link, .table-link:visited{
+	color: rgb(241, 108, 32);
 }
 
 /*parte mobile*/

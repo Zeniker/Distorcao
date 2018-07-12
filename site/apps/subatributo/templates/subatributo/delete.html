@@ -13,13 +13,13 @@
     </div>
     {% endif %}
 
-    <form action="{{url_destino}}" method="POST" autocomplete="off">       
+    <form action="" method="POST" autocomplete="off">
         {% csrf_token %}        
         <fieldset>
             <h1>Deseja mesmo excluir o subatributo "{{subatributo.nome_subatributo}}"?</h1>        
             <div class="row">                
                 <div class="col-md-12">                    
-                    <button class="btn btn-danger fr" role="button" id="save_button">Excluir</button>
+                    <button class="btn btn-sucesso fr" role="button" id="save_button">Excluir</button>
                     <a href="{% url 'subatributo_consulta' %}"><button type="button" role="button" class="btn fr btn-cancelar margin-right" id="cancel_button">Cancelar</button></a>
                 </div>
             </div>

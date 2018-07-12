@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-import json
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-from distorcao.classviews import CustomCreateView
-from django.views.generic import CreateView
+from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDeleteView, CustomListView
 from apps.sistema.forms import SistemaForm
-from apps.sistema.models import *
-from distorcao.views import get_form_variables
+from apps.sistema.models import Sistema, SistemaJson
 from distorcao.viewhelper import update_context
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from distorcao.json_complex_encoder import *
 
-class SistemaCreate(CustomCreateView):
+# Views do sistema
+
+
+class SistemaCreate(LoginRequiredMixin, CustomCreateView):
     template_name = 'sistema/fields.html'
     form_class = SistemaForm
 
@@ -21,83 +21,60 @@ class SistemaCreate(CustomCreateView):
 
     def get_context_data(self, **kwargs):
         context_data = super(SistemaCreate, self).get_context_data(**kwargs)
-        context_data = update_context(context_data, 'Cadastro de Sistema', self.request.path)
+        context_data = update_context(context_data, 'Cadastro de Sistema')
         return context_data
 
-def list(request):
-    sistemas = Sistema.objects.all()
-    return render(request, 'sistema/list.html', {'sistemas' : sistemas})
 
-def create(request):
-
-
-    if request.method == 'POST':
-        form = SistemaForm(request.POST)
-
-        if form.is_valid():        
-            form.save()
-
-            return redirect('sistema_consulta')
-        else:
-            form_variables = get_form_variables('Cadastro de Sistema', request.path, form)
-
-            return render(request, template_name, form_variables)
-    else:
-        form = SistemaForm()
-
-        form_variables = get_form_variables('Cadastro de Sistema', request.path, form)                
-
-        return render(request, template_name, form_variables)
-
-def update(request, sistema_id):
+class SistemaUpdate(LoginRequiredMixin, CustomUpdateView):
     template_name = 'sistema/fields.html'
-    sistema = Sistema.objects.get(id=sistema_id)
+    form_class = SistemaForm
+    model = Sistema
 
-    if request.method == 'POST':        
-        form = SistemaForm(request.POST, instance=sistema)
+    def get_success_url(self):
+        return reverse('sistema_consulta')
 
-        if form.is_valid():
-            form.save()
+    def get_context_data(self, **kwargs):
+        context_data = super(SistemaUpdate, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Alteração de Sistema')
+        return context_data
 
-            return redirect('sistema_consulta')
 
-        else:
-            form_variables = get_form_variables('Alteração de Sistema', request.path, form)
-        
-            return render(request, template_name, form_variables)
-    else:    
-        form = SistemaForm(instance=sistema)
-
-        form_variables = get_form_variables('Alteração de Sistema', request.path, form=form)
-
-        return render(request, template_name, form_variables)
-
-def delete(request, sistema_id):
+class SistemaDelete(LoginRequiredMixin, CustomDeleteView):
     template_name = 'sistema/delete.html'
+    form_class = SistemaForm
+    model = Sistema
 
-    if request.method == 'POST':
-        sistema = Sistema.objects.get(id=sistema_id)        
+    def get_success_url(self):
+        return reverse('sistema_consulta')
 
-        sistema.delete()
+    def get_context_data(self, **kwargs):
+        context_data = super(SistemaDelete, self).get_context_data(**kwargs)
+        context_data = update_context(context_data, 'Exclusão de Sistema')
+        return context_data
 
-        return redirect('sistema_consulta')
-    else:
-        sistema = Sistema.objects.get(id=sistema_id)
 
-        return render(request, template_name, {'sistema': sistema})
+class SistemaList(LoginRequiredMixin, CustomListView):
+    template_name = 'sistema/list.html'
+    model = Sistema
+    paginate_by = 10
+    context_object_name = "lista_sistemas"
 
+
+@login_required
 def get_lista_sistemas():
     lista_sistema = Sistema.objects.all()
     lista_sistema_json = []
 
     for sistema in lista_sistema:
-        sistema_json = Sistema_json()
+        sistema_json = SistemaJson()
         sistema_json.id = sistema.id
         sistema_json.nome_sistema = sistema.nome_sistema
         lista_sistema_json.append(sistema_json)
 
     return lista_sistema_json
 
+
+@login_required
 def get_lista_sistema_json(request):
     lista_sistema = get_lista_sistemas()
 
