@@ -24,7 +24,12 @@ Para instalar o projeto é necessário seguir os passos abaixo
     >>> python manage.py makemigrations
     >>> python manage.py migrate
 ```
-- Com isso o projeto já está instalado
+- Com isso o projeto já está instalado. Falta somente criar um usuário através do comando abaixo.
+
+```
+    >>> python manage.py createsuperuser    
+```
+
 - Para subir o servidor, utilizar o comando
 
 ```
