@@ -60,7 +60,6 @@ class SistemaList(LoginRequiredMixin, CustomListView):
     context_object_name = "lista_sistemas"
 
 
-@login_required
 def get_lista_sistemas():
     lista_sistema = Sistema.objects.all()
     lista_sistema_json = []

@@ -137,7 +137,6 @@ def delete(request, narracao_id):
         return render(request, template_name, {'narracao': narracao})
 
 
-@login_required
 def get_narracao_sistema(sistema_id):
     lista_narracao_db = Narracao.objects.filter(fk_id_sistema=sistema_id)
     lista_narracao = []
