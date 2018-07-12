@@ -131,3 +131,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"), 
 ]
+
+LOGIN_URL = 'distorcao_login'
+LOGOUT_REDIRECT_URL = 'distorcao_login'

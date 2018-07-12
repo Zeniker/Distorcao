@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView, FormView
 from django.utils.translation import activate
 from django.core.paginator import Paginator, EmptyPage
 
@@ -11,6 +11,12 @@ class CustomPaginator(Paginator):
             number = self.num_pages
 
         return super(CustomPaginator, self).page(number)
+
+
+class CustomFormView(FormView):
+    def __init__(self):
+        super(CustomFormView, self).__init__()
+        activate('pt_BR')
 
 
 class CustomCreateView(CreateView):

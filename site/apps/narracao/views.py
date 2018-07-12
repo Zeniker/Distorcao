@@ -1,4 +1,5 @@
-import json
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from apps.narracao.models import Narracao, NarracaoJson
@@ -11,7 +12,9 @@ from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDelet
 from distorcao.viewhelper import update_context
 
 # Views de narracao
-class NarracaoCreate(CustomCreateView):
+
+
+class NarracaoCreate(LoginRequiredMixin, CustomCreateView):
     template_name = 'narracao/fields.html'
     form_class = NarracaoForm
 
@@ -24,7 +27,7 @@ class NarracaoCreate(CustomCreateView):
         return context_data
 
 
-class NarracaoUpdate(CustomUpdateView):
+class NarracaoUpdate(LoginRequiredMixin, CustomUpdateView):
     template_name = 'narracao/fields.html'
     form_class = NarracaoForm
     model = Narracao
@@ -38,7 +41,7 @@ class NarracaoUpdate(CustomUpdateView):
         return context_data
 
 
-class NarracaoDelete(CustomDeleteView):
+class NarracaoDelete(LoginRequiredMixin, CustomDeleteView):
     template_name = 'narracao/delete.html'
     form_class = NarracaoForm
     model = Narracao
@@ -52,7 +55,7 @@ class NarracaoDelete(CustomDeleteView):
         return context_data
 
 
-class NarracaoList(CustomListView):
+class NarracaoList(LoginRequiredMixin, CustomListView):
     template_name = 'narracao/list.html'
     model = Narracao
     paginate_by = 10
@@ -134,6 +137,7 @@ def delete(request, narracao_id):
         return render(request, template_name, {'narracao': narracao})
 
 
+@login_required
 def get_narracao_sistema(sistema_id):
     lista_narracao_db = Narracao.objects.filter(fk_id_sistema=sistema_id)
     lista_narracao = []
@@ -148,6 +152,7 @@ def get_narracao_sistema(sistema_id):
     return lista_narracao
 
 
+@login_required
 def get_narracao_sistema_json(request, sistema_id):
     lista_narracao = get_narracao_sistema(sistema_id)
 
@@ -156,6 +161,7 @@ def get_narracao_sistema_json(request, sistema_id):
     return HttpResponse(json_string, content_type='application/json')
 
 
+@login_required
 def get_narracao(request, narracao_id):
     narracao = Narracao.objects.filter(id=narracao_id)
 

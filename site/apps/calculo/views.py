@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 import json
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from apps.calculo.models import *
 from apps.calculo.forms import CalculoForm
@@ -15,6 +17,9 @@ from apps.sistema.views import get_lista_sistemas
 from distorcao.json_response import json_response
 
 # Create your views here.
+
+
+@login_required
 def list(request):
     result_list = Calculo.objects.all()    
 
@@ -28,6 +33,8 @@ def list(request):
 
     return render(request, 'calculo/list.html', context)
 
+
+@login_required
 def create(request):    
     template_name = 'calculo/fields.html'    
 
@@ -63,6 +70,8 @@ def create(request):
 
         return render(request, template_name, form_variables)
 
+
+@login_required
 def update(request, calculo_id):
     template_name = 'calculo/fields.html'
     calculo = Calculo.objects.get(id=calculo_id)
@@ -98,6 +107,8 @@ def update(request, calculo_id):
 
         return render(request, template_name, form_variables)
 
+
+@login_required
 def delete(request, calculo_id):
     template_name = 'calculo/delete.html'
 
@@ -128,6 +139,8 @@ def delete(request, calculo_id):
 
 #     return lista_atributo_subatributo_json
 
+
+@login_required
 def get_calculo(request, calculo_id):    
     calculo = Calculo.objects.filter(id=calculo_id)
 
@@ -137,6 +150,8 @@ def get_calculo(request, calculo_id):
 
     return JsonResponse(calculo_json, safe=False)
 
+
+@login_required
 def get_form_options(request):
     lista_sistemas = get_lista_sistemas()
     choices = CalculoChoices()
@@ -147,9 +162,13 @@ def get_form_options(request):
 
     return HttpResponse(json_string, content_type='application/json')
 
+
+@login_required
 def get_calculo_sistema(sistema_id):
     return Calculo.objects.filter(fk_id_sistema=sistema_id)  
-    
+
+
+@login_required
 def get_calculo_sistema_json(request, sistema_id):
     lista_calculo = get_calculo_sistema(sistema_id)
 

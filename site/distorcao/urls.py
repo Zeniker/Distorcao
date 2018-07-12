@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
+
+from distorcao.views import CustomLoginView
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),    
+    url(r'^admin/', admin.site.urls),
     url(r'^', include('apps.menu.urls')),
+    url(r'^login$', CustomLoginView.as_view(), name='distorcao_login'),
+    url(r'^logout', LogoutView.as_view(), name='distorcao_logout'),
     url(r'^sistema/', include('apps.sistema.urls')),
     url(r'^atributo/', include('apps.atributo.urls')),
     url(r'^subatributo/', include('apps.subatributo.urls')),

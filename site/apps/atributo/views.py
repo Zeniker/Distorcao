@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -13,14 +15,14 @@ from distorcao.viewhelper import update_context
 
 
 # Views do Atributo
-class AtributoList(CustomListView):
+class AtributoList(LoginRequiredMixin, CustomListView):
     template_name = 'atributo/list.html'
     model = Atributo
     paginate_by = 10
     context_object_name = 'lista_atributos'
 
 
-class AtributoCreate(CustomCreateView):
+class AtributoCreate(LoginRequiredMixin, CustomCreateView):
     template_name = 'atributo/fields.html'
     form_class = AtributoForm
 
@@ -33,7 +35,7 @@ class AtributoCreate(CustomCreateView):
         return context_data
 
 
-class AtributoUpdate(CustomUpdateView):
+class AtributoUpdate(LoginRequiredMixin, CustomUpdateView):
     template_name = 'atributo/fields.html'
     form_class = AtributoForm
     model = Atributo
@@ -47,7 +49,7 @@ class AtributoUpdate(CustomUpdateView):
         return context_data
 
 
-class AtributoDelete(CustomDeleteView):
+class AtributoDelete(LoginRequiredMixin, CustomDeleteView):
     template_name = 'atributo/delete.html'
     form_class = AtributoForm
     model = Atributo
@@ -61,6 +63,7 @@ class AtributoDelete(CustomDeleteView):
         return context_data
 
 
+@login_required
 def get_atributos_sistema(request, sistema_id):
     atributos = Atributo.objects.filter(fk_id_sistema=sistema_id)    
 
@@ -71,6 +74,7 @@ def get_atributos_sistema(request, sistema_id):
     return JsonResponse(atributos_json, safe=False)
 
 
+@login_required
 def get_atributos_sistema_sem_texto(request, sistema_id):
     atributos = Atributo.objects.filter(fk_id_sistema=sistema_id).exclude(tipo_atributo=1)
 

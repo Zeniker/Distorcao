@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDeleteView, CustomListView
 from apps.sistema.forms import SistemaForm
@@ -8,7 +10,9 @@ from django.http import HttpResponse
 from distorcao.json_complex_encoder import *
 
 # Views do sistema
-class SistemaCreate(CustomCreateView):
+
+
+class SistemaCreate(LoginRequiredMixin, CustomCreateView):
     template_name = 'sistema/fields.html'
     form_class = SistemaForm
 
@@ -21,7 +25,7 @@ class SistemaCreate(CustomCreateView):
         return context_data
 
 
-class SistemaUpdate(CustomUpdateView):
+class SistemaUpdate(LoginRequiredMixin, CustomUpdateView):
     template_name = 'sistema/fields.html'
     form_class = SistemaForm
     model = Sistema
@@ -35,7 +39,7 @@ class SistemaUpdate(CustomUpdateView):
         return context_data
 
 
-class SistemaDelete(CustomDeleteView):
+class SistemaDelete(LoginRequiredMixin, CustomDeleteView):
     template_name = 'sistema/delete.html'
     form_class = SistemaForm
     model = Sistema
@@ -49,12 +53,14 @@ class SistemaDelete(CustomDeleteView):
         return context_data
 
 
-class SistemaList(CustomListView):
+class SistemaList(LoginRequiredMixin, CustomListView):
     template_name = 'sistema/list.html'
     model = Sistema
     paginate_by = 10
     context_object_name = "lista_sistemas"
 
+
+@login_required
 def get_lista_sistemas():
     lista_sistema = Sistema.objects.all()
     lista_sistema_json = []
@@ -68,6 +74,7 @@ def get_lista_sistemas():
     return lista_sistema_json
 
 
+@login_required
 def get_lista_sistema_json(request):
     lista_sistema = get_lista_sistemas()
 
