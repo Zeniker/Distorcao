@@ -68,14 +68,8 @@
                         <div class="row" ng-if="subatributo.tipo_subatributo == 1">
                             <div class="col-md-12 form-group">
                                 <label>{{subatributo.nome_subatributo}}:</label>
-                                <textarea type="text" name="subatributo_valor_inicial" class="form-control" ng-model="vm.valores_iniciais[$index].valor_inicial"
-                                          ng-disabled="subatributo.valor_inicial_subatributo == 2" ng-change="vm.teste($index)"></textarea>
+                                <textarea type="text" name="subatributo_valor_inicial" class="form-control" ng-model="vm.ficha_subatributo[$index].valor_subatributo"></textarea>
                             </div>
-                            <!--<div class="col-md-12">{{subatributo.nome_subatributo}}:</div>-->
-                            <!--<div class="col-md-12">-->
-                                <!--<input type="text" name="teste" class="form-control" ng-model="vm.valores_iniciais[$index].valor_inicial" ng-change="vm.alteraValorInicial($index)"-->
-                                       <!--ng-disabled="subatributo.valor_inicial_subatributo == 2" number-input="subatributo.tipo_subatributo" maxlength="10">-->
-                            <!--</div>-->
                         </div>
                     </div>
                     {% endverbatim %}
