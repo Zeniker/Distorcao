@@ -30,3 +30,16 @@ class Ficha_subatributo(models.Model):
         max_length=10,
         null=False
     )
+
+class FichaSubatributoJson(object):
+    def __init__(self):
+        fk_id_ficha = 0
+        fk_id_subatributo = 0
+        valor_subatributo = ""
+
+    def to_dict(self):
+        return dict(
+            fk_id_ficha=self.fk_id_ficha,
+            fk_id_subatributo=self.fk_id_subatributo,
+            valor_subatributo=self.valor_subatributo
+        )

@@ -13,6 +13,14 @@ function fichaController(sistemaService, narracaoService, atributoService, subat
     vm.alteraAtributo = alteraAtributo;
     vm.sendFormData = sendFormData;
 
+    vm.teste = teste;
+
+    function teste(index){
+        console.log(index);
+        console.log(vm.valores_iniciais[index]);
+
+    }
+
     //Variáveis
     vm.sistema = null;
     vm.lista_atributos = null;

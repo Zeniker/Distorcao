@@ -3,13 +3,9 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.shortcuts import redirect
 from django.urls import reverse
 from apps.subatributo.forms import SubatributoForm
 from apps.subatributo.models import *
-from apps.sistema.models import Sistema
-from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
 from django.http import JsonResponse
 from distorcao.classviews import CustomCreateView, CustomUpdateView, CustomDeleteView, CustomListView
