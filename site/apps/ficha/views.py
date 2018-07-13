@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from apps.ficha.forms import *
 from apps.subatributo.models import Subatributo
+from apps.atributo.models import Atributo
 from apps.narracao.models import Narracao
 from distorcao.views import get_form_variables, get_paginated_result
 from distorcao.serializer import Serializer
@@ -170,8 +171,25 @@ def get_ficha(request, ficha_id):
 
     narracao_db = Narracao.objects.get(id=ficha_db[0].fk_id_narracao.id)
 
+    # Lista Atributos
+    atributo_db = Atributo.objects.filter(fk_id_sistema=narracao_db.fk_id_sistema)
+
     ficha_atributo_db = Ficha_atributo.objects.filter(fk_id_ficha=ficha_id)
 
+    lista_atributos_json = []
+
+    for atributo in atributo_db:
+        atributo_json = FichaAtributoJson()
+        atributo_json.fk_id_ficha = ficha_id
+        atributo_json.fk_id_atributo = atributo.id
+        atributo_json.valor_atributo = ""
+        for ficha_atributo in ficha_atributo_db:
+            if ficha_atributo.fk_id_atributo.id == atributo.id:
+                atributo_json.valor_atributo = ficha_atributo.valor_atributo
+
+        lista_atributos_json.append(atributo_json.to_dict())
+
+    # Lista Subatributos
     subatributo_db = Subatributo.objects.filter(fk_id_sistema=narracao_db.fk_id_sistema)
 
     ficha_subatributo_db = Ficha_subatributo.objects.filter(fk_id_ficha=ficha_id)
@@ -187,18 +205,14 @@ def get_ficha(request, ficha_id):
             if ficha_subatributo.fk_id_subatributo.id == subatributo.id:
                 subatributo_json.valor_subatributo = ficha_subatributo.valor_subatributo
 
-        lista_subatributos_json.append(subatributo_json)
-
-    lista_subatributos_dict = []
-    for item in lista_subatributos_json:
-        lista_subatributos_dict.append(item.to_dict())
+        lista_subatributos_json.append(subatributo_json.to_dict())
 
     custom_serializer = Serializer()
 
     ficha_dict = dict(
         ficha=custom_serializer.serialize(ficha_db),
-        ficha_atributo=custom_serializer.serialize(ficha_atributo_db),
-        ficha_subatributo=lista_subatributos_dict
+        ficha_atributo=lista_atributos_json,
+        ficha_subatributo=lista_subatributos_json
     )
 
     return JsonResponse(ficha_dict, safe=False)
