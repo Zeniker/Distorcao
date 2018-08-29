@@ -243,6 +243,10 @@ body{
 		margin-bottom: 2%;
 	}
 
+	.addon-ficha{
+		width: 210px;
+	}
+
 	.inputs-ficha .input-group-addon{
 		width: 210px;
 	}
