@@ -3,12 +3,13 @@ angular
     .controller('CombateController', CombateController);
 
 function CombateController() {
-    var vm = this;
+    let vm = this;
 
     //Funções
     vm.adicionaCombatente = adicionaCombatente;
     vm.avancarCombate = avancarCombate;
     vm.reiniciarTurno = reiniciarTurno;
+    vm.removerCombatente = removerCombatente;
 
     //Variáveis
     vm.mostrarLimites = false;
@@ -21,11 +22,12 @@ function CombateController() {
     vm.msg_erro = "";
 
     //Implementação de funções
+    const classeAtivo = "ativo";
+    const classeInativo = "inativo";
 
     function adicionaCombatente(){
         vm.combatentes.push(criaCombatente(vm.nome_novo_combatente));
-        // vm.nome_novo_combatente = "";
-        console.log(vm.combatentes);
+        vm.nome_novo_combatente = "";
     }
 
     function criaCombatente(nome){
@@ -33,7 +35,7 @@ function CombateController() {
         combatente.nome = nome;
         combatente.ini_atual = vm.posicaoTurno.toString();
         combatente.ini_futura = vm.posicaoTurno.toString();
-        combatente.classe = "ativo";
+        combatente.classe = classeAtivo;
         return combatente
     }
 
@@ -55,13 +57,13 @@ function CombateController() {
                 menorIni = parseInt(item.ini_futura);
                 menorIniIndice = i;
             }
-            item.classe = "inativo";
+            item.classe = classeInativo;
         }
 
         vm.posicaoTurno = menorIni;
         if(menorIniIndice > -1){
             vm.combatentes[menorIniIndice].ini_atual = menorIni;
-            vm.combatentes[menorIniIndice].classe = "ativo";
+            vm.combatentes[menorIniIndice].classe = classeAtivo;
         }
         calculaPercentualTurno();
 
@@ -78,7 +80,13 @@ function CombateController() {
             var item = vm.combatentes[i];
             item.ini_futura = "0";
             item.ini_atual = "0";
+            item.classe = classeAtivo;
         }
+    }
+
+    function removerCombatente(indice){
+        vm.combatentes.splice(indice, 1);
+        avancarCombate();
     }
 
 

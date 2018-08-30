@@ -42,16 +42,18 @@
             <div class="card-header">
                 <div class="card-title-distorcao">
                     <span ng-bind="item.nome"></span>
+                    <button class="badge badge-pill badge-cancelar" ng-click="vm.removerCombatente($index)">-</button>
                 </div>
             </div>
             <div class="card-body">
                 <div class="form-group">
                     <label for="ini_atual">Inicialização atual:</label>
-                    <input type="text" id="ini_atual" class="form-control" ng-model="item.ini_atual" ng-disabled="true">
+                    <input type="text" id="ini_atual" class="form-control" ng-model="item.ini_atual" disabled>
                 </div>
                 <div class="form-group">
                     <label for="ini_futuro">Inicialização futura:</label>
-                    <input type="text" id="ini_futuro" class="form-control" ng-model="item.ini_futura" ng-disabled="item.classe === 'inativo'">
+                    <input type="text" id="ini_futuro" class="form-control" ng-model="item.ini_futura"
+                           ng-disabled="item.classe === 'inativo'" number-input="2">
                 </div>
             </div>
         </div>

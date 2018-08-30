@@ -161,6 +161,11 @@ body{
 	padding-right: 20px;
 }
 
+.badge-cancelar{
+	background-color: rgb(154, 37, 21);
+	color: #FFF;
+}
+
 .btn-cancelar:hover{
 	background-color: rgb(189,33,48);
 	color: #FFF;
