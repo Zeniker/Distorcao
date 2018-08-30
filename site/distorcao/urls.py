@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^calculo/', include('apps.calculo.urls')),
     url(r'^narracao/', include('apps.narracao.urls')),
     url(r'^ficha/', include('apps.ficha.urls')),
+    url(r'^combate/', include('apps.combate.urls')),
 ]
